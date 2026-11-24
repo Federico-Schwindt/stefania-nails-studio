@@ -1,0 +1,122 @@
+@import 'tailwindcss';
+@import '@fontsource/instrument-serif/400.css';
+@import '@fontsource/instrument-serif/400-italic.css';
+@import '@fontsource/hanken-grotesk/400.css';
+@import '@fontsource/hanken-grotesk/500.css';
+@import '@fontsource/hanken-grotesk/600.css';
+
+/* Sistema visual de Stefania Nails Studio (guía de marca, página 2) */
+@theme {
+  --color-bordo: #570314;
+  --color-bordo-700: #45020f;
+  --color-bordo-500: #7a1427;
+  --color-bordo-100: #f4e6e8;
+  --color-bordo-50: #faf3f4;
+  --color-choco: #492d23;
+  --color-ink: #171516;
+  --color-gris: #c6c2c1;
+  --color-gris-100: #efedec;
+  --color-gris-50: #f7f6f5;
+  --color-blanco: #ffffff;
+
+  --font-serif: 'Instrument Serif', 'Times New Roman', serif;
+  --font-sans: 'Hanken Grotesk', system-ui, sans-serif;
+
+  --radius-card: 28px;
+  --radius-panel: 36px;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --shadow-soft: 0 24px 60px -24px rgb(87 3 20 / 0.28);
+  --shadow-card: 0 18px 50px -22px rgb(73 45 35 / 0.32);
+}
+
+/* Escala tipográfica pedida por la guía: títulos 40-72 px, cuerpo 16-18 px, interlineado 1,5 */
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+body {
+  @apply bg-white font-sans text-ink antialiased;
+  font-size: 17px;
+  line-height: 1.5;
+}
+h1,
+h2,
+h3 {
+  @apply font-serif font-normal;
+  letter-spacing: -0.01em;
+}
+::selection {
+  background: var(--color-bordo);
+  color: #fff;
+}
+:focus-visible {
+  outline: 2px solid var(--color-bordo);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+a {
+  text-underline-offset: 3px;
+}
+
+/* Grano sutil fijo (no repinta al hacer scroll) */
+.grain::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 60;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Panel de vidrio (aproximación web de glassmorphism, no es Liquid Glass oficial de Apple) */
+.glass {
+  background: linear-gradient(135deg, rgb(255 255 255 / 0.22), rgb(255 255 255 / 0.08));
+  border: 1px solid rgb(255 255 255 / 0.28);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.35);
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+}
+.glass-light {
+  background: rgb(255 255 255 / 0.72);
+  border: 1px solid rgb(255 255 255 / 0.9);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 1), 0 20px 50px -30px rgb(73 45 35 / 0.45);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+}
+@media (prefers-reduced-transparency: reduce) {
+  .glass {
+    background: rgb(87 3 20 / 0.92);
+    backdrop-filter: none;
+  }
+  .glass-light {
+    background: #fff;
+    backdrop-filter: none;
+  }
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Revelado de texto por línea */
+.line-mask {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+

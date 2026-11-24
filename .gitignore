@@ -1,0 +1,17 @@
+node_modules
+dist
+.env
+.env.local
+*.log
+.DS_Store
+# fotos originales pesadas: se versionan las optimizadas en public/img
+brand/estudio/
+brand/trabajos/
+brand/identidad/04-tarjeta-de-turnos.png
+brand/identidad/05-packaging.png
+supabase/.temp
+brand/duena/
+brand/generado/
+.claude/settings.local.json
+tsconfig.tsbuildinfo
+brand/trabajos-nuevos/
