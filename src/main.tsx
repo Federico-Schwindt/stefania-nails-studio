@@ -13,6 +13,21 @@ if (back) {
   window.history.replaceState(null, '', window.location.pathname + `#/reserva/${back}${extra ? `?${extra}` : ''}`)
 }
 
+// Si el navegador abrió una versión vieja desde su caché, recargamos con la última publicada.
+declare const __BUILD_ID__: string
+if (import.meta.env.PROD) {
+  fetch(`${import.meta.env.BASE_URL}version.json?t=${Date.now()}`, { cache: 'no-store' })
+    .then((r) => (r.ok ? r.json() : null))
+    .then((v: { build?: string } | null) => {
+      if (!v?.build || v.build === __BUILD_ID__) return
+      const key = `sns-reloaded-${v.build}`
+      if (sessionStorage.getItem(key)) return
+      sessionStorage.setItem(key, '1')
+      window.location.reload()
+    })
+    .catch(() => {})
+}
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <App />
