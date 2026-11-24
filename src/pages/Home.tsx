@@ -2,8 +2,8 @@ import { useEffect } from 'react'
 import { useCatalog } from '../lib/store'
 import { ColorLab } from './home/ColorLab'
 import { Designs } from './home/Designs'
-import { Hero } from './home/Hero'
-import { About, Contact, Footer, HowTo, Policies, Works } from './home/Sections'
+import { FeatureStrip, Hero, Navbar } from './home/Hero'
+import { About, Contact, Faq, Footer, HowTo, Policies, Works } from './home/Sections'
 import { Services } from './home/Services'
 
 export default function Home() {
@@ -12,17 +12,22 @@ export default function Home() {
     load()
   }, [load])
   return (
-    <main className="grain">
-      <Hero />
-      <Services />
-      <Designs />
-      <ColorLab />
-      <About />
-      <HowTo />
-      <Works />
-      <Policies />
-      <Contact />
+    <>
+      <Navbar />
+      <main className="grain">
+        <Hero />
+        <FeatureStrip />
+        <Services />
+        <Designs />
+        <ColorLab />
+        <HowTo />
+        <About />
+        <Works />
+        <Policies />
+        <Faq />
+        <Contact />
+      </main>
       <Footer />
-    </main>
+    </>
   )
 }

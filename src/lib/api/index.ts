@@ -1,16 +1,15 @@
 import type { Api } from './types'
 
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string | undefined
-const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined
+const NEON_URL = import.meta.env.VITE_NEON_URL as string | undefined
 
-export const BACKEND_MODE: Api['mode'] = SUPABASE_URL && SUPABASE_KEY ? 'supabase' : 'demo'
+export const BACKEND_MODE: Api['mode'] = NEON_URL ? 'neon' : 'demo'
 
 let impl: Promise<Api> | null = null
 export function loadApi(): Promise<Api> {
   if (!impl) {
     impl =
-      BACKEND_MODE === 'supabase'
-        ? import('./supabase').then((m) => m.createSupabaseApi(SUPABASE_URL!, SUPABASE_KEY!))
+      BACKEND_MODE === 'neon'
+        ? import('./neon').then((m) => m.createNeonApi(NEON_URL!))
         : import('./local').then((m) => m.createLocalApi())
   }
   return impl

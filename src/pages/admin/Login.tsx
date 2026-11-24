@@ -23,12 +23,12 @@ export default function Login({ onLogin }: { onLogin: () => void }) {
       <div className="mb-7 flex justify-center"><Logo className="h-14 text-bordo" /></div>
       <h1 className="mb-7 text-center font-serif text-4xl text-bordo">Panel del estudio</h1>
       <form className="space-y-5" onSubmit={e => { e.preventDefault(); void action.run(login) }}>
-        <Field label="Correo electrónico" type="email" autoComplete="username" required={api.mode !== 'demo'} value={email} onChange={e => setEmail(e.target.value)} />
+        {api.mode === 'demo' && <Field label="Correo electrónico (opcional)" type="email" autoComplete="username" value={email} onChange={e => setEmail(e.target.value)} />}
         <Field label="Contraseña" type="password" autoComplete="current-password" required value={password} onChange={e => setPassword(e.target.value)} />
         <ErrorText message={action.error} />
         <Button className="w-full" loading={action.busy} iconRight={<ArrowRight size={18} />}>Ingresar</Button>
       </form>
-      {api.mode === 'demo' && <p className="mt-5 rounded-2xl bg-bordo-50 p-4 text-sm text-choco">Modo demo: los datos se guardan sólo en este navegador. Contraseña: {DEMO_ADMIN_PASSWORD}</p>}
+      {api.mode === 'demo' && <p className="mt-5 rounded-2xl bg-bordo-50 p-4 text-sm text-choco">Modo demo: los datos quedan sólo en este navegador. Contraseña inicial: {DEMO_ADMIN_PASSWORD}</p>}
     </section>
   </main>
 }

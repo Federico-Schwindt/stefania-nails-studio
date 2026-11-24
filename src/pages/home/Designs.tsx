@@ -2,6 +2,7 @@ import { ArrowRight, Camera } from '@phosphor-icons/react'
 import { AnimatePresence, motion, useMotionValue, useSpring, useTransform } from 'motion/react'
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Img } from '../../components/Img'
 import { Skeleton } from '../../components/ui'
 import { assetUrl, thumbUrl } from '../../lib/api'
 import { useCatalog } from '../../lib/store'
@@ -38,7 +39,7 @@ export function DesignCard({
     >
       <div className={`${compact ? 'aspect-square' : 'aspect-[4/5]'} relative overflow-hidden bg-bordo-50`}>
         {img ? (
-          <img src={thumbUrl(img)} alt="" className="h-full w-full object-cover transition duration-[1.1s] group-hover:scale-[1.06]" loading="lazy" />
+          <Img src={img.startsWith('img:') ? img : thumbUrl(img)} alt="" className="h-full w-full object-cover transition duration-[1.1s] group-hover:scale-[1.06]" loading="lazy" />
         ) : (
           <div className="flex h-full w-full items-center justify-center bg-bordo p-4 text-center">
             <span className="font-serif text-3xl text-white">{d.name}</span>
@@ -112,7 +113,7 @@ export function DesignStage({ designs, current, className = '' }: { designs: Des
             />
           ) : null,
         )}
-        {current && !current.renderUrl && current.photoUrl && <img src={assetUrl(current.photoUrl)} alt={`Trabajo real: ${current.name}`} className="absolute inset-0 h-full w-full object-cover" />}
+        {current && !current.renderUrl && current.photoUrl && <Img src={current.photoUrl} alt={`Trabajo real: ${current.name}`} className="absolute inset-0 h-full w-full object-cover" />}
         {!seen && <Skeleton className="absolute inset-0 rounded-none" />}
         {/* reflejo que sigue al puntero */}
         <motion.div
@@ -133,7 +134,7 @@ export function Designs() {
   const current = hover ?? selected ?? designs.find((d) => d.renderUrl) ?? designs[0]
 
   return (
-    <section id="disenos" className="scroll-mt-4 bg-gris-50 py-20 md:py-28">
+    <section id="disenos" className="scroll-mt-24 bg-gris-50 py-20 md:py-28">
       <div className="mx-auto max-w-[1400px] px-4 sm:px-8">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:gap-14">
           <div className="lg:sticky lg:top-6 lg:self-start">
@@ -158,7 +159,7 @@ export function Designs() {
               </AnimatePresence>
               {current?.photoUrl && current.renderUrl && (
                 <figure className="absolute bottom-4 right-4 w-[88px] overflow-hidden rounded-[16px] bg-white p-1 shadow-lg">
-                  <img src={thumbUrl(current.photoUrl)} alt={`Foto real del trabajo ${current.name}`} className="aspect-[4/5] w-full rounded-[12px] object-cover" />
+                  <Img src={current.photoUrl.startsWith('img:') ? current.photoUrl : thumbUrl(current.photoUrl)} alt={`Foto real del trabajo ${current.name}`} className="aspect-[4/5] w-full rounded-[12px] object-cover" />
                   <figcaption className="py-1 text-center text-[10px] font-semibold uppercase tracking-wide text-choco">Foto real</figcaption>
                 </figure>
               )}

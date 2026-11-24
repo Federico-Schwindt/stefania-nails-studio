@@ -52,7 +52,7 @@ export function Services() {
   })
 
   return (
-    <section id="servicios" className="mx-auto max-w-[1400px] scroll-mt-6 px-4 py-20 sm:px-8 md:py-28">
+    <section id="servicios" className="mx-auto max-w-[1400px] scroll-mt-24 px-4 py-20 sm:px-8 md:py-28">
       <div className="mb-10 max-w-3xl md:mb-14">
         <h2 className="text-[clamp(44px,6vw,80px)] leading-[0.95] text-bordo">Servicios y precios</h2>
         <p className="mt-4 max-w-[52ch] text-choco">Precios por sesión en el estudio. La seña se paga online al reservar y se descuenta del total.</p>

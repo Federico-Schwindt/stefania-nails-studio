@@ -54,11 +54,11 @@ function ItemRow({ item, fresh, onSave, onRemove }: { item: Item; fresh: boolean
           <Field label="Orden" name="sort" type="number" required defaultValue={item.sort} />
         </div>
         {service ? <>
-          <Field label="Duración (minutos)" type="number" min="1" max="1440" name="duration" required defaultValue={item.durationMin} />
+          <Field label="Duración (minutos)" type="number" min="5" max="720" name="duration" required defaultValue={item.durationMin} />
           <Switch label="Mostrar precio desde" checked={priceFrom} onChange={setPriceFrom} />
         </> : <>
           <Select label="Modalidad" value={mode} onChange={e => setMode(e.target.value as Extra['mode'])}><option value="unit">Por unidad</option><option value="flat">Precio fijo</option></Select>
-          <Field label="Cantidad máxima" type="number" min="1" name="qty" required defaultValue={item.maxQty} />
+          <Field label="Cantidad máxima" type="number" min="1" max="50" name="qty" required defaultValue={item.maxQty} />
         </>}
         <Switch label={service ? 'Servicio activo' : 'Extra activo'} checked={active} onChange={setActive} />
         <ErrorText message={action.error} />

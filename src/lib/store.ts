@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { api } from './api'
-import type { Design, Extra, Finish, NailShape, Service, Settings, WorkingHours } from './types'
+import type { ColorChoice, Design, Extra, Service, Settings, WorkingHours } from './types'
 
 interface CatalogState {
   loaded: boolean
@@ -45,7 +45,7 @@ export interface BookingDraft {
   serviceId?: string
   extras: Record<string, number>
   designId?: string
-  color?: { hex: string; name: string; finish: Finish; shape: NailShape }
+  color?: ColorChoice
   inspo: { url: string; name: string }[]
   date?: string
   time?: string

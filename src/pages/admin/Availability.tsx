@@ -2,9 +2,9 @@ import { useCallback, useState } from 'react'
 import { Trash } from '@phosphor-icons/react'
 import { Button, Field, IconButton, Toggle, toast } from '../../components/ui'
 import { api } from '../../lib/api'
-import { addDays, isoDate } from '../../lib/slots'
+import { addDays, isoDate, parseIso } from '../../lib/slots'
 import type { WorkingHours } from '../../lib/types'
-import { dateLabel, ErrorText, heading, LoadState, panel, useAction, useLoad } from './shared'
+import { dateLabel, ErrorText, heading, LoadState, panel, studioDate, useAction, useLoad } from './shared'
 
 const days = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']
 const getHours = () => api.getWorkingHours()
@@ -39,9 +39,8 @@ function HoursEditor({ initial }: { initial: WorkingHours[] }) {
 }
 
 function BlockedDates() {
-  const now = new Date()
-  const today = isoDate(now)
-  const until = isoDate(addDays(now, 180))
+  const today = studioDate()
+  const until = '9999-12-31'
   const blocks = useLoad(useCallback(() => api.getBlocked(today, until), [today, until]))
   const action = useAction()
   const sorted = blocks.data && [...blocks.data].sort((a, b) => (a.date + (a.start ?? '')).localeCompare(b.date + (b.start ?? '')))
@@ -69,8 +68,34 @@ function BlockedDates() {
         <Button variant="outline" className="justify-self-start">Agregar bloqueo</Button>
       </fieldset>
     </form>
+    <form className="mt-6 space-y-4 border-t border-gris pt-5" onSubmit={e => {
+      e.preventDefault()
+      const form = e.currentTarget
+      const values = new FormData(form)
+      const from = String(values.get('from')), to = String(values.get('to'))
+      void action.run(async () => {
+        if (from > to) throw new Error('La fecha final debe ser igual o posterior al inicio.')
+        const existing = await api.getBlocked(from, to)
+        const wholeDays = new Set(existing.filter(b => !b.start).map(b => b.date))
+        try {
+          for (let date = from; date <= to; date = isoDate(addDays(parseIso(date), 1))) {
+            if (!wholeDays.has(date)) await api.addBlocked({ date, reason: String(values.get('reason') || 'Vacaciones / días libres') })
+            if (date === to) break
+          }
+          toast.ok('Días libres guardados.'); form.reset()
+        } finally { blocks.reload() }
+      })
+    }}>
+      <h3 className="font-serif text-2xl text-bordo">Vacaciones / días libres</h3>
+      <fieldset disabled={action.busy} className="grid gap-3">
+        <div className="grid gap-2 sm:grid-cols-2"><Field label="Fecha inicial" name="from" type="date" min={today} required />
+          <Field label="Fecha final" name="to" type="date" min={today} required /></div>
+        <Field label="Motivo del período (opcional)" name="reason" />
+        <Button variant="outline" className="justify-self-start">Bloquear período</Button>
+      </fieldset>
+    </form>
     <div className="mt-4"><ErrorText message={action.error} /></div>
-    <h3 className="mt-6 mb-3 text-2xl text-bordo">Próximos 180 días</h3>
+    <h3 className="mt-6 mb-3 text-2xl text-bordo">Bloqueos programados</h3>
     {!sorted ? <LoadState {...blocks} /> : sorted.length === 0 ? <p className="rounded-2xl bg-gris-50 p-4 text-sm text-choco">No tenés bloqueos programados.</p> :
       <ul className="divide-y divide-gris/50">{sorted.map(b => <li key={b.id} className="flex items-center justify-between gap-2 py-3 text-sm">
         <div className="min-w-0 break-words"><strong>{dateLabel(b.date)}</strong><p>{b.start && b.end ? b.start + ' a ' + b.end : 'Día completo'}</p>{b.reason && <p className="text-choco">{b.reason}</p>}</div>

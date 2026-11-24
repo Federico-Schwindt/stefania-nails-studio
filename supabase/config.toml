@@ -1,7 +1,0 @@
-project_id = "stefania-nails-studio"
-
-[functions.create-preference]
-verify_jwt = false
-
-[functions.mp-webhook]
-verify_jwt = false

@@ -1,23 +1,6 @@
-import type { NailLayer } from '../lib/types'
-
-/**
- * Dibuja el diseño de una uña sobre dos canvas:
- *  - color: albedo (lecho rosado + base translúcida + punta + patrón)
- *  - orm:   G = rugosidad, B = metalizado (formato glTF / three.js)
- * El rectángulo de textura cubre el ancho máximo de la uña (u) por su largo (v, 0 = cutícula).
- */
-export interface PaintState {
-  color: string
-  progress: number // 0..1 cuánto se extendió el esmalte
-  origin: [number, number] // uv del impacto de la gota
-}
-
-export interface NailCanvas {
-  color: HTMLCanvasElement
-  orm: HTMLCanvasElement
-}
-
-const W = 256
+import { useEffect, useRef, type CSSProperties } from 'react'
+import { FINGERS, type NailShape, type NailDesignParams, type NailLayer } from '../../lib/types'
+import { heading, panel } from './shared'
 
 function rng(seed: number) {
   let s = seed >>> 0 || 1
@@ -33,17 +16,6 @@ function hexA(hex: string, a: number) {
   const h = hex.replace('#', '')
   const n = parseInt(h.length === 3 ? h.replace(/(.)/g, '$1$1') : h, 16)
   return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`
-}
-
-export function createNailCanvas(aspect: number): NailCanvas {
-  const h = Math.min(1024, Math.max(256, Math.round(W * aspect)))
-  const mk = () => {
-    const c = document.createElement('canvas')
-    c.width = W
-    c.height = h
-    return c
-  }
-  return { color: mk(), orm: mk() }
 }
 
 /** Línea de sonrisa de la francesita, en px (y crece hacia la punta). */
@@ -232,18 +204,11 @@ function drawPattern(ctx: CanvasRenderingContext2D, layer: NailLayer, w: number,
   ctx.restore()
 }
 
-export function drawNail(
-  canvas: NailCanvas,
-  layer: NailLayer,
-  opts: { tBed: number; seed: number; paint?: PaintState },
-) {
-  const ctx = canvas.color.getContext('2d')!
-  const orm = canvas.orm.getContext('2d')!
-  const w = canvas.color.width
-  const h = canvas.color.height
+function paint(canvas: HTMLCanvasElement, layer: NailLayer, opts: { tBed: number; seed: number }) {
+  const ctx = canvas.getContext('2d')
+  if (!ctx) return
+  const { width: w, height: h } = canvas
   const bedY = opts.tBed * h
-  const roughBase = layer.finish === 'matte' ? 200 : layer.finish === 'chrome' ? 30 : 70
-  const metalBase = layer.finish === 'chrome' ? 255 : 0
 
   // --- uña natural: lecho rosado, lúnula y borde libre
   ctx.globalCompositeOperation = 'source-over'
@@ -271,9 +236,6 @@ export function drawNail(
     ctx.fillRect(0, 0, w, h)
   }
 
-  orm.fillStyle = `rgb(255,${roughBase},${metalBase})`
-  orm.fillRect(0, 0, w, h)
-
   // --- ojo de gato: banda brillante diagonal
   if (layer.finish === 'cat-eye') {
     const c = layer.finishColor ?? '#e2b765'
@@ -283,15 +245,9 @@ export function drawNail(
     g.addColorStop(0.68, hexA(c, 0))
     ctx.fillStyle = g
     ctx.fillRect(0, 0, w, h)
-    const gm = orm.createLinearGradient(w * 0.1, 0, w * 0.9, h)
-    gm.addColorStop(0.3, 'rgb(255,60,0)')
-    gm.addColorStop(0.5, 'rgb(255,40,210)')
-    gm.addColorStop(0.7, 'rgb(255,60,0)')
-    orm.fillStyle = gm
-    orm.fillRect(0, 0, w, h)
   }
 
-  // --- glitter: chispas en albedo + metalizado puntual
+  // Destellos del esmalte con glitter.
   if (layer.finish === 'glitter') {
     const r = rng(opts.seed * 7 + 3)
     const c = layer.finishColor ?? '#f2e6dc'
@@ -301,8 +257,6 @@ export function drawNail(
       const s = 1 + r() * 2.6
       ctx.fillStyle = hexA(c, 0.5 + r() * 0.5)
       ctx.fillRect(x, y, s, s)
-      orm.fillStyle = `rgb(255,${20 + r() * 40},${180 + r() * 75})`
-      orm.fillRect(x, y, s, s)
     }
   }
 
@@ -327,8 +281,9 @@ export function drawNail(
     ctx.fillStyle = layer.tipColor
     ctx.fill(path)
     if (layer.tipMetal) {
-      orm.fillStyle = 'rgb(255,28,255)'
-      orm.fill(path)
+      const glint = ctx.createLinearGradient(0, 0, w, 0)
+      glint.addColorStop(0, 'transparent'); glint.addColorStop(0.45, '#ffffffaa'); glint.addColorStop(1, 'transparent')
+      ctx.fillStyle = glint; ctx.fill(path)
     }
     if (layer.accent === 'gold-line') {
       const line = new Path2D()
@@ -341,34 +296,45 @@ export function drawNail(
       ctx.strokeStyle = col
       ctx.lineWidth = 7
       ctx.stroke(line)
-      orm.strokeStyle = 'rgb(255,30,255)'
-      orm.lineWidth = 7
-      orm.stroke(line)
     }
   }
 
-  // --- animación de esmaltado (gota)
-  if (opts.paint && opts.paint.progress > 0) {
-    const p = opts.paint
-    const cx = p.origin[0] * w
-    const cy = p.origin[1] * h
-    const maxR = Math.hypot(Math.max(cx, w - cx), Math.max(cy, h - cy)) * 1.05
-    const R = maxR * Math.min(1, p.progress)
-    ctx.fillStyle = p.color
-    ctx.beginPath()
-    const wob = rng(opts.seed + 11)
-    const k = 28
-    const phases = Array.from({ length: 4 }, () => wob() * Math.PI * 2)
-    for (let i = 0; i <= k; i++) {
-      const a = (i / k) * Math.PI * 2
-      const wv = 1 + (1 - p.progress) * 0.18 * (Math.sin(a * 3 + phases[0]) * 0.6 + Math.sin(a * 5 + phases[1]) * 0.4)
-      ctx.lineTo(cx + Math.cos(a) * R * wv, cy + Math.sin(a) * R * wv)
-    }
-    ctx.closePath()
-    ctx.fill()
-    orm.fillStyle = 'rgb(255,30,0)'
-    orm.beginPath()
-    orm.arc(cx, cy, R, 0, Math.PI * 2)
-    orm.fill()
+  if (layer.finish === 'chrome' || layer.finish === 'gloss') {
+    const glint = ctx.createLinearGradient(0, h * .1, w, 0)
+    glint.addColorStop(0, 'transparent')
+    glint.addColorStop(.3, layer.finish === 'chrome' ? '#ffffffcc' : '#ffffff55')
+    glint.addColorStop(.6, 'transparent')
+    ctx.fillStyle = glint
+    ctx.fillRect(0, 0, w, h)
   }
+  ctx.fillStyle = layer.accentColor ?? '#d4ad62'
+  if (layer.accent === 'charm') drawStar(ctx, w / 2, h / 3, 22)
+  if (layer.accent === 'strass' || layer.accent === 'pearl') {
+    ctx.beginPath()
+    ctx.arc(w / 2, h / 3, 15, 0, Math.PI * 2)
+    ctx.fill(); ctx.strokeStyle = '#ffffffcc'; ctx.stroke()
+  }
+}
+
+const silhouettes: Record<NailShape, CSSProperties> = {
+  almond: { borderRadius: '42% 42% 50% 50% / 22% 22% 76% 76%' },
+  oval: { borderRadius: '40% 40% 50% 50% / 20% 20% 52% 52%' },
+  square: { borderRadius: '35% 35% 6% 6% / 20% 20% 6% 6%' },
+  squoval: { borderRadius: '35% 35% 26% 26% / 20% 20% 18% 18%' },
+  coffin: { borderRadius: '35% 35% 8% 8%', clipPath: 'polygon(0 0,100% 0,100% 45%,78% 100%,22% 100%,0 45%)' },
+  stiletto: { borderRadius: '36% 36% 0 0', clipPath: 'polygon(0 0,100% 0,98% 40%,50% 100%,2% 40%)' },
+}
+function Swatch({ params, index }: { params: NailDesignParams; index: number }) {
+  const ref = useRef<HTMLCanvasElement>(null)
+  useEffect(() => {
+    if (ref.current) paint(ref.current, { ...params.all, ...params.fingers?.[FINGERS[index]] }, { tBed: .85 - .3 * params.length, seed: index + 1 })
+  }, [params, index])
+  return <canvas ref={ref} width={256} height={Math.round(320 + 290 * params.length)} className="w-full max-w-16 rotate-180 shadow-inner" style={silhouettes[params.shape]} />
+}
+export default function DesignPreview({ params }: { params: NailDesignParams }) {
+  return <section className={panel}><h3 className={heading}>Vista previa</h3>
+    <div className="mt-5 grid grid-cols-5 items-center gap-3 rounded-2xl bg-gris-50 px-4 py-10" role="img" aria-label="Diseño en las cinco uñas">
+      {FINGERS.map((finger, index) => <Swatch key={finger} index={index} params={params} />)}
+    </div>
+  </section>
 }

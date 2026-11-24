@@ -90,12 +90,24 @@ export interface BookingExtra {
 }
 
 export type BookingStatus =
-  | 'pending_payment' // creada, falta pagar la seña
+  | 'pending_payment' // creada, falta la seña
+  | 'payment_review' // la clienta avisó que pagó (transferencia / link): Stefania lo verifica
   | 'paid' // seña acreditada, espera confirmación del admin
   | 'confirmed' // confirmada por el admin
-  | 'completed'
+  | 'completed' // atendida
+  | 'no_show' // no vino
   | 'cancelled'
   | 'rejected'
+
+/** Cómo pagó la clienta la seña o el saldo. */
+export type PayMethod = 'transfer' | 'mercadopago' | 'cash' | 'simulated' | 'other'
+
+export interface ColorChoice {
+  hex: string
+  name: string
+  finish: Finish
+  shape: NailShape
+}
 
 export interface Booking {
   id: string
@@ -110,16 +122,21 @@ export interface Booking {
   extras: BookingExtra[]
   designId?: string
   designName?: string
+  color?: ColorChoice
   inspoUrls: string[] // imágenes de inspiración subidas por la clienta
   date: string // YYYY-MM-DD
   time: string // HH:mm
   durationMin: number
   total: number
   deposit: number
+  /** Total cobrado hasta ahora (seña + saldo). */
+  paidAmount: number
   status: BookingStatus
+  depositMethod?: PayMethod
+  depositProofUrl?: string // comprobante de transferencia subido por la clienta
+  balanceMethod?: PayMethod
   paymentId?: string
-  paymentStatus?: string
-  paymentMethod?: 'mercadopago' | 'simulated' | 'manual'
+  remindedAt?: string // último recordatorio enviado por WhatsApp
   adminNotes?: string
 }
 
@@ -131,6 +148,7 @@ export interface NewBookingInput {
   serviceId: string
   extras: { extraId: string; qty: number }[]
   designId?: string
+  color?: ColorChoice
   inspoUrls: string[]
   date: string
   time: string
@@ -159,11 +177,20 @@ export interface Settings {
   slotStepMin: number // granularidad de turnos (ej. 30)
   minNoticeHours: number // anticipación mínima para reservar
   maxDaysAhead: number
-  whatsapp: string // ej. 543446571429
+  cancelHours: number // hasta cuántas horas antes la clienta puede cancelar sola (políticas: 24)
+  whatsapp: string // ej. 5493446571429
   instagram: string // ej. stefania.studionails
   address?: string
-  paymentsMode: 'simulated' | 'mercadopago'
+  mapsUrl?: string
+  /** simulated = demo sin cobro; manual = transferencia y/o link de Mercado Pago que Stefania verifica. */
+  paymentsMode: 'simulated' | 'manual'
+  transferAlias?: string
+  transferCbu?: string
+  transferHolder?: string
+  mpLink?: string // link de pago de Mercado Pago para la seña
   policies: string[]
+  /** Plantillas de WhatsApp. Variables: {nombre} {fecha} {hora} {servicio} {codigo} {sena} {total} {saldo} */
+  waTemplates: { confirm: string; reminder: string; payment: string; thanks: string }
 }
 
 export interface BusySlot {
@@ -173,8 +200,64 @@ export interface BusySlot {
 }
 
 export interface PaymentStart {
-  /** URL a la que hay que redirigir (Mercado Pago Checkout Pro o simulador interno). */
+  /** Ruta interna o URL a la que hay que llevar a la clienta para pagar la seña. */
   redirectUrl: string
-  mode: 'simulated' | 'mercadopago'
-  preferenceId?: string
+  mode: 'simulated' | 'manual'
+}
+
+// ---------- Panel de Stefania ----------
+
+export interface Client {
+  phone: string // clave: teléfono normalizado (sólo dígitos)
+  name: string
+  instagram?: string
+  notes?: string // notas privadas (alergias, preferencias, forma de uña, etc.)
+  birthday?: string // MM-DD
+  visits: number // turnos atendidos
+  noShows: number
+  cancellations: number
+  totalSpent: number // suma cobrada en turnos atendidos
+  firstVisit?: string // YYYY-MM-DD
+  lastVisit?: string
+  nextBooking?: { id: string; date: string; time: string; serviceName: string }
+}
+
+export interface ClientDetail {
+  client: Client
+  bookings: Booking[]
+}
+
+export interface WaitlistEntry {
+  id: string
+  createdAt: string
+  name: string
+  phone: string
+  serviceId?: string
+  serviceName?: string
+  preferred: string // texto libre: días/horarios que le sirven
+  status: 'open' | 'contacted' | 'booked' | 'closed'
+}
+
+export interface NewWaitlistInput {
+  name: string
+  phone: string
+  serviceId?: string
+  preferred: string
+}
+
+export interface Stats {
+  from: string
+  to: string
+  bookings: number // turnos en el período (no cancelados ni rechazados)
+  completed: number
+  noShows: number
+  cancelled: number
+  revenue: number // cobrado en turnos atendidos
+  depositsCollected: number // señas cobradas en el período
+  expected: number // total de turnos confirmados/pendientes por atender
+  newClients: number
+  byService: { serviceId: string; name: string; count: number; revenue: number }[]
+  byDay: { date: string; count: number; revenue: number }[]
+  byMethod: { method: PayMethod; amount: number }[]
+  topDesigns: { name: string; count: number }[]
 }

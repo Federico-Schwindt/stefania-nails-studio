@@ -6,6 +6,8 @@ import Home from './pages/Home'
 const Booking = lazy(() => import('./pages/booking/Booking'))
 const BookingStatus = lazy(() => import('./pages/booking/BookingStatus'))
 const SimulatedPay = lazy(() => import('./pages/booking/SimulatedPay'))
+const Deposit = lazy(() => import('./pages/booking/Deposit'))
+const MyBooking = lazy(() => import('./pages/booking/MyBooking'))
 const AdminApp = lazy(() => import('./pages/admin/AdminApp'))
 
 function Fallback() {
@@ -21,6 +23,8 @@ export default function App() {
           <Route path="/reservar" element={<Booking />} />
           <Route path="/reserva/:id" element={<BookingStatus />} />
           <Route path="/pago-simulado/:id" element={<SimulatedPay />} />
+          <Route path="/sena/:id" element={<Deposit />} />
+          <Route path="/mi-turno" element={<MyBooking />} />
           <Route path="/admin/*" element={<AdminApp />} />
           <Route path="*" element={<Home />} />
         </Routes>

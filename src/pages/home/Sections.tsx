@@ -1,9 +1,10 @@
-import { ArrowUpRight, CalendarCheck, CreditCard, ImageSquare, InstagramLogo, Sparkle, WhatsappLogo, X } from '@phosphor-icons/react'
+import { ArrowUpRight, CalendarCheck, CaretDown, CreditCard, ImageSquare, InstagramLogo, Sparkle, WhatsappLogo, X } from '@phosphor-icons/react'
 import { AnimatePresence, motion } from 'motion/react'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Logo } from '../../components/Logo'
 import { assetUrl } from '../../lib/api'
+import { money } from '../../lib/pricing'
 import { useCatalog } from '../../lib/store'
 
 const ease = [0.16, 1, 0.3, 1] as const
@@ -73,13 +74,15 @@ const WORKS = [
 
 export function Works() {
   const [open, setOpen] = useState<number | null>(null)
+  const [all, setAll] = useState(false)
+  const shown = all ? WORKS : WORKS.slice(0, 12)
   return (
-    <section id="trabajos" className="scroll-mt-6 bg-white py-20 md:py-28">
+    <section id="trabajos" className="scroll-mt-24 bg-white py-20 md:py-28">
       <div className="mx-auto max-w-[1400px] px-4 sm:px-8">
         <h2 className="max-w-3xl text-[clamp(44px,6vw,80px)] leading-[0.95] text-bordo">Trabajos reales del estudio</h2>
         <p className="mt-4 max-w-[48ch] text-choco">Fotos sin filtros de clientas reales. Tocá una para verla grande.</p>
         <div className="mt-10 columns-2 gap-3 sm:gap-4 md:columns-3 lg:columns-4">
-          {WORKS.map((w, i) => (
+          {shown.map((w, i) => (
             <motion.button
               key={w.src}
               {...reveal(i % 4)}
@@ -91,6 +94,13 @@ export function Works() {
             </motion.button>
           ))}
         </div>
+        {!all && WORKS.length > 12 && (
+          <div className="mt-6 flex justify-center">
+            <button onClick={() => setAll(true)} className="inline-flex h-12 items-center rounded-full px-6 text-[15px] font-semibold text-ink ring-1 ring-gris transition hover:ring-bordo">
+              Ver más trabajos ({WORKS.length - 12})
+            </button>
+          </div>
+        )}
       </div>
       <AnimatePresence>
         {open !== null && (
@@ -126,7 +136,7 @@ const STEPS = [
   { icon: Sparkle, title: 'Elegí tu servicio', text: 'Semipermanente, capping, soft gel o sistema dual. Ves el precio y la duración antes de seguir.', img: 'img/trabajos/baby-boomer.webp', tone: 'bg-white' },
   { icon: ImageSquare, title: 'Mostrá tu idea', text: 'Elegí un diseño de la galería, probá un color en 3D o subí tus fotos de inspiración.', img: 'img/disenos/florcitas.webp', tone: 'bg-bordo-50' },
   { icon: CalendarCheck, title: 'Reservá día y hora', text: 'Ves sólo los horarios libres reales. Stefania confirma tu turno desde su agenda.', img: 'img/marca/tarjeta.webp', tone: 'bg-gris-50' },
-  { icon: CreditCard, title: 'Pagá la seña online', text: 'Con Mercado Pago, en un minuto. La seña se descuenta del total el día del turno.', img: 'img/estudio/estudio.webp', tone: 'bg-bordo text-white' },
+  { icon: CreditCard, title: 'Dejá la seña', text: 'Por transferencia o Mercado Pago, en un minuto. Se descuenta del total el día del turno.', img: 'img/estudio/estudio.webp', tone: 'bg-bordo text-white' },
 ]
 
 export function HowTo() {
@@ -179,7 +189,7 @@ export function Policies() {
   const items = all.length ? [all[hi], ...all.filter((_, i) => i !== hi)] : []
   if (!items.length) return null
   return (
-    <section id="politicas" className="mx-auto max-w-[1400px] scroll-mt-6 px-4 py-20 sm:px-8 md:py-28">
+    <section id="politicas" className="mx-auto max-w-[1400px] scroll-mt-24 px-4 py-20 sm:px-8 md:py-28">
       <div className="grid gap-10 lg:grid-cols-[minmax(0,4fr)_minmax(0,7fr)]">
         <motion.div {...reveal()}>
           <h2 className="text-[clamp(44px,6vw,80px)] leading-[0.95] text-bordo">Antes de tu turno</h2>
@@ -212,7 +222,7 @@ export function Contact() {
   const ig = settings?.instagram
   const open = [1, 2, 3, 4, 5, 6, 0].map((d) => hours.find((h) => h.weekday === d)).filter(Boolean)
   return (
-    <section id="estudio" className="scroll-mt-4 p-2 sm:p-3">
+    <section id="estudio" className="scroll-mt-24 p-2 sm:p-3">
       <div className="relative mx-auto max-w-[1480px] overflow-hidden rounded-[30px] bg-ink text-white sm:rounded-[36px]">
         <img src={assetUrl('img/estudio/estudio.webp')} alt="El estudio: mesa de manicura, lámpara y el cartel de Stefania Nail Studio en la pared" className="absolute inset-0 h-full w-full object-cover opacity-45" loading="lazy" />
         <div className="absolute inset-0 bg-gradient-to-r from-ink via-ink/80 to-ink/20" />
@@ -267,10 +277,56 @@ export function Footer() {
           <a href="#disenos" className="hover:text-bordo">Diseños</a>
           <a href="#politicas" className="hover:text-bordo">Políticas</a>
           <Link to="/reservar" className="hover:text-bordo">Reservar</Link>
+          <Link to="/mi-turno" className="hover:text-bordo">Mi turno</Link>
           <Link to="/admin" className="hover:text-bordo">Acceso estudio</Link>
         </nav>
       </div>
       <p className="mt-10 border-t border-gris-100 pt-6 text-[13px] text-choco/80">© {new Date().getFullYear()} Stefania Nails Studio</p>
     </footer>
+  )
+}
+
+/* ---------------- Preguntas frecuentes ---------------- */
+export function Faq() {
+  const { settings } = useCatalog()
+  const [open, setOpen] = useState<number | null>(0)
+  const sena = settings ? (settings.depositMode === 'fixed' ? money(settings.depositValue) : `${settings.depositValue}% del total`) : 'una seña'
+  const items = [
+    { q: '¿Cómo reservo?', a: 'Elegís el servicio, el diseño o color y un horario libre de la agenda. Al final dejás la seña y listo: Stefania te confirma por WhatsApp.' },
+    { q: '¿Cuánto es la seña y cómo la pago?', a: `La seña es de ${sena}. Podés pagarla por transferencia o con Mercado Pago y subir el comprobante desde la misma página. Se descuenta del total el día del turno.` },
+    { q: '¿Puedo cambiar o cancelar mi turno?', a: `Sí. Entrá a "Mi turno" con tu código y tu WhatsApp. Podés cancelar hasta ${settings?.cancelHours ?? 24} horas antes. Para cambiar el horario escribile a Stefania.` },
+    { q: '¿Qué pasa si llego tarde?', a: 'Hay 10 minutos de tolerancia. Después se cobra un excedente, y con 20 minutos de demora el turno se cancela.' },
+    { q: '¿Puedo llevar mi propia idea?', a: 'Claro. En la reserva podés subir fotos de inspiración; Stefania las ve antes del turno y lo adapta a tu uña.' },
+    { q: '¿Cuánto dura cada servicio?', a: 'Depende del servicio: desde 1 hora un semipermanente hasta 2 horas y media un sistema dual. Lo ves al elegirlo.' },
+  ]
+  return (
+    <section id="preguntas" className="scroll-mt-24 bg-gris-50 py-20 md:py-28">
+      <div className="mx-auto grid max-w-[1200px] gap-10 px-4 sm:px-8 lg:grid-cols-[minmax(0,4fr)_minmax(0,7fr)]">
+        <div>
+          <h2 className="text-[clamp(44px,6vw,80px)] leading-[0.95] text-bordo">Preguntas frecuentes</h2>
+          <p className="mt-4 max-w-[34ch] text-choco">¿Te queda alguna duda? Escribile a Stefania por WhatsApp.</p>
+        </div>
+        <ul className="space-y-3">
+          {items.map((it, i) => {
+            const on = open === i
+            return (
+              <li key={it.q} className="overflow-hidden rounded-[22px] bg-white ring-1 ring-gris-100">
+                <button onClick={() => setOpen(on ? null : i)} aria-expanded={on} className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left text-[17px] font-semibold text-ink">
+                  {it.q}
+                  <CaretDown size={18} className={`shrink-0 text-bordo transition ${on ? 'rotate-180' : ''}`} />
+                </button>
+                <AnimatePresence initial={false}>
+                  {on && (
+                    <motion.div initial={{ height: 0 }} animate={{ height: 'auto' }} exit={{ height: 0 }} transition={{ duration: 0.35, ease }} className="overflow-hidden">
+                      <p className="px-6 pb-5 text-[16px] leading-relaxed text-choco">{it.a}</p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </li>
+            )
+          })}
+        </ul>
+      </div>
+    </section>
   )
 }

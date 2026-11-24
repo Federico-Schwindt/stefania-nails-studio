@@ -80,3 +80,12 @@ export function AdminSheet({ title, onClose, wide, children }: { title: string; 
   }, [])
   return <Sheet open title={title} onClose={onClose} wide={wide}><div ref={content}>{children}</div></Sheet>
 }
+
+const studioDateFormat = new Intl.DateTimeFormat('sv-SE', { timeZone: 'America/Argentina/Buenos_Aires' })
+export const studioDate = (instant = new Date()) => studioDateFormat.format(instant)
+
+export function Metrics({ items }: { items: [string, string | number][] }) {
+  return <dl className="grid grid-cols-2 gap-3 xl:grid-cols-4">{items.map(([label, value]) =>
+    <div key={label} className={panel}><dt className="text-sm text-choco">{label}</dt>
+      <dd className="mt-2 break-words font-serif text-3xl leading-tight text-bordo sm:text-4xl">{value}</dd></div>)}</dl>
+}

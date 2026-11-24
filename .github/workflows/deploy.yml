@@ -26,10 +26,9 @@ jobs:
       - run: npm ci
       - name: Build
         env:
-          # Opcionales: si están definidos en Settings > Secrets and variables > Actions,
-          # el sitio usa Supabase (agenda real + Mercado Pago). Si no, queda en modo demo.
-          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
-          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+          # Conexión del rol web restringido de Neon (sólo puede ejecutar funciones del esquema api).
+          # Si no está definido, el sitio queda en modo demo.
+          VITE_NEON_URL: ${{ secrets.VITE_NEON_URL }}
         run: npm run build
       - name: SPA fallback
         run: cp dist/index.html dist/404.html

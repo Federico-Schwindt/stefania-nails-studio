@@ -1,40 +1,42 @@
 # Stefania Nails Studio
 
-Sitio y app de turnos de **Stefania Nails Studio**: portada con intro en video, catálogo de diseños reales pasados a una mano modelo, probador de color en 3D (tips de soft gel en tiempo real), reservas con seña online y panel de administración.
+Sitio y sistema de turnos de **Stefania Nails Studio**: reserva online con agenda en vivo, catálogo de diseños reales sobre una mano modelo, colores en tarjetas, seña por transferencia o Mercado Pago, "Mi turno" para las clientas y un panel completo para Stefania.
 
 **En vivo:** https://federico-schwindt.github.io/stefania-nails-studio/
 
 ## Stack
 
 - Vite + React 19 + TypeScript + Tailwind v4 + Motion
-- Three.js / React Three Fiber para el probador de color 3D
-- Supabase (Postgres, Auth, Storage, Edge Functions) para la agenda real
-- Mercado Pago Checkout Pro para la seña (Edge Functions `create-preference` y `mp-webhook`)
+- Neon (Postgres) consultado por HTTP con un rol restringido: ver [docs/NEON.md](docs/NEON.md)
 - GitHub Pages + GitHub Actions para el deploy
+
+## Para las clientas
+
+- Reserva rápida desde la portada: servicio → próximos horarios libres → seguir.
+- Diseños reales del estudio (hover para verlos en la mano), colores lisos con terminación y forma, fotos de inspiración.
+- Seña por transferencia (alias/CBU con copiar) o link de Mercado Pago, con comprobante.
+- **Mi turno** (`#/mi-turno`): ver estado, pagar la seña, agendar en el calendario o cancelar.
+- Lista de espera cuando no hay horarios.
+
+## Para Stefania (`#/admin`)
+
+Hoy (agenda del día, cobros, recordatorios), Agenda semanal, Clientas (historial, notas, alergias, gasto), Caja y reportes (exportar CSV), Lista de espera, Disponibilidad y vacaciones, Diseños, Servicios y Ajustes (seña, cobro, plantillas de WhatsApp, contraseña).
 
 ## Modos
 
 | Modo | Cuándo | Qué pasa |
 | --- | --- | --- |
-| **Demo** | Sin variables de Supabase | Todo funciona en el navegador (IndexedDB). El pago es simulado. Admin: contraseña `stefania`. |
-| **Real** | Con `VITE_SUPABASE_URL` y `VITE_SUPABASE_ANON_KEY` | Agenda compartida, fotos de inspiración en Storage, admin con usuario real y seña con Mercado Pago. |
-
-Para activar el modo real seguí [docs/BACKEND.md](docs/BACKEND.md).
+| **Neon** | Con `VITE_NEON_URL` | Datos reales compartidos entre clientas y panel. |
+| **Demo** | Sin variables | Todo vive en el navegador (IndexedDB). Pago simulado. Panel: contraseña `stefania`. |
 
 ## Desarrollo
 
 ```bash
 npm install
+npm run db:setup   # instala/actualiza la base (necesita DATABASE_URL en .env.local)
 npm run dev
 ```
 
-## Rutas
-
-- `#/` portada
-- `#/reservar` reserva paso a paso (servicio, diseño, fecha, datos, seña)
-- `#/reserva/:id` estado del turno (vuelta de Mercado Pago)
-- `#/admin` panel de Stefania (agenda, disponibilidad, diseños, servicios, ajustes)
-
 ## Material de marca
 
-`brand/identidad` tiene la guía, logo y paleta. Las fotos originales pesadas (`brand/estudio`, `brand/trabajos`, `brand/duena`) no se versionan; en el sitio se usan las versiones optimizadas de `public/img`.
+`brand/identidad` tiene la guía, logo y paleta. Las fotos originales pesadas no se versionan; el sitio usa las versiones optimizadas de `public/img`.

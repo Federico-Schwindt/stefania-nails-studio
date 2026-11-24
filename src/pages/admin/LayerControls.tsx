@@ -1,13 +1,12 @@
 import { useState } from 'react'
 import { Button, Chip, Field, Select } from '../../components/ui'
-import { FINGERS, type AccentType, type Finger, type Finish, type NailDesignParams, type NailLayer, type NailShape, type PatternType, type TipStyle } from '../../lib/types'
+import { FINGERS, type AccentType, type Finger, type NailDesignParams, type NailLayer, type NailShape, type PatternType, type TipStyle } from '../../lib/types'
 import { heading, panel, Switch } from './shared'
 
-const shapes: Record<NailShape, string> = { almond: 'Almendra', oval: 'Ovalada', square: 'Cuadrada', squoval: 'Squoval', coffin: 'Coffin', stiletto: 'Stiletto' }
+import { shapes, finishes } from './labels'
 const fingers: Record<Finger, string> = { thumb: 'Pulgar', index: 'Índice', middle: 'Medio', ring: 'Anular', pinky: 'Meñique' }
 const tips: Record<TipStyle, string> = { none: 'Sin punta', french: 'Francesita', 'deep-french': 'Francesita profunda', 'v-french': 'Francesita en V', 'micro-french': 'Micro francesita', ombre: 'Baby boomer' }
 const patterns: Record<PatternType, string> = { none: 'Sin estampado', dots: 'Puntitos', flowers: 'Flores', stars: 'Estrellas', hearts: 'Corazones', lines: 'Rayas', cow: 'Vaquita', leopard: 'Leopardo', tortoise: 'Carey', swirl: 'Ondas' }
-const finishes: Record<Finish, string> = { gloss: 'Brillo', matte: 'Mate', chrome: 'Espejo', glitter: 'Glitter', 'cat-eye': 'Ojo de gato' }
 const accents: Record<AccentType, string> = { none: 'Sin aplicación', strass: 'Strass', 'gold-line': 'Filo dorado', pearl: 'Perla', charm: 'Dije' }
 
 function Range({ label, value, onChange }: { label: string; value: number; onChange: (value: number) => void }) {

@@ -32,11 +32,21 @@ export const SEED_SETTINGS: Settings = {
   slotStepMin: 30,
   minNoticeHours: 12,
   maxDaysAhead: 45,
+  cancelHours: 24,
   whatsapp: '5493446571429',
   instagram: 'stefania.studionails',
   address: '',
   paymentsMode: 'simulated',
+  transferAlias: '',
+  transferHolder: '',
+  mpLink: '',
   policies: SEED_POLICIES,
+  waTemplates: {
+    confirm: 'Hola {nombre}! Te confirmo tu turno de {servicio} el {fecha} a las {hora}. Código {codigo}. Te espero en el estudio.',
+    reminder: 'Hola {nombre}! Te recuerdo tu turno de mañana {fecha} a las {hora} ({servicio}). Venite con las uñas limpias y sin esmalte. Si no podés venir, avisame. Gracias!',
+    payment: 'Hola {nombre}! Para reservar tu turno del {fecha} a las {hora} falta la seña de {sena}. Avisame cuando la envíes.',
+    thanks: 'Gracias por venir, {nombre}! Espero que ames tus uñas. Si querés, etiquetame en Instagram así comparto tu diseño.',
+  },
 }
 
 export const SEED_HOURS: WorkingHours[] = [

@@ -1,20 +1,13 @@
-import { Component, lazy, Suspense, useRef, useState, type ReactNode } from 'react'
+import { useRef, useState } from 'react'
 import { ArrowLeft, Trash } from '@phosphor-icons/react'
-import { Button, Field, Select, Skeleton, TextArea, toast } from '../../components/ui'
-import { api, assetUrl } from '../../lib/api'
+import { Button, Field, Select, TextArea, toast } from '../../components/ui'
+import { Img } from '../../components/Img'
+import { api } from '../../lib/api'
 import type { Design, Service } from '../../lib/types'
 import LayerControls from './LayerControls'
 import { ErrorText, heading, panel, Switch, useAction } from './shared'
 
-const HandViewer = lazy(() => import('../../three/HandViewer'))
-
-class PreviewBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
-  state = { failed: false }
-  static getDerivedStateFromError() { return { failed: true } }
-  render() {
-    return this.state.failed ? <p role="status" className="rounded-[28px] bg-gris-50 p-6 text-choco">La vista 3D no está disponible en este navegador. Podés seguir editando el diseño.</p> : this.props.children
-  }
-}
+import DesignPreview from './DesignPreview'
 
 function designId(name: string) {
   const slug = name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
@@ -48,9 +41,7 @@ export default function DesignEditor({ initial, services, onClose, onSaved }: { 
     </div>
     <div className="grid items-start gap-5 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
       <div className="min-w-0 lg:sticky lg:top-5">
-        <PreviewBoundary><Suspense fallback={<Skeleton className="h-[420px] lg:h-[560px]" />}>
-          <HandViewer params={draft.params} focus className="h-[420px] overflow-hidden rounded-[28px] bg-gris-50 lg:h-[560px]" />
-        </Suspense></PreviewBoundary>
+        <DesignPreview params={draft.params} />
       </div>
       <form onSubmit={e => { e.preventDefault(); void action.run(save) }} className="min-w-0">
         <fieldset disabled={busy} className="grid min-w-0 gap-5">
@@ -66,14 +57,15 @@ export default function DesignEditor({ initial, services, onClose, onSaved }: { 
               const file = e.target.files?.[0]
               e.target.value = ''
               if (file) void upload.run(async () => {
-                const photoUrl = await api.uploadDesignPhoto(file, file.name)
+                const photoUrl = await api.uploadImage(file, file.name)
                 patch({ photoUrl })
                 toast.ok('Foto cargada.')
               })
             }} />
             {upload.busy && <p role="status" className="text-sm text-choco">Subiendo foto…</p>}
             <ErrorText message={upload.error} />
-            {draft.photoUrl && <img src={assetUrl(draft.photoUrl)} className="max-h-48 rounded-2xl object-contain" alt="Foto del diseño" />}
+            {draft.photoUrl && <Img src={draft.photoUrl} className="max-h-48 rounded-2xl object-contain" alt="Foto del diseño" />}
+            {draft.renderUrl && <figure><Img src={draft.renderUrl} alt="Render del diseño" className="max-h-48 rounded-2xl object-contain" /><figcaption className="mt-1 text-sm text-choco">Render del diseño</figcaption></figure>}
             <Field label="Orden" type="number" required value={Number.isFinite(draft.sort) ? draft.sort : ''} onChange={e => patch({ sort: e.target.valueAsNumber })} />
             <Switch label="Diseño activo" checked={draft.active} onChange={active => patch({ active })} />
           </section>

@@ -2,14 +2,16 @@ import { ArrowLeft, ArrowRight, CalendarBlank, Check, Clock, ImageSquare, Minus,
 import { AnimatePresence, motion } from 'motion/react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { Img } from '../../components/Img'
 import { Logo } from '../../components/Logo'
 import { Button, Chip, Field, Skeleton, TextArea, errMsg, toast } from '../../components/ui'
-import { api, assetUrl, thumbUrl } from '../../lib/api'
+import { api, assetUrl } from '../../lib/api'
 import { computeDeposit, computeExtras, computeTotal, money } from '../../lib/pricing'
 import { addDays, availableTimes, dayIsBookable, isoDate, parseIso } from '../../lib/slots'
 import { useCatalog, useDraft } from '../../lib/store'
 import type { BlockedSlot, BusySlot, Finish, NailShape } from '../../lib/types'
-import { COLORS, ColorPicker, FINISHES, SHAPES } from '../home/ColorLab'
+import { WaitlistForm } from './WaitlistForm'
+import { COLORS, ColorPicker, DEFAULT_COLOR, NailSwatch } from '../home/ColorLab'
 import { DesignCard } from '../home/Designs'
 
 const STEPS = ['Servicio', 'Diseño', 'Fecha', 'Tus datos', 'Seña'] as const
@@ -29,7 +31,8 @@ export default function Booking() {
   const [params] = useSearchParams()
   const { services, extras, designs, settings, hours, loaded, load } = useCatalog()
   const { draft, set } = useDraft()
-  const [step, setStep] = useState(0)
+  // si llega desde la reserva rápida con servicio y horario elegidos, arrancamos en el diseño
+  const [step, setStep] = useState(() => (params.get('servicio') && params.get('hora') ? 1 : 0))
   const [mode, setMode] = useState<DesignMode>('galeria')
   const [hoverDesign, setHoverDesign] = useState<string | null>(null)
   const [busy, setBusy] = useState<BusySlot[]>([])
@@ -49,6 +52,10 @@ export default function Booking() {
   useEffect(() => {
     const patch: Partial<typeof draft> = {}
     const sv = params.get('servicio')
+    const fecha = params.get('fecha')
+    const hora = params.get('hora')
+    if (fecha && /^\d{4}-\d{2}-\d{2}$/.test(fecha)) patch.date = fecha
+    if (hora && /^\d{2}:\d{2}$/.test(hora)) patch.time = hora
     const ds = params.get('diseno')
     const color = params.get('color')
     if (sv) patch.serviceId = sv
@@ -171,7 +178,7 @@ export default function Booking() {
           toast.error(`${f.name} pesa más de 12 MB.`)
           continue
         }
-        uploaded.push({ url: await api.uploadInspo(f, f.name), name: f.name })
+        uploaded.push({ url: await api.uploadImage(f, f.name), name: f.name })
       }
       set({ inspo: [...draft.inspo, ...uploaded] })
       if (uploaded.length) toast.ok(uploaded.length === 1 ? 'Imagen subida' : `${uploaded.length} imágenes subidas`)
@@ -187,14 +194,12 @@ export default function Booking() {
     if (!service || !draft.date || !draft.time) return
     setSubmitting(true)
     try {
-      const colorNote = draft.color
-        ? `Color liso: ${draft.color.name} (${FINISHES.find((f) => f.id === draft.color!.finish)?.label}), forma ${SHAPES.find((s) => s.id === draft.color!.shape)?.label}.`
-        : ''
       const booking = await api.createBooking({
         clientName: draft.clientName,
         phone: draft.phone,
         instagram: draft.instagram || undefined,
-        notes: [colorNote, draft.notes].filter(Boolean).join(' ') || undefined,
+        notes: draft.notes.trim() || undefined,
+        color: draft.color,
         serviceId: service.id,
         extras: selectedExtras.map((e) => ({ extraId: e.extraId, qty: e.qty })),
         designId: draft.designId,
@@ -380,13 +385,12 @@ export default function Booking() {
                     {mode === 'color' && (
                       <div className="mt-6">
                         <ColorPicker
-                          value={draft.color ?? { hex: '#570314', finish: 'gloss', shape: 'almond' }}
+                          compact
+                          value={draft.color ?? DEFAULT_COLOR}
                           onChange={(v) => set({ color: { ...v, name: COLORS.find((c) => c.hex === v.hex)?.name ?? v.name }, designId: undefined })}
                         />
                         {!draft.color && (
-                          <Button variant="outline" className="mt-5" onClick={() => set({ color: { hex: '#570314', name: 'Bordó Stefania', finish: 'gloss', shape: 'almond' }, designId: undefined })}>
-                            Elegir Bordó Stefania
-                          </Button>
+                          <p className="mt-4 rounded-2xl bg-gris-50 p-3 text-[14px] text-choco">Tocá un color para guardarlo en tu reserva.</p>
                         )}
                       </div>
                     )}
@@ -414,7 +418,7 @@ export default function Booking() {
                           <ul className="mt-4 grid grid-cols-3 gap-3 sm:grid-cols-5">
                             {draft.inspo.map((img, i) => (
                               <li key={img.url} className="group relative aspect-square overflow-hidden rounded-[18px] bg-gris-50">
-                                <img src={assetUrl(img.url)} alt={`Inspiración ${i + 1}`} className="h-full w-full object-cover" />
+                                <Img src={img.url} alt={`Inspiración ${i + 1}`} className="h-full w-full object-cover" />
                                 <button
                                   aria-label="Quitar imagen"
                                   onClick={() => set({ inspo: draft.inspo.filter((x) => x.url !== img.url) })}
@@ -445,8 +449,9 @@ export default function Booking() {
                     ) : bookableDays.length === 0 ? (
                       <div className="mt-8 rounded-[24px] bg-gris-50 p-8 text-center">
                         <CalendarBlank size={32} className="mx-auto text-bordo" />
-                        <p className="mt-3 font-semibold">No hay días disponibles por ahora.</p>
-                        <p className="text-choco">Escribile a Stefania por WhatsApp y te avisa cuando se libere un turno.</p>
+                        <p className="mt-3 font-semibold">No hay horarios libres por ahora.</p>
+                        <p className="text-choco">Anotate en la lista de espera y Stefania te avisa si se libera un turno.</p>
+                        <WaitlistForm serviceId={service?.id} defaultName={draft.clientName} defaultPhone={draft.phone} className="mt-6 text-left" />
                       </div>
                     ) : (
                       <>
@@ -477,7 +482,10 @@ export default function Booking() {
                           <div className="mt-6">
                             <h2 className="font-serif text-[26px] text-ink">{fmtDate(draft.date)}</h2>
                             {times.length === 0 ? (
-                              <p className="mt-3 rounded-[20px] bg-gris-50 p-5 text-choco">No quedan horarios libres este día para este servicio. Probá otro día.</p>
+                              <div className="mt-3 rounded-[20px] bg-gris-50 p-5">
+                                <p className="text-choco">No quedan horarios libres este día para este servicio. Probá otro día o anotate en la lista de espera.</p>
+                                <WaitlistForm serviceId={service?.id} defaultName={draft.clientName} defaultPhone={draft.phone} preferred={draft.date ? fmtDate(draft.date) : ''} className="mt-4" />
+                              </div>
                             ) : (
                               <div className="mt-3 grid grid-cols-3 gap-2 sm:grid-cols-5" role="radiogroup" aria-label="Horario">
                                 {times.map((t) => (
@@ -550,7 +558,7 @@ export default function Booking() {
                     <h1 id="h-pago" className="text-[clamp(36px,5vw,56px)] leading-none text-bordo">
                       Confirmá con la seña
                     </h1>
-                    <p className="mt-2 text-choco">Tu horario queda reservado 30 minutos mientras pagás.</p>
+                    <p className="mt-2 text-choco">Tu horario queda reservado 1 hora mientras dejás la seña.</p>
                     <div className="mt-6 overflow-hidden rounded-[28px] bg-[#f7f2ef] p-6 ring-1 ring-gris-100">
                       <p className="font-serif text-[22px] text-bordo">Tu próximo turno</p>
                       <dl className="mt-4 grid grid-cols-2 gap-4 text-[15px]">
@@ -581,10 +589,12 @@ export default function Booking() {
                       <p className="mt-2 text-right text-[13px] text-choco">El resto ({money(total - deposit)}) lo abonás en el estudio.</p>
                     </div>
                     <Button size="lg" className="mt-6 w-full" loading={submitting} onClick={submit} iconRight={<ArrowRight size={18} weight="bold" />}>
-                      Pagar seña con Mercado Pago
+                      Reservar y dejar la seña
                     </Button>
-                    {settings?.paymentsMode !== 'mercadopago' && (
+                    {settings?.paymentsMode === 'simulated' ? (
                       <p className="mt-3 text-center text-[13px] text-choco">Modo prueba: el pago es simulado y no se cobra nada.</p>
+                    ) : (
+                      <p className="mt-3 text-center text-[13px] text-choco">En el siguiente paso pagás por transferencia o Mercado Pago.</p>
                     )}
                   </section>
                 )}
@@ -599,10 +609,12 @@ export default function Booking() {
             <div className="relative aspect-[4/5] bg-gris-50">
               <AnimatePresence mode="wait">
                 {visual ? (
-                  <motion.img key={visual} src={assetUrl(visual)} alt="" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.45 }} className="absolute inset-0 h-full w-full object-cover" />
+                  <motion.div key={visual} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.45 }} className="absolute inset-0">
+                    <Img src={visual} alt="" className="h-full w-full object-cover" />
+                  </motion.div>
                 ) : draft.color ? (
                   <motion.div key="color" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="absolute inset-0 flex flex-col items-center justify-center gap-4">
-                    <span className="h-28 w-20 rounded-[50%_50%_44%_44%/62%_62%_38%_38%] shadow-[inset_-8px_-10px_20px_rgb(0_0_0/0.25),inset_8px_8px_16px_rgb(255_255_255/0.35)]" style={{ background: draft.color.hex }} />
+                    <NailSwatch hex={draft.color.hex} finish={draft.color.finish} shape={draft.color.shape} className="h-32 w-20" />
                     <span className="font-serif text-[26px]">{draft.color.name}</span>
                   </motion.div>
                 ) : (
@@ -618,7 +630,7 @@ export default function Booking() {
                 {draft.inspo.length > 0 && (
                   <div className="flex gap-1.5">
                     {draft.inspo.map((i) => (
-                      <img key={i.url} src={thumbUrl(i.url)} alt="" className="h-10 w-10 rounded-lg object-cover" />
+                      <Img key={i.url} src={i.url} alt="" className="h-10 w-10 rounded-lg object-cover" />
                     ))}
                   </div>
                 )}

@@ -1,16 +1,14 @@
 import { CalendarBlank } from '@phosphor-icons/react'
-import { isoDate, toMin, toTime } from '../../lib/slots'
+import { toMin, toTime } from '../../lib/slots'
 import type { Booking, BookingStatus } from '../../lib/types'
-import { dateLabel } from './shared'
+import { dateLabel, studioDate } from './shared'
 
-export const statusNames: Record<BookingStatus, string> = {
-  paid: 'Por confirmar', confirmed: 'Confirmado', pending_payment: 'Pendiente de pago',
-  completed: 'Completado', rejected: 'Rechazado', cancelled: 'Cancelado',
-}
+import { statusNames } from './labels'
 const muted = 'border border-gris/60 bg-gris-50 text-choco/75'
 const styles: Record<BookingStatus, string> = {
   paid: 'bg-bordo text-white', confirmed: 'border border-gris border-l-4 border-l-bordo bg-white text-ink',
   pending_payment: 'border border-dashed border-gris bg-gris-100 text-choco',
+  payment_review: 'border border-bordo bg-bordo-50 text-bordo', no_show: 'border border-dashed border-choco bg-gris-50 text-ink',
   completed: muted, rejected: muted + ' line-through', cancelled: muted + ' line-through',
 }
 
@@ -35,18 +33,18 @@ function positionBookings(bookings: Booking[]) {
   return positions
 }
 
-type Props = { days: string[]; bookings: Booking[]; onOpen: (b: Booking) => void; filtered: boolean }
-export default function Calendar({ days, bookings, onOpen, filtered }: Props) {
+type Props = { days: string[]; bookings: Booking[]; onOpen: (b: Booking) => void; filtered: boolean; list: boolean }
+export default function Calendar({ days, bookings, onOpen, filtered, list }: Props) {
   const startHour = Math.floor(Math.min(480, ...bookings.map(b => toMin(b.time))) / 60)
   const endHour = Math.ceil(Math.max(1260, ...bookings.map(b => toMin(b.time) + b.durationMin)) / 60)
   const hours = Array.from({ length: endHour - startHour + 1 }, (_, i) => i + startHour)
-  const today = isoDate(new Date())
+  const today = studioDate()
   const daily = days.map(date => ({ date, bookings: bookings.filter(b => b.date === date) }))
   const empty = bookings.length === 0
   return <>
     {empty && <div className="mb-4 flex items-center gap-3 rounded-2xl bg-gris-50 p-4 text-sm text-choco"><CalendarBlank size={23} />
       {filtered ? 'No hay turnos con este estado en la semana.' : 'Tu semana está libre. Podés agregar un turno desde «Nuevo turno».'}</div>}
-    <div className="hidden overflow-hidden rounded-[28px] ring-1 ring-gris lg:block">
+    {!list && <div className="hidden overflow-hidden rounded-[28px] ring-1 ring-gris lg:block">
       <div className="grid grid-cols-[3.5rem_repeat(7,minmax(0,1fr))] bg-gris-50 text-center">
         <div aria-hidden="true" />
         {days.map(date => <div key={date} className="border-l border-gris/50 py-2">
@@ -69,8 +67,8 @@ export default function Calendar({ days, bookings, onOpen, filtered }: Props) {
           })}
         </div>)}
       </div>
-    </div>
-    <div className="space-y-5 lg:hidden">{daily.filter(d => d.bookings.length > 0).map(day =>
+    </div>}
+    <div className={list ? "space-y-5" : "space-y-5 lg:hidden"}>{daily.filter(d => d.bookings.length > 0).map(day =>
       <section key={day.date}>
         <h3 className="mb-2 text-2xl capitalize text-bordo">{dateLabel(day.date, { weekday: 'long', day: 'numeric', month: 'long' })}</h3>
         <div className="grid gap-2">{day.bookings.map(b => <button key={b.id} onClick={() => onOpen(b)} className={'grid grid-cols-[auto_1fr] items-start gap-3 rounded-2xl p-3 text-left text-sm ' + styles[b.status]}>
