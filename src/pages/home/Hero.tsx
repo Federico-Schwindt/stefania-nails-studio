@@ -1,21 +1,15 @@
 import { ArrowRight, ArrowUpRight, InstagramLogo, List, Sparkle, X } from '@phosphor-icons/react'
 import { AnimatePresence, motion, useMotionValue, useReducedMotion, useSpring, useTransform } from 'motion/react'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Logo } from '../../components/Logo'
 import { assetUrl, thumbUrl } from '../../lib/api'
 import { money } from '../../lib/pricing'
 import { useCatalog } from '../../lib/store'
 
-const INTRO_KEY = 'sns-intro-seen'
 const ease = [0.16, 1, 0.3, 1] as const
-const VIDEO = assetUrl('video/intro.mp4')!
-const VIDEO_WEBM = assetUrl('video/intro.webm')!
-const POSTER = assetUrl('video/intro-poster.webp')!
 const OWNER = assetUrl('img/estudio/stefania-hero.webp')!
 const OWNER_SM = assetUrl('img/estudio/stefania-hero-sm.webp')!
-/** Momento del video en que la uña ya quedó esmaltada: ahí el bordó inunda la pantalla. */
-const FLOOD_AT = 2.7
 
 function MaskLine({ show, delay = 0, className = '', pad = '-mt-[0.2em] pt-[0.2em]', children }: { show: boolean; delay?: number; className?: string; pad?: string; children: React.ReactNode }) {
   return (
@@ -39,31 +33,17 @@ function scrollToId(e: React.MouseEvent, href: string) {
   document.querySelector(href)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
 }
 
-type Phase = 'loading' | 'playing' | 'flood' | 'morph' | 'done'
-
 export function Hero() {
   const reduce = useReducedMotion()
   const navigate = useNavigate()
   const { designs, services, settings } = useCatalog()
-  const wantsIntro = useMemo(() => {
-    try {
-      return !sessionStorage.getItem(INTRO_KEY) && !window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    } catch {
-      return true
-    }
-  }, [])
-  const [phase, setPhase] = useState<Phase>(wantsIntro ? 'loading' : 'done')
   const [menu, setMenu] = useState(false)
-  const frame = useRef<HTMLDivElement>(null)
-  const video = useRef<HTMLVideoElement>(null)
-  const [mobile, setMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth < 768)
+  // animación de entrada al cargar la portada
+  const [show, setShow] = useState(false)
   useEffect(() => {
-    const on = () => setMobile(window.innerWidth < 768)
-    window.addEventListener('resize', on)
-    return () => window.removeEventListener('resize', on)
+    const id = requestAnimationFrame(() => setShow(true))
+    return () => cancelAnimationFrame(id)
   }, [])
-
-  const show = phase === 'morph' || phase === 'done'
   const featured = useMemo(() => designs.find((d) => d.id === 'francesita-dorada') ?? designs.find((d) => d.photoUrl), [designs])
   const featuredService = services.find((s) => s.id === featured?.serviceId)
 
@@ -86,106 +66,20 @@ export function Hero() {
     return () => window.removeEventListener('pointermove', onMove)
   }, [mx, my, reduce])
 
-  // bloquear scroll durante la intro
-  useEffect(() => {
-    document.documentElement.style.overflow = phase === 'done' || phase === 'morph' ? '' : 'hidden'
-    return () => {
-      document.documentElement.style.overflow = ''
-    }
-  }, [phase])
-
-  const finished = useRef(false)
-  const markSeen = () => {
-    try {
-      sessionStorage.setItem(INTRO_KEY, '1')
-    } catch {
-      /* noop */
-    }
-  }
-  /** El esmalte inunda la pantalla y después se contrae hasta formar el panel. */
-  const reveal = useCallback(() => {
-    if (finished.current) return
-    finished.current = true
-    markSeen()
-    setPhase('flood')
-    setTimeout(() => setPhase('morph'), 750)
-    setTimeout(() => setPhase('done'), 750 + 1300)
-  }, [])
-  const skip = useCallback(() => {
-    finished.current = true
-    markSeen()
-    setPhase('done')
-  }, [])
-
-  // arranque del video
-  useEffect(() => {
-    if (phase !== 'loading') return
-    const v = video.current
-    if (!v) return
-    let started = false
-    const start = () => {
-      if (started) return
-      started = true
-      if (document.visibilityState !== 'visible') return skip()
-      v.play()
-        .then(() => setPhase('playing'))
-        .catch(() => skip())
-    }
-    v.addEventListener('canplaythrough', start, { once: true })
-    if (v.readyState >= 4) start()
-    const fallback = setTimeout(() => (v.readyState >= 2 ? start() : skip()), 6000)
-    return () => {
-      clearTimeout(fallback)
-      v.removeEventListener('canplaythrough', start)
-    }
-  }, [phase, skip])
-
-  // si el navegador pausa el video (pestaña oculta) lo retomamos; si se traba, revelamos igual
-  useEffect(() => {
-    if (phase !== 'playing') return
-    const v = video.current
-    if (!v) return
-    let last = v.currentTime
-    let stuck = 0
-    const onVis = () => {
-      if (document.visibilityState === 'visible' && v.paused) v.play().catch(() => skip())
-    }
-    document.addEventListener('visibilitychange', onVis)
-    const watchdog = setInterval(() => {
-      // con la pestaña oculta nadie ve la intro: pasamos directo a la portada
-      if (document.visibilityState !== 'visible') return skip()
-      if (v.paused) v.play().catch(() => skip())
-      stuck = v.currentTime === last ? stuck + 1 : 0
-      last = v.currentTime
-      if (stuck >= 6) skip()
-    }, 500)
-    return () => {
-      document.removeEventListener('visibilitychange', onVis)
-      clearInterval(watchdog)
-    }
-  }, [phase, skip])
-
-  const onTime = () => {
-    const v = video.current
-    if (v && phase === 'playing' && v.currentTime >= Math.min(FLOOD_AT, (v.duration || 99) - 0.2)) reveal()
-  }
-
   const chrome = { initial: { opacity: 0, y: -12 }, animate: { opacity: show ? 1 : 0, y: show ? 0 : -12 }, transition: { duration: 0.8, delay: 0.35, ease } }
-  const panelInset = mobile ? 'inset(50% 8px 8px 8px round 26px)' : 'inset(40% 12px 12px 12px round 32px)'
 
   return (
     <section aria-label="Portada" className="relative bg-[#f3efee] p-2 sm:p-3">
       <div
-        ref={frame}
         className="relative mx-auto min-h-[calc(100dvh-16px)] max-w-[1480px] overflow-hidden rounded-[30px] bg-white sm:min-h-[calc(100dvh-24px)] sm:rounded-[36px] md:min-h-[max(700px,calc(100dvh-24px))]"
       >
-        {/* Panel bordó: se inunda desde el centro cuando termina el video */}
+        {/* Panel bordó */}
         <motion.div
           aria-hidden
-          className="absolute inset-x-2 bottom-2 top-[50%] rounded-[26px] bg-bordo sm:inset-x-3 sm:bottom-3 md:top-[40%] md:rounded-[32px]"
-          initial={false}
-          animate={{ opacity: phase === 'done' || !wantsIntro ? 1 : 0 }}
-          transition={{ duration: 0 }}
+          className="absolute inset-x-2 bottom-2 top-[50%] origin-bottom rounded-[26px] bg-bordo sm:inset-x-3 sm:bottom-3 md:top-[40%] md:rounded-[32px]"
+          initial={reduce ? false : { opacity: 0, scaleY: 0.92 }}
+          animate={{ opacity: 1, scaleY: 1 }}
+          transition={{ duration: 1, ease }}
         >
           <div className="absolute inset-0 rounded-[inherit] bg-[radial-gradient(120%_80%_at_50%_0%,rgb(255_255_255/0.10),transparent_60%)]" />
           <div className="absolute -left-24 bottom-[-30%] h-[70%] w-[45%] rounded-full bg-bordo-500/50 blur-3xl" />
@@ -224,7 +118,7 @@ export function Hero() {
             className="relative h-full origin-bottom"
             initial={false}
             animate={{ y: show ? 0 : 70, opacity: show ? 1 : 0, scale: show ? 1 : 0.96 }}
-            transition={{ duration: 1.2, delay: phase === 'morph' ? 0.35 : 0, ease }}
+            transition={{ duration: 1.2, delay: 0.25, ease }}
             style={{ rotateY: rotY, rotateX: rotX, translateX: tx }}
           >
             <img
@@ -362,43 +256,6 @@ export function Hero() {
           </div>
         </div>
 
-        {/* Intro: la gota de esmalte pinta la uña, el bordó inunda la pantalla y se convierte en el panel */}
-        {wantsIntro && phase !== 'done' && (
-          <>
-            <motion.div className="absolute inset-0 z-40 bg-white" animate={{ opacity: phase === 'morph' ? 0 : 1 }} transition={{ duration: 0 }}>
-              {phase !== 'morph' && (
-                <video ref={video} className="h-full w-full object-cover" muted playsInline preload="auto" poster={POSTER} onTimeUpdate={onTime} aria-hidden>
-                  <source src={VIDEO_WEBM} type="video/webm" />
-                  <source src={VIDEO} type="video/mp4" />
-                </video>
-              )}
-              <AnimatePresence>
-                {phase === 'loading' && (
-                  <motion.div exit={{ opacity: 0 }} className="absolute inset-0 flex items-center justify-center bg-white">
-                    <Logo className="h-16 animate-pulse text-bordo" />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
-            {(phase === 'flood' || phase === 'morph') && (
-              <motion.div
-                aria-hidden
-                className={`absolute inset-0 bg-bordo ${phase === 'flood' ? 'z-[45]' : 'z-[8]'}`}
-                initial={phase === 'flood' ? { clipPath: 'circle(0% at 50% 42%)' } : { clipPath: 'inset(0% 0px 0px 0px round 0px)' }}
-                animate={phase === 'flood' ? { clipPath: 'circle(80% at 50% 42%)' } : { clipPath: panelInset }}
-                transition={phase === 'flood' ? { duration: 0.75, ease: [0.7, 0, 0.84, 0] } : { duration: 1.15, ease: [0.65, 0, 0.35, 1] }}
-                key={phase}
-              >
-                <div className="absolute inset-0 bg-[radial-gradient(120%_80%_at_50%_40%,rgb(255_255_255/0.12),transparent_60%)]" />
-              </motion.div>
-            )}
-            {(phase === 'playing' || phase === 'loading') && (
-              <button onClick={skip} className="absolute bottom-5 right-5 z-50 rounded-full bg-ink/5 px-4 py-2 text-[13px] font-medium text-ink/70 backdrop-blur transition hover:bg-ink/10">
-                Saltar intro
-              </button>
-            )}
-          </>
-        )}
       </div>
 
       {/* Menú mobile */}
