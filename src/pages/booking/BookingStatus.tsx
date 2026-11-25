@@ -124,7 +124,7 @@ export default function BookingStatus() {
           <Link to="/" className="inline-flex h-10 items-center gap-2 rounded-full px-3 text-[15px] font-medium hover:bg-ink/5">
             <ArrowLeft size={18} /> Inicio
           </Link>
-          <Logo className="h-9 text-accent" />
+          <Logo className="h-9 text-ink" />
           <span className="w-[72px]" />
         </div>
 
@@ -156,7 +156,7 @@ export default function BookingStatus() {
                   <p className="font-serif text-[30px] leading-none text-ink">Tu próximo turno</p>
                   <p className="mt-2 text-[14px] text-choco">{st.text}</p>
                 </div>
-                <Logo className="hidden h-12 shrink-0 text-accent sm:block" />
+                <Logo className="hidden h-12 shrink-0 text-ink sm:block" />
               </div>
               <dl className="mt-6 grid grid-cols-2 gap-x-6 gap-y-5">
                 <div className="border-b border-ink/20 pb-2">
@@ -224,7 +224,7 @@ export default function BookingStatus() {
                   href={`https://wa.me/${wa}?text=${encodeURIComponent(waText)}`}
                   target="_blank"
                   rel="noreferrer"
-                  className={`inline-flex h-11 items-center justify-center gap-2 rounded-full bg-ink px-5 text-[15px] font-semibold text-white transition hover:bg-black/85 ${booking.status === 'pending_payment' ? 'sm:col-span-2' : ''}`}
+                  className={`inline-flex h-11 items-center justify-center gap-2 rounded-full bg-ink px-5 text-[15px] font-semibold text-white transition hover:bg-ink/85 ${booking.status === 'pending_payment' ? 'sm:col-span-2' : ''}`}
                 >
                   <WhatsappLogo size={18} weight="fill" /> Escribir a Stefania
                 </a>

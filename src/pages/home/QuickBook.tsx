@@ -54,7 +54,7 @@ export function QuickBook({ className = '' }: { className?: string }) {
                 onClick={() => setServiceId(s.id)}
                 className={`rounded-2xl px-3.5 py-2.5 text-left transition ${on ? 'bg-ink text-white shadow-[0_10px_24px_-12px_rgb(23_21_22/0.7)]' : 'bg-white/70 text-ink ring-1 ring-black/[0.06] hover:ring-ink/40'}`}
               >
-                <span className="block truncate text-[14px] font-semibold leading-tight">{s.name}</span>
+                <span className="line-clamp-2 block text-[14px] font-semibold leading-tight">{s.name}</span>
                 <span className={`mt-1 flex items-center justify-between text-[12px] ${on ? 'text-white/80' : 'text-choco'}`}>
                   <span>
                     {s.priceFrom ? 'desde ' : ''}
@@ -105,7 +105,7 @@ export function QuickBook({ className = '' }: { className?: string }) {
 
       <button
         onClick={() => navigate(`/reservar${serviceId ? `?servicio=${serviceId}` : ''}`)}
-        className="group mt-5 inline-flex h-12 w-full items-center justify-between rounded-full bg-ink pl-5 pr-1.5 text-[15px] font-semibold text-white transition hover:bg-black/85 active:scale-[0.99]"
+        className="group mt-5 inline-flex h-12 w-full items-center justify-between rounded-full bg-ink pl-5 pr-1.5 text-[15px] font-semibold text-white transition hover:bg-ink/85 active:scale-[0.99]"
       >
         Ver todos los horarios
         <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white text-ink transition group-hover:translate-x-0.5">

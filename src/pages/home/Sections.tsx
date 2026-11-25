@@ -18,14 +18,14 @@ const reveal = (i = 0) => ({
 /* ---------------- Conocé a Stefania ---------------- */
 export function About() {
   return (
-    <section className="mx-auto max-w-[1400px] px-4 py-20 sm:px-8 md:py-28">
+    <section className="mx-auto max-w-[1440px] px-4 py-20 sm:px-8 md:py-28">
       <div className="grid items-center gap-10 md:grid-cols-12 md:gap-6">
         <motion.div {...reveal()} className="relative md:col-span-5 md:col-start-1">
           <img src={assetUrl('img/estudio/stefania-estudio.webp')} alt="Stefania, dueña del estudio, sentada en su mesa de trabajo" className="aspect-[4/5] w-full rounded-[32px] object-cover" loading="lazy" />
           <img
             src={assetUrl('img/estudio/stefania-fondo.webp')}
             alt="Retrato de Stefania con uñas bordó"
-            className="absolute -bottom-8 -right-4 hidden aspect-[4/5] w-[42%] rounded-[24px] object-cover ring-8 ring-white sm:block md:-right-16"
+            className="absolute -bottom-8 -right-4 hidden aspect-[4/5] w-[42%] rounded-[24px] object-cover ring-8 ring-coal sm:block md:-right-16"
             loading="lazy"
           />
         </motion.div>
@@ -36,7 +36,7 @@ export function About() {
           </p>
           <p className="mt-4 max-w-[52ch] text-choco">Traé tu idea o elegila de su galería: la charlan al empezar y se adapta a tu uña.</p>
           <div className="mt-8 flex items-center gap-4">
-            <Logo className="h-12 text-accent" />
+            <Logo className="h-12 text-ink" />
           </div>
         </motion.div>
       </div>
@@ -77,8 +77,8 @@ export function Works() {
   const [all, setAll] = useState(false)
   const shown = all ? WORKS : WORKS.slice(0, 12)
   return (
-    <section id="trabajos" className="scroll-mt-24 bg-white py-20 md:py-28">
-      <div className="mx-auto max-w-[1400px] px-4 sm:px-8">
+    <section id="trabajos" className="scroll-mt-24 py-20 md:py-28">
+      <div className="mx-auto max-w-[1440px] px-4 sm:px-8">
         <h2 className="max-w-3xl text-[clamp(44px,6vw,80px)] leading-[0.95] text-ink">Trabajos reales del estudio</h2>
         <p className="mt-4 max-w-[48ch] text-choco">Fotos sin filtros de clientas reales. Tocá una para verla grande.</p>
         <div className="mt-10 columns-2 gap-3 sm:gap-4 md:columns-3 lg:columns-4">
@@ -108,7 +108,7 @@ export function Works() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[70] flex items-center justify-center bg-ink/85 p-4 backdrop-blur"
+            className="fixed inset-0 z-[70] flex items-center justify-center bg-coal/90 p-4 backdrop-blur"
             onClick={() => setOpen(null)}
             role="dialog"
             aria-modal="true"
@@ -121,7 +121,7 @@ export function Works() {
               alt={WORKS[open].alt}
               className="max-h-[88dvh] max-w-full rounded-[24px] object-contain"
             />
-            <button aria-label="Cerrar" className="absolute right-5 top-5 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white text-ink">
+            <button aria-label="Cerrar" className="absolute right-5 top-5 inline-flex h-11 w-11 items-center justify-center rounded-full bg-bone text-coal">
               <X size={20} />
             </button>
           </motion.div>
@@ -133,10 +133,10 @@ export function Works() {
 
 /* ---------------- Cómo reservar (pila fija al hacer scroll) ---------------- */
 const STEPS = [
-  { icon: Sparkle, title: 'Elegí tu servicio', text: 'Semipermanente, capping, soft gel o sistema dual. Ves el precio y la duración antes de seguir.', img: 'img/trabajos/baby-boomer.webp', tone: 'bg-white' },
-  { icon: ImageSquare, title: 'Mostrá tu idea', text: 'Elegí un diseño de la galería, probá un color en 3D o subí tus fotos de inspiración.', img: 'img/disenos/florcitas.webp', tone: 'bg-gris-50' },
-  { icon: CalendarCheck, title: 'Reservá día y hora', text: 'Ves sólo los horarios libres reales. Stefania confirma tu turno desde su agenda.', img: 'img/marca/tarjeta.webp', tone: 'bg-gris-50' },
-  { icon: CreditCard, title: 'Dejá la seña', text: 'Por transferencia o Mercado Pago, en un minuto. Se descuenta del total el día del turno.', img: 'img/estudio/estudio.webp', tone: 'bg-ink text-white' },
+  { icon: Sparkle, title: 'Elegí tu servicio', text: 'Semipermanente, capping, soft gel o sistema dual. Ves el precio y la duración antes de seguir.', img: 'img/trabajos/baby-boomer.webp', tone: 'bg-[#141213] ring-1 ring-bone/[0.07]' },
+  { icon: ImageSquare, title: 'Mostrá tu idea', text: 'Elegí un diseño de la galería, un color liso o subí tus fotos de inspiración.', img: 'img/disenos/florcitas.webp', tone: 'bg-[#181516] ring-1 ring-bone/[0.07]' },
+  { icon: CalendarCheck, title: 'Reservá día y hora', text: 'Ves sólo los horarios libres reales. Stefania confirma tu turno desde su agenda.', img: 'img/marca/tarjeta.webp', tone: 'bg-accent text-bone ring-1 ring-bone/10' },
+  { icon: CreditCard, title: 'Dejá la seña', text: 'Por transferencia o Mercado Pago, en un minuto. Se descuenta del total el día del turno.', img: 'img/estudio/estudio.webp', tone: 'bg-bone text-coal' },
 ]
 
 export function HowTo() {
@@ -146,17 +146,18 @@ export function HowTo() {
         <h2 className="mb-10 text-[clamp(44px,6vw,80px)] leading-[0.95] text-ink md:mb-14">Reservá en cuatro pasos</h2>
         <div className="relative">
           {STEPS.map((s, i) => {
-            const dark = s.tone.startsWith('bg-ink text')
+            const accent = s.tone.startsWith('bg-accent')
+            const bone = s.tone.startsWith('bg-bone')
             return (
             <div key={s.title} className="sticky mb-6" style={{ top: `${24 + i * 22}px` }}>
-              <article className={`grid min-h-[340px] overflow-hidden rounded-[32px] shadow-[0_30px_60px_-40px_rgb(23_21_22/0.5)] md:grid-cols-2 ${s.tone}`}>
+              <article className={`grid min-h-[340px] overflow-hidden rounded-[32px] shadow-[0_40px_80px_-40px_rgb(0_0_0/0.9)] md:grid-cols-2 ${s.tone}`}>
                 <div className="flex flex-col justify-between p-8 md:p-12">
-                  <span className={`inline-flex h-12 w-12 items-center justify-center rounded-full ${dark ? 'bg-white/15' : 'bg-ink text-white'}`}>
+                  <span className={`inline-flex h-12 w-12 items-center justify-center rounded-full ${accent ? 'bg-bone/15 text-bone' : bone ? 'bg-coal text-bone' : 'bg-accent text-bone'}`}>
                     <s.icon size={22} />
                   </span>
                   <div className="mt-10">
                     <h3 className="text-[clamp(36px,4vw,56px)] leading-none">{s.title}</h3>
-                    <p className={`mt-4 max-w-[38ch] text-[17px] ${dark ? 'text-white/80' : 'text-choco'}`}>{s.text}</p>
+                    <p className={`mt-4 max-w-[38ch] text-[17px] ${accent ? 'text-bone/80' : bone ? 'text-coal/70' : 'text-choco'}`}>{s.text}</p>
                   </div>
                 </div>
                 <div className="relative hidden md:block">
@@ -168,7 +169,7 @@ export function HowTo() {
           })}
         </div>
         <div className="mt-6 flex justify-center">
-          <Link to="/reservar" className="group inline-flex h-14 items-center gap-6 rounded-full bg-ink pl-7 pr-2 text-[16px] font-semibold text-white transition hover:bg-black">
+          <Link to="/reservar" className="group inline-flex h-14 items-center gap-6 rounded-full bg-ink pl-7 pr-2 text-[16px] font-semibold text-white transition hover:bg-ink/85">
             Reservar turno
             <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white text-ink transition group-hover:rotate-45">
               <ArrowUpRight size={18} weight="bold" />
@@ -189,7 +190,7 @@ export function Policies() {
   const items = all.length ? [all[hi], ...all.filter((_, i) => i !== hi)] : []
   if (!items.length) return null
   return (
-    <section id="politicas" className="mx-auto max-w-[1400px] scroll-mt-24 px-4 py-20 sm:px-8 md:py-28">
+    <section id="politicas" className="mx-auto max-w-[1440px] scroll-mt-24 px-4 py-20 sm:px-8 md:py-28">
       <div className="grid gap-10 lg:grid-cols-[minmax(0,4fr)_minmax(0,7fr)]">
         <motion.div {...reveal()}>
           <h2 className="text-[clamp(44px,6vw,80px)] leading-[0.95] text-ink">Antes de tu turno</h2>
@@ -201,9 +202,9 @@ export function Policies() {
             <motion.li
               key={i}
               {...reveal(i % 2)}
-              className={`rounded-[24px] p-6 ${i === 0 ? 'bg-ink text-white sm:col-span-2' : 'bg-gris-50 ring-1 ring-gris-100'} ${i === items.length - 1 && items.length % 2 === 0 ? 'sm:col-span-2' : ''}`}
+              className={`rounded-[24px] p-6 ${i === 0 ? 'bg-accent text-bone ring-1 ring-bone/10 sm:col-span-2' : 'glass-light'} ${i === items.length - 1 && items.length % 2 === 0 ? 'sm:col-span-2' : ''}`}
             >
-              <span className={`font-serif text-[40px] leading-none ${i === 0 ? 'text-white/40' : 'text-ink/30'}`}>{String(i + 1).padStart(2, '0')}</span>
+              <span className={`font-serif text-[40px] leading-none ${i === 0 ? 'text-bone/45' : 'text-accent-soft/80'}`}>{String(i + 1).padStart(2, '0')}</span>
               <p className={`mt-3 leading-relaxed ${i === 0 ? 'text-[20px] font-medium' : 'text-[16px] text-ink/85'}`}>{p}</p>
             </motion.li>
           ))}
@@ -223,20 +224,21 @@ export function Contact() {
   const open = [1, 2, 3, 4, 5, 6, 0].map((d) => hours.find((h) => h.weekday === d)).filter(Boolean)
   return (
     <section id="estudio" className="scroll-mt-24 p-2 sm:p-3">
-      <div className="relative mx-auto max-w-[1480px] overflow-hidden rounded-[30px] bg-ink text-white sm:rounded-[36px]">
+      <div className="relative mx-auto max-w-[1440px] overflow-hidden rounded-[30px] bg-coal text-bone ring-1 ring-bone/10 sm:rounded-[36px]">
         <img src={assetUrl('img/estudio/estudio.webp')} alt="El estudio: mesa de manicura, lámpara y el cartel de Stefania Nail Studio en la pared" className="absolute inset-0 h-full w-full object-cover opacity-45" loading="lazy" />
-        <div className="absolute inset-0 bg-gradient-to-r from-ink via-ink/80 to-ink/20" />
+        <div className="absolute inset-0 bg-gradient-to-r from-coal via-coal/80 to-coal/20" />
+        <div className="absolute inset-0 bg-[radial-gradient(60%_80%_at_0%_100%,rgb(87_3_20/0.55),transparent_70%)]" />
         <div className="relative grid gap-10 px-6 py-16 sm:px-10 md:grid-cols-2 md:py-24 lg:px-16">
           <div>
             <h2 className="text-[clamp(44px,6vw,84px)] leading-[0.95]">Te esperamos en el estudio</h2>
-            {settings?.address && <p className="mt-4 text-white/75">{settings.address}</p>}
+            {settings?.address && <p className="mt-4 text-bone/75">{settings.address}</p>}
             <div className="mt-8 flex flex-wrap gap-3">
               {wa && (
                 <a
                   href={`https://wa.me/${wa}?text=${encodeURIComponent('Hola Stefania! Quería consultar por un turno.')}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex h-14 items-center gap-2 rounded-full bg-white px-6 text-[16px] font-semibold text-ink transition hover:bg-gris-50"
+                  className="inline-flex h-14 items-center gap-2 rounded-full bg-bone px-6 text-[16px] font-semibold text-coal transition hover:bg-bone/90 active:scale-[0.98]"
                 >
                   <WhatsappLogo size={20} weight="fill" /> Escribinos por WhatsApp
                 </a>
@@ -250,12 +252,12 @@ export function Contact() {
           </div>
           {open.length > 0 && (
             <div className="glass self-end rounded-[28px] p-6 md:ml-auto md:w-[360px]">
-              <p className="mb-3 text-[14px] font-semibold text-white/80">Horarios</p>
+              <p className="mb-3 text-[14px] font-semibold text-bone/80">Horarios</p>
               <dl className="grid grid-cols-[1fr_auto] gap-x-6 gap-y-2 text-[15px]">
                 {open.map((h) => (
                   <div key={h!.weekday} className="contents">
-                    <dt className="text-white/75">{DAYS[h!.weekday]}</dt>
-                    <dd className={h!.enabled ? 'text-white' : 'text-white/45'}>{h!.enabled ? `${h!.start} a ${h!.end}` : 'Cerrado'}</dd>
+                    <dt className="text-bone/75">{DAYS[h!.weekday]}</dt>
+                    <dd className={h!.enabled ? 'text-bone' : 'text-bone/45'}>{h!.enabled ? `${h!.start} a ${h!.end}` : 'Cerrado'}</dd>
                   </div>
                 ))}
               </dl>
@@ -269,9 +271,9 @@ export function Contact() {
 
 export function Footer() {
   return (
-    <footer className="mx-auto max-w-[1400px] px-4 pb-10 pt-16 sm:px-8">
+    <footer className="mx-auto max-w-[1440px] px-4 pb-10 pt-16 sm:px-8">
       <div className="flex flex-col items-start justify-between gap-8 md:flex-row md:items-end">
-        <Logo className="h-20 text-accent md:h-28" />
+        <Logo className="h-20 text-ink md:h-28" />
         <nav aria-label="Pie" className="flex flex-wrap gap-x-6 gap-y-2 text-[15px] text-ink/70">
           <a href="#servicios" className="hover:text-ink">Servicios</a>
           <a href="#disenos" className="hover:text-ink">Diseños</a>
@@ -300,7 +302,7 @@ export function Faq() {
     { q: '¿Cuánto dura cada servicio?', a: 'Depende del servicio: desde 1 hora un semipermanente hasta 2 horas y media un sistema dual. Lo ves al elegirlo.' },
   ]
   return (
-    <section id="preguntas" className="scroll-mt-24 bg-gris-50 py-20 md:py-28">
+    <section id="preguntas" className="scroll-mt-24 py-20 md:py-28">
       <div className="mx-auto grid max-w-[1200px] gap-10 px-4 sm:px-8 lg:grid-cols-[minmax(0,4fr)_minmax(0,7fr)]">
         <div>
           <h2 className="text-[clamp(44px,6vw,80px)] leading-[0.95] text-ink">Preguntas frecuentes</h2>
@@ -310,10 +312,10 @@ export function Faq() {
           {items.map((it, i) => {
             const on = open === i
             return (
-              <li key={it.q} className="overflow-hidden rounded-[22px] bg-white ring-1 ring-gris-100">
+              <li key={it.q} className="glass-light overflow-hidden rounded-[22px]">
                 <button onClick={() => setOpen(on ? null : i)} aria-expanded={on} className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left text-[17px] font-semibold text-ink">
                   {it.q}
-                  <CaretDown size={18} className={`shrink-0 text-ink transition ${on ? 'rotate-180' : ''}`} />
+                  <CaretDown size={18} className={`shrink-0 transition ${on ? 'rotate-180 text-accent-soft' : 'text-ink'}`} />
                 </button>
                 <AnimatePresence initial={false}>
                   {on && (

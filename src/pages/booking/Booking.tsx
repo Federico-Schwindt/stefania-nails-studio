@@ -226,7 +226,7 @@ export default function Booking() {
     <div className="min-h-[100dvh] bg-studio">
       <div ref={topRef} />
       {/* barra superior */}
-      <header className="sticky top-0 z-30 border-b border-gris-100 bg-white/85 backdrop-blur">
+      <header className="sticky top-0 z-30 border-b border-bone/[0.07] bg-coal/70 backdrop-blur-xl">
         <div className="mx-auto flex h-16 max-w-[1280px] items-center justify-between gap-4 px-4 sm:px-6">
           <button
             onClick={() => (step === 0 ? navigate('/') : go(step - 1))}
@@ -235,7 +235,7 @@ export default function Booking() {
             <ArrowLeft size={18} /> <span className="hidden sm:inline">{step === 0 ? 'Volver al inicio' : 'Atrás'}</span>
           </button>
           <Link to="/" aria-label="Inicio">
-            <Logo className="h-9 text-accent" />
+            <Logo className="h-9 text-ink" />
           </Link>
           <span className="w-[88px] text-right text-[13px] font-medium text-choco sm:w-[140px]">
             {step + 1} de {STEPS.length}
@@ -649,7 +649,7 @@ export default function Booking() {
 
       {/* barra inferior */}
       {step < 4 && (
-        <div className="fixed inset-x-0 bottom-0 z-30 border-t border-gris-100 bg-white/90 backdrop-blur">
+        <div className="fixed inset-x-0 bottom-0 z-30 border-t border-bone/[0.08] bg-coal/80 backdrop-blur-xl">
           <div className="mx-auto flex max-w-[1280px] items-center justify-between gap-4 px-4 py-3 sm:px-6">
             <div className="min-w-0">
               {service ? (

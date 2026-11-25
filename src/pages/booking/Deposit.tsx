@@ -95,7 +95,7 @@ export default function Deposit() {
       <div className="mx-auto max-w-lg">
         <div className="mb-6 flex justify-center">
           <Link to="/" aria-label="Inicio">
-            <Logo className="h-10 text-accent" />
+            <Logo className="h-10 text-ink" />
           </Link>
         </div>
         {loading ? (
@@ -111,10 +111,10 @@ export default function Deposit() {
           </div>
         ) : (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="overflow-hidden rounded-[32px] glass-light shadow-[0_40px_80px_-50px_rgb(23_21_22/0.6)]">
-            <div className="bg-ink px-6 py-6 text-white">
-              <p className="text-white/80">Seña para confirmar tu turno</p>
+            <div className="bg-accent bg-[radial-gradient(80%_120%_at_100%_0%,rgb(239_233_223/0.14),transparent_60%)] px-6 py-6 text-bone">
+              <p className="text-bone/80">Seña para confirmar tu turno</p>
               <p className="font-serif text-[56px] leading-none">{money(b.deposit)}</p>
-              <p className="mt-2 text-[14px] text-white/75">
+              <p className="mt-2 text-[14px] text-bone/75">
                 {b.serviceName} · {fmtDate(b.date)}, {b.time} h · {b.code}
               </p>
             </div>
@@ -171,7 +171,7 @@ export default function Deposit() {
                   href={settings.mpLink}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex h-14 items-center justify-center gap-2 rounded-full bg-[#009ee3] text-[16px] font-semibold text-white transition hover:brightness-95"
+                  className="flex h-14 items-center justify-center gap-2 rounded-full bg-[#009ee3] text-[16px] font-semibold text-[#fff] transition hover:brightness-95"
                 >
                   Pagar {money(b.deposit)} con Mercado Pago <ArrowSquareOut size={18} />
                 </a>

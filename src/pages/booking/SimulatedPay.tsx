@@ -48,7 +48,7 @@ export default function SimulatedPay() {
       <div className="mx-auto max-w-md">
         <div className="mb-6 flex justify-center">
           <Link to="/" aria-label="Inicio">
-            <Logo className="h-10 text-accent" />
+            <Logo className="h-10 text-ink" />
           </Link>
         </div>
         {loading ? (
@@ -57,11 +57,11 @@ export default function SimulatedPay() {
           <p className="rounded-[28px] glass-light p-8 text-center">No encontramos la reserva.</p>
         ) : (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="overflow-hidden rounded-[32px] glass-light shadow-[0_40px_80px_-50px_rgb(23_21_22/0.6)]">
-            <div className="bg-ink px-6 py-5 text-white">
-              <p className="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-[12px] font-semibold uppercase tracking-wider">Pago de prueba</p>
-              <p className="mt-3 text-white/80">Seña para {b.serviceName}</p>
+            <div className="bg-accent bg-[radial-gradient(80%_120%_at_100%_0%,rgb(239_233_223/0.14),transparent_60%)] px-6 py-5 text-bone">
+              <p className="inline-flex items-center gap-2 rounded-full bg-bone/15 px-3 py-1 text-[12px] font-semibold uppercase tracking-wider">Pago de prueba</p>
+              <p className="mt-3 text-bone/80">Seña para {b.serviceName}</p>
               <p className="font-serif text-[52px] leading-none">{money(b.deposit)}</p>
-              <p className="mt-2 text-[14px] text-white/75">
+              <p className="mt-2 text-[14px] text-bone/75">
                 {fmtDate(b.date)}, {b.time} h · Código {b.code}
               </p>
             </div>

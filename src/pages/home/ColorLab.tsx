@@ -74,7 +74,7 @@ export function ColorPicker({ value, onChange, compact }: { value: ColorChoice; 
   return (
     <div className={compact ? '' : 'grid gap-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]'}>
       {!compact && (
-        <div className="flex aspect-square items-center justify-center rounded-[32px] bg-[radial-gradient(80%_70%_at_50%_35%,#ffffff,#f1ecea)] ring-1 ring-gris-100">
+        <div className="relative flex aspect-square items-center justify-center overflow-hidden rounded-[32px] bg-[radial-gradient(70%_55%_at_50%_42%,rgb(239_233_223/0.13),rgb(255_255_255/0.02)_70%)] ring-1 ring-bone/10">
           <div className="flex items-end gap-3">
             {[0.78, 0.92, 1, 0.9, 0.7].map((h, i) => (
               <motion.span
@@ -107,15 +107,15 @@ export function ColorPicker({ value, onChange, compact }: { value: ColorChoice; 
                   aria-label={c.name}
                   title={c.name}
                   onClick={() => onChange({ ...value, hex: c.hex, name: c.name })}
-                  className={`group relative aspect-square overflow-hidden rounded-2xl transition active:scale-95 ${on ? 'ring-2 ring-ink ring-offset-2' : 'ring-1 ring-black/10 hover:-translate-y-0.5'}`}
+                  className={`group relative aspect-square overflow-hidden rounded-2xl transition active:scale-95 ${on ? 'ring-2 ring-ink ring-offset-2 ring-offset-coal' : 'ring-1 ring-bone/10 hover:-translate-y-0.5'}`}
                   style={{ background: polishBackground(c.hex, value.finish === 'matte' ? 'matte' : 'gloss') }}
                 >
                   {on && (
-                    <span className="absolute right-1.5 top-1.5 inline-flex h-5 w-5 items-center justify-center rounded-full bg-white text-ink shadow">
+                    <span className="absolute right-1.5 top-1.5 inline-flex h-5 w-5 items-center justify-center rounded-full bg-bone text-coal shadow">
                       <Check size={12} weight="bold" />
                     </span>
                   )}
-                  <span className="absolute inset-x-0 bottom-0 bg-black/35 px-1 py-1 text-center text-[10px] font-semibold leading-tight text-white opacity-0 transition group-hover:opacity-100 sm:text-[11px]">
+                  <span className="absolute inset-x-0 bottom-0 bg-coal/55 px-1 py-1 text-center text-[10px] font-semibold leading-tight text-bone opacity-0 transition group-hover:opacity-100 sm:text-[11px]">
                     {c.name}
                   </span>
                 </button>
@@ -179,7 +179,7 @@ export function ColorLab() {
   const navigate = useNavigate()
   const [v, setV] = useState<ColorChoice>(DEFAULT_COLOR)
   return (
-    <section id="color" className="mx-auto max-w-[1400px] scroll-mt-24 px-4 py-20 sm:px-8 md:py-28">
+    <section id="color" className="mx-auto max-w-[1440px] scroll-mt-24 px-4 py-20 sm:px-8 md:py-28">
       <div className="mb-10 flex flex-col justify-between gap-6 md:flex-row md:items-end">
         <div>
           <h2 className="text-[clamp(44px,6vw,80px)] leading-[0.95] text-ink">¿Un color liso?</h2>
@@ -187,7 +187,7 @@ export function ColorLab() {
         </div>
         <button
           onClick={() => navigate(`/reservar?color=${encodeURIComponent(v.hex)}&acabado=${v.finish}&forma=${v.shape}`)}
-          className="group inline-flex h-14 shrink-0 items-center gap-6 rounded-full bg-ink pl-7 pr-2 text-[16px] font-semibold text-white transition hover:bg-black/85 active:scale-[0.99]"
+          className="group inline-flex h-14 shrink-0 items-center gap-6 rounded-full bg-ink pl-7 pr-2 text-[16px] font-semibold text-white transition hover:bg-ink/85 active:scale-[0.99]"
         >
           Reservar con {v.name}
           <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white text-ink transition group-hover:translate-x-0.5">

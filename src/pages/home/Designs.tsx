@@ -34,7 +34,7 @@ export function DesignCard({
       aria-pressed={active}
       aria-label={`${d.name}. ${d.description ?? ''}`}
       className={`group relative block w-full overflow-hidden rounded-[24px] text-left transition duration-500 ${
-        active ? 'ring-2 ring-ink ring-offset-2' : 'ring-1 ring-gris-100 hover:-translate-y-1'
+        active ? 'ring-2 ring-ink ring-offset-2 ring-offset-coal' : 'ring-1 ring-gris-100 hover:-translate-y-1'
       }`}
     >
       <div className={`${compact ? 'aspect-square' : 'aspect-[4/5]'} relative overflow-hidden bg-gris-50`}>
@@ -42,7 +42,7 @@ export function DesignCard({
           <Img src={img.startsWith('img:') ? img : thumbUrl(img)} alt="" className="h-full w-full object-cover transition duration-[1.1s] group-hover:scale-[1.06]" loading="lazy" />
         ) : (
           <div className="flex h-full w-full items-center justify-center bg-ink p-4 text-center">
-            <span className="font-serif text-3xl text-white">{d.name}</span>
+            <span className="font-serif text-3xl text-bone">{d.name}</span>
           </div>
         )}
         {d.renderUrl && d.photoUrl && (
@@ -54,10 +54,10 @@ export function DesignCard({
           />
         )}
       </div>
-      <div className="absolute inset-x-2 bottom-2 flex items-center justify-between gap-2 rounded-[18px] bg-white/90 px-3.5 py-2.5 backdrop-blur">
-        <span className="truncate font-serif text-[20px] leading-none text-ink">{d.name}</span>
+      <div className="absolute inset-x-2 bottom-2 flex items-center justify-between gap-2 rounded-[18px] bg-coal/65 px-3.5 py-2.5 ring-1 ring-bone/10 backdrop-blur-md">
+        <span className="truncate font-serif text-[18px] leading-none text-ink sm:text-[20px]">{d.name}</span>
         {d.photoUrl && (
-          <span title="Foto real del estudio" className="inline-flex shrink-0 items-center gap-1 text-[11px] font-semibold uppercase tracking-wide text-choco/70">
+          <span title="Foto real del estudio" className="hidden shrink-0 items-center gap-1 text-[11px] sm:inline-flex font-semibold uppercase tracking-wide text-choco/70">
             <Camera size={13} /> Real
           </span>
         )}
@@ -134,8 +134,8 @@ export function Designs() {
   const current = hover ?? selected ?? designs.find((d) => d.renderUrl) ?? designs[0]
 
   return (
-    <section id="disenos" className="scroll-mt-24 bg-gris-50 py-20 md:py-28">
-      <div className="mx-auto max-w-[1400px] px-4 sm:px-8">
+    <section id="disenos" className="relative scroll-mt-24 border-y border-bone/[0.06] bg-[radial-gradient(50%_40%_at_15%_20%,rgb(87_3_20/0.22),transparent_70%)] py-20 md:py-28">
+      <div className="mx-auto max-w-[1440px] px-4 sm:px-8">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:gap-14">
           <div className="lg:sticky lg:top-6 lg:self-start">
             <h2 className="text-[clamp(44px,6vw,80px)] leading-[0.95] text-ink">Elegí tu diseño</h2>
@@ -150,7 +150,7 @@ export function Designs() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -6 }}
                     transition={{ duration: 0.35, ease }}
-                    className="pointer-events-none absolute left-4 top-4 max-w-[70%] rounded-[18px] bg-white/85 px-4 py-3 backdrop-blur"
+                    className="pointer-events-none absolute left-4 top-4 max-w-[70%] rounded-[18px] bg-coal/60 px-4 py-3 ring-1 ring-bone/10 backdrop-blur-md"
                   >
                     <p className="font-serif text-[26px] leading-none text-ink">{current.name}</p>
                     {current.description && <p className="mt-1 text-[13px] text-choco">{current.description}</p>}
@@ -166,7 +166,7 @@ export function Designs() {
             </div>
             <button
               onClick={() => current && navigate(`/reservar?diseno=${current.id}`)}
-              className="group mt-6 inline-flex h-14 w-full items-center justify-between rounded-full bg-ink pl-7 pr-2 text-[16px] font-semibold text-white transition hover:bg-black active:scale-[0.99] sm:w-auto sm:gap-6"
+              className="group mt-6 inline-flex h-14 w-full items-center justify-between rounded-full bg-ink pl-7 pr-2 text-[16px] font-semibold text-white transition hover:bg-ink/85 active:scale-[0.99] sm:w-auto sm:gap-6"
             >
               Reservar con este diseño
               <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white text-ink transition group-hover:translate-x-0.5">

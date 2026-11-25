@@ -43,7 +43,7 @@ export default function MyBooking() {
           <Link to="/" className="inline-flex h-10 items-center gap-2 rounded-full px-3 text-[15px] font-medium hover:bg-ink/5">
             <ArrowLeft size={18} /> Inicio
           </Link>
-          <Logo className="h-9 text-accent" />
+          <Logo className="h-9 text-ink" />
           <span className="w-[72px]" />
         </div>
         <motion.form

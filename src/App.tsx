@@ -1,5 +1,5 @@
-import { lazy, Suspense } from 'react'
-import { HashRouter, Route, Routes } from 'react-router-dom'
+import { lazy, Suspense, useLayoutEffect } from 'react'
+import { HashRouter, Route, Routes, useLocation } from 'react-router-dom'
 import { Toaster } from './components/ui'
 import Home from './pages/Home'
 
@@ -11,12 +11,24 @@ const MyBooking = lazy(() => import('./pages/booking/MyBooking'))
 const AdminApp = lazy(() => import('./pages/admin/AdminApp'))
 
 function Fallback() {
-  return <div className="min-h-[100dvh] bg-white" aria-busy="true" />
+  return <div className="min-h-[100dvh]" aria-busy="true" />
+}
+
+/** Sitio público en tema oscuro; el panel del estudio queda claro (más cómodo para trabajar). */
+function ThemeScope() {
+  const { pathname } = useLocation()
+  useLayoutEffect(() => {
+    const dark = !pathname.startsWith('/admin')
+    document.documentElement.classList.toggle('theme-dark', dark)
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', dark ? '#0b0a0a' : '#171516')
+  }, [pathname])
+  return null
 }
 
 export default function App() {
   return (
     <HashRouter>
+      <ThemeScope />
       <Suspense fallback={<Fallback />}>
         <Routes>
           <Route path="/" element={<Home />} />

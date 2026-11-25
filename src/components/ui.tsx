@@ -22,8 +22,8 @@ import { CircleNotch, X } from '@phosphor-icons/react'
 
 type Variant = 'primary' | 'dark' | 'light' | 'ghost' | 'outline' | 'danger'
 const variants: Record<Variant, string> = {
-  primary: 'bg-ink text-white hover:bg-black shadow-[0_10px_30px_-12px_rgb(23_21_22/0.6)]',
-  dark: 'bg-ink text-white hover:bg-black/85',
+  primary: 'bg-ink text-white hover:bg-ink/85 shadow-[0_10px_30px_-12px_rgb(23_21_22/0.6)]',
+  dark: 'bg-ink text-white hover:bg-ink/85',
   light: 'bg-white text-ink hover:bg-gris-50',
   ghost: 'bg-transparent text-ink hover:bg-ink/5',
   outline: 'bg-white text-ink ring-1 ring-inset ring-gris hover:ring-ink/40',
