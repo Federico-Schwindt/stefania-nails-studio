@@ -43,11 +43,11 @@ export function QuickBook() {
                 Reservá en un minuto
               </h2>
               <p className="mt-5 max-w-[34ch] text-[16px] leading-relaxed text-bone/60">
-                Elegí el servicio y tocá un horario libre. En el paso siguiente sumás tu diseño y tus datos.
+                Elegí el servicio y tocá un horario libre. Después sumás tu diseño y tus datos.
               </p>
               {settings && (
                 <p className="mt-6 text-[14px] text-bone/45">
-                  Seña de {settings.depositMode === 'fixed' ? money(settings.depositValue) : `${settings.depositValue}%`} para confirmar. El resto se abona en el estudio.
+                  Para confirmar dejás una seña de {settings.depositMode === 'fixed' ? money(settings.depositValue) : `${settings.depositValue}%`}. El resto lo pagás en el estudio.
                 </p>
               )}
               <Link to={`/reservar${serviceId ? `?servicio=${serviceId}` : ''}`} className={`${BTN_GLASS} mt-8 w-fit pr-2 lg:mt-auto`}>
@@ -97,7 +97,7 @@ export function QuickBook() {
                   </motion.div>
                 ) : grouped.length === 0 ? (
                   <motion.p key="empty" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-4 rounded-[1.5rem] border border-bone/10 bg-bone/[0.03] p-5 text-[15px] text-bone/60">
-                    No hay horarios libres en los próximos días para este servicio. Al reservar podés anotarte en la lista de espera.
+                    No me quedan horarios libres en los próximos días para este servicio. Al reservar podés anotarte en la lista de espera y te aviso.
                   </motion.p>
                 ) : (
                   <motion.div

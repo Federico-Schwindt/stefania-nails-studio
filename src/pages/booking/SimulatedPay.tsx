@@ -54,7 +54,7 @@ export default function SimulatedPay() {
         {loading ? (
           <Skeleton className="h-[460px] rounded-[14px]" />
         ) : !b ? (
-          <p className="rounded-[12px] glass-light p-8 text-center">No encontramos la reserva.</p>
+          <p className="rounded-[12px] glass-light p-8 text-center">No encontré la reserva.</p>
         ) : (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="overflow-hidden rounded-[14px] glass-light shadow-[0_40px_80px_-50px_rgb(23_21_22/0.6)]">
             <div className="bg-accent bg-[radial-gradient(80%_120%_at_100%_0%,rgb(239_233_223/0.14),transparent_60%)] px-6 py-5 text-bone">

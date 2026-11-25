@@ -24,7 +24,7 @@ export default function MyBooking() {
     setLoading(true)
     try {
       const b = await api.findBooking(code.trim().toUpperCase(), phone)
-      if (!b) setError('No encontramos un turno con esos datos. Revisá el código y el teléfono.')
+      if (!b) setError('No encontré un turno con esos datos. Revisá el código y el teléfono.')
       else {
         sessionStorage.setItem(`sns-phone-${b.id}`, phone)
         navigate(`/reserva/${b.id}`)

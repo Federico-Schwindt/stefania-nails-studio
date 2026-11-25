@@ -139,12 +139,12 @@ export function Designs() {
   const head = (
     <div className={`${WRAP} flex flex-col justify-between gap-6 md:flex-row md:items-end`}>
       <div>
-        <Eyebrow>Diseños · fotos reales</Eyebrow>
-        <h2 className="mt-6 text-[clamp(52px,7vw,118px)] leading-[0.9] tracking-[-0.025em] text-bone">Trabajos del estudio</h2>
+        <Eyebrow>Fotos reales de clientas</Eyebrow>
+        <h2 className="mt-6 text-[clamp(52px,7vw,118px)] leading-[0.9] tracking-[-0.025em] text-bone">Mis trabajos</h2>
       </div>
       <div className="md:max-w-[34ch] md:pb-3">
         <p className="text-[16px] leading-relaxed text-bone/55">
-          {desktop ? 'Pasá el mouse para ver cada diseño en mano. ' : 'Deslizá para ver más. '}Tocá el que te guste y reservá con ese diseño.
+          {desktop ? 'Pasá el mouse para ver cada diseño en mano. ' : 'Deslizá para ver más. '}Tocá el que te guste y reservás con ese diseño.
         </p>
         {pinned && (
           <div className="mt-5 h-px w-full bg-bone/15">
@@ -166,8 +166,8 @@ export function Designs() {
       >
         <ImageSquare size={30} weight="light" className="text-bone/80" />
         <div>
-          <p className="font-serif text-[40px] leading-[1] text-bone">¿Tenés tu propia idea?</p>
-          <p className="mt-3 text-[15px] leading-relaxed text-bone/65">Subí fotos de lo que te gusta al reservar. Stefania lo adapta a tu uña.</p>
+          <p className="font-serif text-[40px] leading-[1] text-bone">¿Tenés una idea?</p>
+          <p className="mt-3 text-[15px] leading-relaxed text-bone/65">Subí fotos de lo que te gusta cuando reservás y lo adapto a tu uña.</p>
           <span className="mt-6 inline-flex items-center gap-2 text-[15px] font-semibold text-bone">
             Reservar con mi idea <ArrowUpRight size={16} className="transition duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
           </span>

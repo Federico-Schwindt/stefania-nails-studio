@@ -265,7 +265,7 @@ export default function Booking() {
                 {step === 0 && (
                   <section aria-labelledby="h-serv">
                     <h1 id="h-serv" className="text-[clamp(36px,5vw,56px)] leading-none text-ink">
-                      ¿Qué te hacemos?
+                      ¿Qué te querés hacer?
                     </h1>
                     <p className="mt-2 text-choco">Elegí el servicio. Los extras se suman al total.</p>
                     <div className="mt-6 grid gap-3" role="radiogroup" aria-label="Servicio">
@@ -339,7 +339,7 @@ export default function Booking() {
                     <h1 id="h-dis" className="text-[clamp(36px,5vw,56px)] leading-none text-ink">
                       Tu diseño
                     </h1>
-                    <p className="mt-2 text-choco">Elegí un diseño de la galería o subí fotos de lo que te gusta. Si preferís, lo charlan en el turno.</p>
+                    <p className="mt-2 text-choco">Elegí un diseño de mis trabajos o subí fotos de lo que te gusta. Si preferís, lo charlamos en el turno.</p>
                     <div className="no-scrollbar mt-6 flex gap-2 overflow-x-auto" role="tablist">
                       {(
                         [
@@ -385,7 +385,7 @@ export default function Booking() {
                             <UploadSimple size={24} />
                           </span>
                           <span className="font-semibold">{uploading ? 'Subiendo...' : 'Subí fotos de diseños que te gusten'}</span>
-                          <span className="text-[14px] text-choco">Hasta 5 imágenes. Las ve Stefania antes de tu turno.</span>
+                          <span className="text-[14px] text-choco">Hasta 5 imágenes. Las veo antes de tu turno.</span>
                           <input ref={fileRef} type="file" accept="image/*" multiple className="sr-only" onChange={(e) => onFiles(e.target.files)} disabled={uploading || draft.inspo.length >= 5} />
                         </label>
                         {draft.inspo.length > 0 && (
@@ -424,7 +424,7 @@ export default function Booking() {
                       <div className="mt-8 rounded-[12px] bg-gris-50 p-8 text-center">
                         <CalendarBlank size={32} className="mx-auto text-ink" />
                         <p className="mt-3 font-semibold">No hay horarios libres por ahora.</p>
-                        <p className="text-choco">Anotate en la lista de espera y Stefania te avisa si se libera un turno.</p>
+                        <p className="text-choco">Anotate en la lista de espera y te aviso si se libera un turno.</p>
                         <WaitlistForm serviceId={service?.id} defaultName={draft.clientName} defaultPhone={draft.phone} className="mt-6 text-left" />
                       </div>
                     ) : (
@@ -487,7 +487,7 @@ export default function Booking() {
                     <h1 id="h-datos" className="text-[clamp(36px,5vw,56px)] leading-none text-ink">
                       Tus datos
                     </h1>
-                    <p className="mt-2 text-choco">Te escribimos por WhatsApp para confirmar el turno.</p>
+                    <p className="mt-2 text-choco">Te escribo por WhatsApp para confirmar el turno.</p>
                     <div className="mt-6 grid gap-5 sm:grid-cols-2">
                       <Field label="Nombre y apellido" autoComplete="name" value={draft.clientName} onChange={(e) => set({ clientName: e.target.value })} error={errors.name} />
                       <Field
@@ -503,7 +503,7 @@ export default function Booking() {
                       />
                       <Field label="Instagram (opcional)" placeholder="@tuusuario" value={draft.instagram} onChange={(e) => set({ instagram: e.target.value })} />
                       <div className="sm:col-span-2">
-                        <TextArea label="¿Algo que Stefania deba saber? (opcional)" value={draft.notes} onChange={(e) => set({ notes: e.target.value })} hint="Por ejemplo: si venís con esmalte para retirar o tenés alguna alergia." />
+                        <TextArea label="¿Algo que tenga que saber? (opcional)" value={draft.notes} onChange={(e) => set({ notes: e.target.value })} hint="Por ejemplo: si venís con esmalte para retirar o tenés alguna alergia." />
                       </div>
                     </div>
                     <div className="mt-8 rounded-[12px] bg-gris-50 p-5 ring-1 ring-gris-100">

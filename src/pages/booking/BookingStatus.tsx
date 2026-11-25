@@ -13,13 +13,13 @@ import { fmtDate } from './Booking'
 
 const STATUS: Record<Status, { label: string; text: string; tone: string; Icon: typeof CheckCircle }> = {
   pending_payment: { label: 'Falta la seña', text: 'Tu horario está reservado por 1 hora. Dejá la seña para asegurarlo.', tone: 'bg-gris-50 text-ink', Icon: ClockCountdown },
-  payment_review: { label: 'Verificando tu seña', text: 'Recibimos tu aviso de pago. Stefania lo revisa y te confirma por WhatsApp.', tone: 'bg-gris-50 text-ink', Icon: HourglassMedium },
-  paid: { label: 'Seña recibida', text: 'Recibimos tu seña. Stefania confirma tu turno por WhatsApp en breve.', tone: 'bg-gris-50 text-ink', Icon: CheckCircle },
-  confirmed: { label: 'Turno confirmado', text: 'Te esperamos en el estudio. Llegá con las uñas limpias y sin esmalte tradicional.', tone: 'bg-ink text-white', Icon: CheckCircle },
-  completed: { label: 'Turno realizado', text: 'Gracias por venir. Te esperamos para el próximo.', tone: 'bg-gris-50 text-ink', Icon: CheckCircle },
-  no_show: { label: 'No asististe', text: 'Este turno figura como ausente. Si fue un error, escribile a Stefania.', tone: 'bg-gris-50 text-ink', Icon: XCircle },
+  payment_review: { label: 'Verificando tu seña', text: 'Recibí tu aviso de pago. Lo reviso y te confirmo por WhatsApp.', tone: 'bg-gris-50 text-ink', Icon: HourglassMedium },
+  paid: { label: 'Seña recibida', text: 'Recibí tu seña. En un rato te confirmo el turno por WhatsApp.', tone: 'bg-gris-50 text-ink', Icon: CheckCircle },
+  confirmed: { label: 'Turno confirmado', text: 'Te espero en el estudio. Vení con las uñas limpias y sin esmalte común.', tone: 'bg-ink text-white', Icon: CheckCircle },
+  completed: { label: 'Turno realizado', text: '¡Gracias por venir! Te espero para el próximo.', tone: 'bg-gris-50 text-ink', Icon: CheckCircle },
+  no_show: { label: 'No asististe', text: 'Este turno figura como ausente. Si es un error, escribime.', tone: 'bg-gris-50 text-ink', Icon: XCircle },
   cancelled: { label: 'Turno cancelado', text: 'Este turno fue cancelado. Si querés, reservá otro horario.', tone: 'bg-gris-50 text-ink', Icon: XCircle },
-  rejected: { label: 'Turno no disponible', text: 'No pudimos tomar este turno. Escribinos por WhatsApp para buscar otro horario.', tone: 'bg-gris-50 text-ink', Icon: WarningCircle },
+  rejected: { label: 'Turno no disponible', text: 'No pude tomar este turno. Escribime por WhatsApp y buscamos otro horario.', tone: 'bg-gris-50 text-ink', Icon: WarningCircle },
 }
 
 function icsFor(b: Booking) {
@@ -133,7 +133,7 @@ export default function BookingStatus() {
         ) : !booking || !st ? (
           <div className="rounded-[14px] glass-light p-8 text-center">
             <WarningCircle size={36} className="mx-auto text-ink" />
-            <h1 className="mt-3 text-4xl text-ink">No encontramos tu reserva</h1>
+            <h1 className="mt-3 text-4xl text-ink">No encontré tu reserva</h1>
             <p className="mt-2 text-choco">Revisá el enlace o buscala en "Mi turno".</p>
             <Link to="/mi-turno" className="mt-4 inline-block font-semibold text-ink underline">
               Ir a Mi turno
@@ -226,7 +226,7 @@ export default function BookingStatus() {
                   rel="noreferrer"
                   className={`inline-flex h-11 items-center justify-center gap-2 rounded-[8px] bg-ink px-5 text-[15px] font-semibold text-white transition hover:bg-ink/85 ${booking.status === 'pending_payment' ? 'sm:col-span-2' : ''}`}
                 >
-                  <WhatsappLogo size={18} weight="fill" /> Escribir a Stefania
+                  <WhatsappLogo size={18} weight="fill" /> Escribirme por WhatsApp
                 </a>
               )}
               {active && (

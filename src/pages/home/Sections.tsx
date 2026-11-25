@@ -8,15 +8,15 @@ import { money } from '../../lib/pricing'
 import { useCatalog } from '../../lib/store'
 import { BTN_BONE, BTN_GLASS, Bubble, Eyebrow, WRAP, ease, reveal, scrollToId, summarizeHours } from './parts'
 
-/* ---------------- Conocé a Stefania ---------------- */
+/* ---------------- Sobre mí ---------------- */
 export function About() {
   const ref = useRef<HTMLElement>(null)
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] })
   const imgY = useTransform(scrollYProgress, [0, 1], ['-8%', '8%'])
   const pillars = [
-    { icon: HandHeart, title: 'Uno a uno', text: 'Cada turno es sólo tuyo, en su estudio.' },
-    { icon: PaintBrush, title: 'Diseño a mano', text: 'De una francesita fina a un animal print.' },
-    { icon: CalendarCheck, title: 'Turnos online', text: 'Reservás y te confirma por WhatsApp.' },
+    { icon: HandHeart, title: 'Uno a uno', text: 'El turno es solo tuyo, sin apuros.' },
+    { icon: PaintBrush, title: 'Pintado a mano', text: 'De una francesita fina a un animal print.' },
+    { icon: CalendarCheck, title: 'Turnos online', text: 'Reservás acá y te confirmo por WhatsApp.' },
   ]
   return (
     <section id="estudio" ref={ref} className="scroll-mt-24 py-24 md:py-36">
@@ -36,16 +36,16 @@ export function About() {
         </motion.div>
         <div className="lg:col-span-6 lg:col-start-7">
           <motion.div {...reveal()}>
-            <Eyebrow>El estudio</Eyebrow>
+            <Eyebrow>Sobre mí</Eyebrow>
           </motion.div>
           <motion.h2 {...reveal(1)} className="mt-6 text-[clamp(52px,7vw,118px)] leading-[0.9] tracking-[-0.025em] text-bone">
-            Conocé a Stefania
+            Hola, soy Stefania
           </motion.h2>
           <motion.p {...reveal(2)} className="mt-8 max-w-[30ch] font-serif text-[clamp(24px,2.4vw,34px)] leading-[1.2] text-bone/85">
-            Trabaja semipermanente, soft gel y polygel, y dibuja cada diseño a mano.
+            Hago semipermanente, soft gel y polygel, y cada diseño lo pinto a mano.
           </motion.p>
           <motion.p {...reveal(3)} className="mt-5 max-w-[48ch] text-[16px] leading-relaxed text-bone/55">
-            Traé tu idea o elegila de su galería: la charlan al empezar y se adapta a la forma de tu uña.
+            Traé tu idea o elegí uno de mis trabajos: lo charlamos al empezar y lo adapto a la forma de tu uña.
           </motion.p>
           <div className="mt-10 grid gap-3 sm:grid-cols-3">
             {pillars.map((p, i) => (
@@ -73,15 +73,15 @@ export function Policies() {
   const items = all.length ? [all[hi], ...all.filter((_, i) => i !== hi)] : []
   const sena = settings ? (settings.depositMode === 'fixed' ? money(settings.depositValue) : `${settings.depositValue}% del total`) : 'la seña'
   const steps = [
-    { t: 'Elegí', d: 'Servicio, diseño y un horario libre de la agenda.' },
+    { t: 'Elegí', d: 'El servicio, el diseño y un horario libre de mi agenda.' },
     { t: 'Señá', d: `Dejá ${sena} por transferencia o Mercado Pago. Se descuenta del total.` },
-    { t: 'Listo', d: 'Stefania revisa el pago y te confirma el turno por WhatsApp.' },
+    { t: 'Listo', d: 'Reviso el pago y te confirmo el turno por WhatsApp.' },
   ]
   return (
     <section id="politicas" className="scroll-mt-24 py-24 md:py-32">
       <div className={WRAP}>
         <motion.div {...reveal()}>
-          <Eyebrow>Cómo se reserva</Eyebrow>
+          <Eyebrow>Cómo reservar</Eyebrow>
           <h2 className="mt-6 text-[clamp(52px,7vw,118px)] leading-[0.9] tracking-[-0.025em] text-bone">Tres pasos</h2>
         </motion.div>
         <div className="mt-14 grid gap-4 md:grid-cols-3 md:gap-5">
@@ -103,7 +103,7 @@ export function Policies() {
             <div className="rounded-[calc(2rem-0.375rem)] bg-[#100e0f] p-6 shadow-[inset_0_1px_1px_rgb(255_255_255/0.06)] sm:p-10">
               <div className="flex flex-col justify-between gap-3 md:flex-row md:items-end">
                 <p className="font-serif text-[clamp(32px,3.4vw,48px)] leading-none text-bone">Antes de tu turno</p>
-                <p className="max-w-[44ch] text-[14px] text-bone/50">Al reservar aceptás estas condiciones. Cuidan tu tiempo y el de las demás clientas.</p>
+                <p className="max-w-[44ch] text-[14px] text-bone/50">Al reservar aceptás estas condiciones. Así cuidamos tu tiempo y el de las demás clientas.</p>
               </div>
               <ul className="mt-8 grid gap-x-10 md:grid-cols-2">
                 {items.map((p, i) => (
@@ -128,22 +128,22 @@ export function Faq() {
   const sena = settings ? (settings.depositMode === 'fixed' ? money(settings.depositValue) : `${settings.depositValue}% del total`) : 'una seña'
   const wa = settings?.whatsapp
   const items = [
-    { q: '¿Cómo reservo?', a: 'Elegís el servicio, el diseño y un horario libre de la agenda. Al final dejás la seña y Stefania te confirma por WhatsApp.' },
-    { q: '¿Cuánto es la seña y cómo la pago?', a: `La seña es de ${sena}. Podés pagarla por transferencia o con Mercado Pago y subir el comprobante desde la misma página. Se descuenta del total el día del turno.` },
-    { q: '¿Puedo cambiar o cancelar mi turno?', a: `Sí. Entrá a "Mi turno" con tu código y tu WhatsApp. Podés cancelar hasta ${settings?.cancelHours ?? 24} horas antes. Para cambiar el horario escribile a Stefania.` },
-    { q: '¿Qué pasa si llego tarde?', a: 'Hay 10 minutos de tolerancia. Después se cobra un excedente, y con 20 minutos de demora el turno se cancela.' },
-    { q: '¿Puedo llevar mi propia idea?', a: 'Claro. En la reserva podés subir fotos de inspiración; Stefania las ve antes del turno y lo adapta a tu uña.' },
-    { q: '¿Cuánto dura cada servicio?', a: 'Depende del servicio: desde 1 hora un semipermanente hasta 2 horas y media un sistema dual. Lo ves al elegirlo.' },
+    { q: '¿Cómo reservo?', a: 'Elegís el servicio, el diseño y un horario libre de mi agenda. Al final dejás la seña y te confirmo por WhatsApp.' },
+    { q: '¿Cuánto es la seña y cómo la pago?', a: `La seña es de ${sena}. La pagás por transferencia o con Mercado Pago y subís el comprobante en la misma página. Se descuenta del total el día del turno.` },
+    { q: '¿Puedo cambiar o cancelar mi turno?', a: `Sí. Entrá a "Mi turno" con tu código y tu WhatsApp. Podés cancelar hasta ${settings?.cancelHours ?? 24} horas antes. Para cambiar el horario, escribime.` },
+    { q: '¿Qué pasa si llego tarde?', a: 'Te espero 10 minutos. Pasado ese tiempo se cobra un adicional, y con 20 minutos de demora el turno se cancela.' },
+    { q: '¿Puedo llevar mi propia idea?', a: '¡Obvio! Cuando reservás podés subir fotos de lo que te gusta; las veo antes del turno y lo adapto a tu uña.' },
+    { q: '¿Cuánto dura cada servicio?', a: 'Depende: un semipermanente lleva 1 hora y un sistema dual hasta 2 horas y media. Lo ves al elegir el servicio.' },
   ]
   return (
     <section id="preguntas" className="scroll-mt-24 py-24 md:py-32">
       <div className={`${WRAP} grid gap-12 lg:grid-cols-12 lg:gap-16`}>
         <motion.div {...reveal()} className="lg:col-span-5">
           <Eyebrow>Preguntas</Eyebrow>
-          <h2 className="mt-6 text-[clamp(52px,6vw,100px)] leading-[0.9] tracking-[-0.025em] text-bone">Lo que más nos preguntan</h2>
+          <h2 className="mt-6 text-[clamp(52px,6vw,100px)] leading-[0.9] tracking-[-0.025em] text-bone">Lo que más me preguntan</h2>
           {wa && (
-            <a href={`https://wa.me/${wa}?text=${encodeURIComponent('Hola Stefania, tengo una consulta.')}`} target="_blank" rel="noreferrer" className={`${BTN_GLASS} mt-10 pr-2`}>
-              <ChatCircleText size={18} weight="light" /> Otra consulta <Bubble dark={false} />
+            <a href={`https://wa.me/${wa}?text=${encodeURIComponent('Hola Stefania! Tengo una consulta.')}`} target="_blank" rel="noreferrer" className={`${BTN_GLASS} mt-10 pr-2`}>
+              <ChatCircleText size={18} weight="light" /> Escribime <Bubble dark={false} />
             </a>
           )}
         </motion.div>
@@ -194,7 +194,7 @@ export function Contact() {
 
       <div className={WRAP}>
         <motion.div {...reveal()} className="flex flex-col items-center text-center">
-          <Eyebrow>Te esperamos</Eyebrow>
+          <Eyebrow>Te espero</Eyebrow>
           <h2 className="mt-7 text-[clamp(60px,10vw,170px)] leading-[0.85] tracking-[-0.03em] text-bone">
             Tu próximo
             <br />
@@ -205,7 +205,7 @@ export function Contact() {
               Reservar turno <Bubble />
             </Link>
             {wa && (
-              <a href={`https://wa.me/${wa}?text=${encodeURIComponent('Hola Stefania, quería consultar por un turno.')}`} target="_blank" rel="noreferrer" className={BTN_GLASS}>
+              <a href={`https://wa.me/${wa}?text=${encodeURIComponent('Hola Stefania! Quería consultarte por un turno.')}`} target="_blank" rel="noreferrer" className={BTN_GLASS}>
                 <WhatsappLogo size={18} weight="light" /> WhatsApp
               </a>
             )}
@@ -239,7 +239,7 @@ export function Contact() {
                   )}
                 </>
               ) : (
-                <p className="mt-4 text-[16px] leading-relaxed text-bone/70">Te pasamos la dirección exacta por WhatsApp cuando se confirma tu turno.</p>
+                <p className="mt-4 text-[16px] leading-relaxed text-bone/70">Te paso la dirección exacta por WhatsApp cuando se confirma tu turno.</p>
               )}
               {ig && (
                 <a href={`https://instagram.com/${ig}`} target="_blank" rel="noreferrer" className="mt-auto inline-flex items-center gap-2 pt-8 text-[15px] font-semibold text-bone transition hover:text-bone/70">

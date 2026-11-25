@@ -81,7 +81,7 @@ export default function Deposit() {
     setSending(true)
     try {
       await api.reportDeposit(id, method, proof)
-      toast.ok('¡Listo! Stefania va a verificar tu seña.')
+      toast.ok('¡Listo! Reviso tu seña y te confirmo.')
       navigate(`/reserva/${id}`, { replace: true })
     } catch (e) {
       toast.error(errMsg(e))
@@ -101,7 +101,7 @@ export default function Deposit() {
         {loading ? (
           <Skeleton className="h-[520px] rounded-[14px]" />
         ) : !b ? (
-          <p className="rounded-[12px] glass-light p-8 text-center">No encontramos la reserva.</p>
+          <p className="rounded-[12px] glass-light p-8 text-center">No encontré la reserva.</p>
         ) : b.status !== 'pending_payment' && b.status !== 'payment_review' ? (
           <div className="rounded-[12px] glass-light p-8 text-center">
             <p className="font-serif text-3xl text-ink">Esta reserva no tiene una seña pendiente.</p>
@@ -153,7 +153,7 @@ export default function Deposit() {
 
               {!hasTransfer && !hasMp && (
                 <p className="rounded-[10px] bg-gris-50 p-4 text-[14px] text-choco">
-                  Stefania te va a pasar los datos para la seña por WhatsApp. Tocá "Avisar a Stefania" para que te escriba.
+                  Te paso los datos para la seña por WhatsApp. Tocá "Pedir los datos de pago" y te escribo.
                 </p>
               )}
 
@@ -195,7 +195,7 @@ export default function Deposit() {
               </div>
 
               <Button size="lg" className="w-full" loading={sending} onClick={send}>
-                {hasTransfer || hasMp ? 'Ya pagué la seña' : 'Avisar a Stefania'}
+                {hasTransfer || hasMp ? 'Ya pagué la seña' : 'Pedir los datos de pago'}
               </Button>
               <p className="text-center text-[12px] text-choco">La seña no es reembolsable. Se descuenta del total el día del turno.</p>
             </div>

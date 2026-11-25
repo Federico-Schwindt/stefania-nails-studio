@@ -37,7 +37,7 @@ export function Services() {
             <Eyebrow>Servicios</Eyebrow>
             <h2 className="mt-6 text-[clamp(52px,7vw,118px)] leading-[0.9] tracking-[-0.025em] text-bone">Servicios y precios</h2>
           </div>
-          <p className="max-w-[36ch] text-[16px] leading-relaxed text-bone/55 md:pb-3">Precios por sesión en el estudio. La seña se paga al reservar y se descuenta del total.</p>
+          <p className="max-w-[36ch] text-[16px] leading-relaxed text-bone/55 md:pb-3">Precios por sesión. La seña la dejás al reservar y se descuenta del total.</p>
         </motion.div>
 
         <div

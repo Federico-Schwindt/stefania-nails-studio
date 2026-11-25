@@ -14,7 +14,7 @@ const OWNER_SM = assetUrl('img/estudio/stefania-hero-sm.webp')!
 const NAV = [
   { href: '#servicios', label: 'Servicios' },
   { href: '#disenos', label: 'Diseños' },
-  { href: '#estudio', label: 'Stefania' },
+  { href: '#estudio', label: 'Sobre mí' },
   { href: '#preguntas', label: 'Preguntas' },
   { href: '#contacto', label: 'Contacto' },
 ]
@@ -143,7 +143,7 @@ export function Hero() {
   return (
     <section ref={ref} aria-label="Portada" className="relative isolate flex min-h-[100dvh] flex-col overflow-hidden">
       {/* escenario: luz bordó, firma gigante y Stefania por delante */}
-      <div className="relative h-[66vh] min-h-[460px] md:absolute md:inset-0 md:h-auto">
+      <div className="relative h-[70vh] min-h-[440px] md:absolute md:inset-0 md:h-auto">
         <div
           aria-hidden
           className="absolute left-1/2 top-[58%] -z-10 aspect-square w-[min(120vw,1100px)] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgb(87_3_20/0.85)_0%,rgb(87_3_20/0.28)_38%,transparent_68%)]"
@@ -154,7 +154,7 @@ export function Hero() {
           initial={reduce ? false : { opacity: 0, y: 60 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.4, ease }}
-          className="absolute inset-x-0 top-[12vh] select-none text-center font-serif uppercase leading-[0.8] tracking-[-0.03em] text-bone text-[clamp(84px,22vw,350px)] md:top-[14vh]"
+          className="absolute inset-x-0 top-[max(86px,9vh)] select-none text-center font-serif uppercase leading-[0.8] tracking-[-0.03em] text-bone text-[clamp(84px,22vw,350px)] md:top-[12vh] md:text-[min(19vw,34vh)]"
         >
           Stefania
         </motion.p>
@@ -170,7 +170,7 @@ export function Hero() {
             srcSet={`${OWNER_SM} 640w, ${OWNER} 1000w`}
             sizes="(max-width: 768px) 90vw, 700px"
             alt="Stefania, dueña de Stefania Nails Studio, con uñas bordó"
-            className="h-[56vh] min-h-[400px] w-auto max-w-none select-none md:h-[84vh] md:max-h-[900px]"
+            className="h-[45vh] w-auto max-w-none select-none md:h-[60vh] md:max-h-[680px]"
             fetchPriority="high"
             draggable={false}
           />
@@ -184,12 +184,15 @@ export function Hero() {
           <motion.div {...up(0.35)}>
             <Eyebrow>
               <span className={`h-1.5 w-1.5 rounded-full ${status?.open ? 'bg-emerald-400' : 'bg-bone/40'}`} aria-hidden />
-              {status?.text ?? 'Nails Studio · Turnos online'}
+              {status?.text ?? 'Turnos online'}
             </Eyebrow>
           </motion.div>
-          <motion.h1 {...up(0.45)} className="mt-5 max-w-[16ch] text-[clamp(36px,3.6vw,58px)] leading-[1.02] tracking-[-0.02em] text-bone">
-            Manicura de autor, hecha a mano en el estudio.
+          <motion.h1 {...up(0.45)} className="mt-5 max-w-[15ch] text-[clamp(38px,3.8vw,60px)] leading-[1.02] tracking-[-0.02em] text-bone">
+            Tus uñas, hechas a mano.
           </motion.h1>
+          <motion.p {...up(0.5)} className="mt-4 max-w-[40ch] text-[16px] leading-relaxed text-bone/60">
+            Semi, soft gel y polygel en mi estudio. Elegí tu horario y reservá con seña en un minuto.
+          </motion.p>
           <motion.div {...up(0.55)} className="mt-7 flex flex-wrap gap-3">
             <Link to="/reservar" className={BTN_BONE}>
               Reservar turno <Bubble />
@@ -216,7 +219,7 @@ export function Hero() {
                     to={`/reservar?servicio=${first.id}&fecha=${next.date}&hora=${next.time}`}
                     className="group mt-5 flex h-12 items-center justify-between rounded-full bg-bone/[0.07] pl-5 pr-1.5 text-[14px] font-semibold text-bone transition duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-bone hover:text-coal"
                   >
-                    Tomar este horario
+                    Reservar este horario
                     <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-bone text-coal transition duration-500 group-hover:bg-coal group-hover:text-bone">
                       <CalendarBlank size={15} />
                     </span>
@@ -237,7 +240,7 @@ export function Hero() {
 }
 
 /* ---------------- Banda en movimiento ---------------- */
-const BAND = ['Semipermanente', 'Soft gel', 'Capping en polygel', 'Sistema dual', 'Diseño a mano', 'Nivelación']
+const BAND = ['Semipermanente', 'Soft gel', 'Capping en polygel', 'Esculpidas', 'Diseños a mano', 'Nivelación']
 
 export function Marquee() {
   return (
