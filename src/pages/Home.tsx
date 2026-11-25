@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useCatalog } from '../lib/store'
 import { Designs } from './home/Designs'
-import { Hero, Navbar } from './home/Hero'
+import { Hero, Marquee, Navbar } from './home/Hero'
 import { QuickBook } from './home/QuickBook'
 import { About, Contact, Faq, Footer, Policies } from './home/Sections'
 import { Services } from './home/Services'
@@ -16,6 +16,7 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
+        <Marquee />
         <QuickBook />
         <Services />
         <Designs />
