@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight, CalendarBlank, Check, Clock, ImageSquare, Minus, Palette, Plus, ShieldCheck, Sparkle, Trash, UploadSimple } from '@phosphor-icons/react'
+import { ArrowLeft, ArrowRight, CalendarBlank, Check, Clock, ImageSquare, Minus, Plus, ShieldCheck, Sparkle, Trash, UploadSimple } from '@phosphor-icons/react'
 import { AnimatePresence, motion } from 'motion/react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
@@ -9,9 +9,8 @@ import { api, assetUrl } from '../../lib/api'
 import { computeDeposit, computeExtras, computeTotal, money } from '../../lib/pricing'
 import { addDays, availableTimes, dayIsBookable, isoDate, parseIso } from '../../lib/slots'
 import { useCatalog, useDraft } from '../../lib/store'
-import type { BlockedSlot, BusySlot, Finish, NailShape } from '../../lib/types'
+import type { BlockedSlot, BusySlot } from '../../lib/types'
 import { WaitlistForm } from './WaitlistForm'
-import { COLORS, ColorPicker, DEFAULT_COLOR, NailSwatch } from '../home/ColorLab'
 import { DesignCard } from '../home/Designs'
 
 const STEPS = ['Servicio', 'Diseño', 'Fecha', 'Tus datos', 'Seña'] as const
@@ -24,7 +23,7 @@ export const fmtDate = (iso: string) => {
   return `${['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'][d.getDay()]} ${d.getDate()} de ${MONTHS[d.getMonth()]}`
 }
 
-type DesignMode = 'galeria' | 'color' | 'inspo'
+type DesignMode = 'galeria' | 'inspo'
 
 export default function Booking() {
   const navigate = useNavigate()
@@ -57,22 +56,10 @@ export default function Booking() {
     if (fecha && /^\d{4}-\d{2}-\d{2}$/.test(fecha)) patch.date = fecha
     if (hora && /^\d{2}:\d{2}$/.test(hora)) patch.time = hora
     const ds = params.get('diseno')
-    const color = params.get('color')
     if (sv) patch.serviceId = sv
     if (ds) {
       patch.designId = ds
       patch.color = undefined
-    }
-    if (color) {
-      const c = COLORS.find((x) => x.hex === color)
-      patch.color = {
-        hex: color,
-        name: c?.name ?? color,
-        finish: (params.get('acabado') as Finish) || 'gloss',
-        shape: (params.get('forma') as NailShape) || 'almond',
-      }
-      patch.designId = undefined
-      setMode('color')
     }
     if (Object.keys(patch).length) set(patch)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -264,7 +251,7 @@ export default function Booking() {
 
       <div className="mx-auto grid max-w-[1280px] gap-6 px-4 pb-36 pt-6 sm:px-6 lg:grid-cols-[minmax(0,7fr)_minmax(0,4fr)] lg:pb-16">
         {/* contenido del paso */}
-        <main className="min-w-0 rounded-[32px] glass-light p-5 shadow-[0_30px_60px_-50px_rgb(23_21_22/0.5)] sm:p-8">
+        <main className="min-w-0 rounded-[14px] glass-light p-5 shadow-[0_30px_60px_-50px_rgb(23_21_22/0.5)] sm:p-8">
           {!loaded ? (
             <div className="space-y-4">
               <Skeleton className="h-10 w-2/3" />
@@ -290,7 +277,7 @@ export default function Booking() {
                             role="radio"
                             aria-checked={on}
                             onClick={() => set({ serviceId: s.id, time: undefined })}
-                            className={`flex items-center justify-between gap-4 rounded-[22px] p-5 text-left transition ${on ? 'bg-ink text-white' : 'bg-gris-50 ring-1 ring-gris-100 hover:ring-ink/40'}`}
+                            className={`flex items-center justify-between gap-4 rounded-[10px] p-5 text-left transition ${on ? 'bg-ink text-white' : 'bg-gris-50 ring-1 ring-gris-100 hover:ring-ink/40'}`}
                           >
                             <div className="min-w-0">
                               <p className="font-serif text-[28px] leading-none">{s.name}</p>
@@ -315,7 +302,7 @@ export default function Booking() {
                             const q = draft.extras[x.id] ?? 0
                             const setQ = (n: number) => set({ extras: { ...draft.extras, [x.id]: Math.max(0, Math.min(x.maxQty, n)) } })
                             return (
-                              <div key={x.id} className="flex items-center justify-between gap-4 rounded-[20px] bg-white p-4 ring-1 ring-gris-100">
+                              <div key={x.id} className="flex items-center justify-between gap-4 rounded-[10px] bg-white p-4 ring-1 ring-gris-100">
                                 <div className="min-w-0">
                                   <p className="font-medium">{x.name}</p>
                                   <p className="text-[14px] text-choco">
@@ -352,12 +339,11 @@ export default function Booking() {
                     <h1 id="h-dis" className="text-[clamp(36px,5vw,56px)] leading-none text-ink">
                       Tu diseño
                     </h1>
-                    <p className="mt-2 text-choco">Elegí de la galería, probá un color liso o subí tus fotos de inspiración. Podés combinar.</p>
+                    <p className="mt-2 text-choco">Elegí un diseño de la galería o subí fotos de lo que te gusta. Si preferís, lo charlan en el turno.</p>
                     <div className="no-scrollbar mt-6 flex gap-2 overflow-x-auto" role="tablist">
                       {(
                         [
                           ['galeria', 'Galería', Sparkle],
-                          ['color', 'Color liso', Palette],
                           ['inspo', `Tu inspiración${draft.inspo.length ? ` (${draft.inspo.length})` : ''}`, ImageSquare],
                         ] as const
                       ).map(([id, label, Icon]) => (
@@ -382,18 +368,6 @@ export default function Booking() {
                       </div>
                     )}
 
-                    {mode === 'color' && (
-                      <div className="mt-6">
-                        <ColorPicker
-                          compact
-                          value={draft.color ?? DEFAULT_COLOR}
-                          onChange={(v) => set({ color: { ...v, name: COLORS.find((c) => c.hex === v.hex)?.name ?? v.name }, designId: undefined })}
-                        />
-                        {!draft.color && (
-                          <p className="mt-4 rounded-2xl bg-gris-50 p-3 text-[14px] text-choco">Tocá un color para guardarlo en tu reserva.</p>
-                        )}
-                      </div>
-                    )}
 
                     {mode === 'inspo' && (
                       <div className="mt-6">
@@ -403,7 +377,7 @@ export default function Booking() {
                             e.preventDefault()
                             onFiles(e.dataTransfer.files)
                           }}
-                          className={`flex cursor-pointer flex-col items-center justify-center gap-3 rounded-[24px] border-2 border-dashed border-gris p-8 text-center transition hover:border-ink hover:bg-gris-50/50 ${
+                          className={`flex cursor-pointer flex-col items-center justify-center gap-3 rounded-[12px] border-2 border-dashed border-gris p-8 text-center transition hover:border-ink hover:bg-gris-50/50 ${
                             draft.inspo.length >= 5 ? 'pointer-events-none opacity-50' : ''
                           }`}
                         >
@@ -447,7 +421,7 @@ export default function Booking() {
                         <Skeleton className="h-40" />
                       </div>
                     ) : bookableDays.length === 0 ? (
-                      <div className="mt-8 rounded-[24px] bg-gris-50 p-8 text-center">
+                      <div className="mt-8 rounded-[12px] bg-gris-50 p-8 text-center">
                         <CalendarBlank size={32} className="mx-auto text-ink" />
                         <p className="mt-3 font-semibold">No hay horarios libres por ahora.</p>
                         <p className="text-choco">Anotate en la lista de espera y Stefania te avisa si se libera un turno.</p>
@@ -467,7 +441,7 @@ export default function Booking() {
                                 aria-selected={on}
                                 disabled={!ok}
                                 onClick={() => set({ date: d, time: undefined })}
-                                className={`flex w-[68px] shrink-0 snap-start flex-col items-center rounded-[20px] py-3 transition ${
+                                className={`flex w-[68px] shrink-0 snap-start flex-col items-center rounded-[10px] py-3 transition ${
                                   on ? 'bg-ink text-white' : ok ? 'bg-gris-50 ring-1 ring-gris-100 hover:ring-ink/40' : 'bg-transparent text-ink/25 line-through'
                                 }`}
                               >
@@ -482,7 +456,7 @@ export default function Booking() {
                           <div className="mt-6">
                             <h2 className="font-serif text-[26px] text-ink">{fmtDate(draft.date)}</h2>
                             {times.length === 0 ? (
-                              <div className="mt-3 rounded-[20px] bg-gris-50 p-5">
+                              <div className="mt-3 rounded-[10px] bg-gris-50 p-5">
                                 <p className="text-choco">No quedan horarios libres este día para este servicio. Probá otro día o anotate en la lista de espera.</p>
                                 <WaitlistForm serviceId={service?.id} defaultName={draft.clientName} defaultPhone={draft.phone} preferred={draft.date ? fmtDate(draft.date) : ''} className="mt-4" />
                               </div>
@@ -494,7 +468,7 @@ export default function Booking() {
                                     role="radio"
                                     aria-checked={draft.time === t}
                                     onClick={() => set({ time: t })}
-                                    className={`h-12 rounded-full text-[15px] font-semibold tabular-nums transition ${draft.time === t ? 'bg-ink text-white' : 'bg-white ring-1 ring-gris hover:ring-ink'}`}
+                                    className={`h-12 rounded-[8px] text-[15px] font-semibold tabular-nums transition ${draft.time === t ? 'bg-ink text-white' : 'bg-white ring-1 ring-gris hover:ring-ink'}`}
                                   >
                                     {t}
                                   </button>
@@ -532,7 +506,7 @@ export default function Booking() {
                         <TextArea label="¿Algo que Stefania deba saber? (opcional)" value={draft.notes} onChange={(e) => set({ notes: e.target.value })} hint="Por ejemplo: si venís con esmalte para retirar o tenés alguna alergia." />
                       </div>
                     </div>
-                    <div className="mt-8 rounded-[24px] bg-gris-50 p-5 ring-1 ring-gris-100">
+                    <div className="mt-8 rounded-[12px] bg-gris-50 p-5 ring-1 ring-gris-100">
                       <p className="inline-flex items-center gap-2 font-semibold">
                         <ShieldCheck size={18} className="text-ink" /> Políticas del estudio
                       </p>
@@ -559,7 +533,7 @@ export default function Booking() {
                       Confirmá con la seña
                     </h1>
                     <p className="mt-2 text-choco">Tu horario queda reservado 1 hora mientras dejás la seña.</p>
-                    <div className="mt-6 overflow-hidden rounded-[28px] bg-gris-50/80 p-6 ring-1 ring-gris-100">
+                    <div className="mt-6 overflow-hidden rounded-[12px] bg-gris-50/80 p-6 ring-1 ring-gris-100">
                       <p className="font-serif text-[22px] text-ink">Tu próximo turno</p>
                       <dl className="mt-4 grid grid-cols-2 gap-4 text-[15px]">
                         <div>
@@ -605,17 +579,12 @@ export default function Booking() {
 
         {/* resumen */}
         <aside className="hidden lg:block">
-          <div className="sticky top-[140px] overflow-hidden rounded-[32px] glass-light shadow-[0_30px_60px_-50px_rgb(23_21_22/0.5)]">
+          <div className="sticky top-[140px] overflow-hidden rounded-[14px] glass-light shadow-[0_30px_60px_-50px_rgb(23_21_22/0.5)]">
             <div className="relative aspect-[4/5] bg-gris-50">
               <AnimatePresence mode="wait">
                 {visual ? (
                   <motion.div key={visual} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.45 }} className="absolute inset-0">
                     <Img src={visual} alt="" className="h-full w-full object-cover" />
-                  </motion.div>
-                ) : draft.color ? (
-                  <motion.div key="color" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="absolute inset-0 flex flex-col items-center justify-center gap-4">
-                    <NailSwatch hex={draft.color.hex} finish={draft.color.finish} shape={draft.color.shape} className="h-32 w-20" />
-                    <span className="font-serif text-[26px]">{draft.color.name}</span>
                   </motion.div>
                 ) : (
                   <motion.img key="hand" src={assetUrl('img/disenos/firma-bordo.webp')} alt="" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="absolute inset-0 h-full w-full object-cover" />
@@ -626,7 +595,7 @@ export default function Booking() {
               <p className="font-serif text-[26px] leading-none text-ink">Tu turno</p>
               <dl className="mt-4 space-y-3 text-[14px]">
                 <Row label="Servicio" value={service?.name} />
-                <Row label="Diseño" value={design?.name ?? (draft.color ? `${draft.color.name}, liso` : draft.inspo.length ? 'Tu inspiración' : 'Lo charlamos en el turno')} />
+                <Row label="Diseño" value={design?.name ?? (draft.inspo.length ? 'Tu inspiración' : 'Lo charlamos en el turno')} />
                 {draft.inspo.length > 0 && (
                   <div className="flex gap-1.5">
                     {draft.inspo.map((i) => (

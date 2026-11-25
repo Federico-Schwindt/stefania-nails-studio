@@ -50,7 +50,7 @@ export default function MyBooking() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           onSubmit={search}
-          className="rounded-[32px] glass-light p-6 shadow-[0_40px_80px_-50px_rgb(23_21_22/0.6)] sm:p-8"
+          className="rounded-[14px] glass-light p-6 shadow-[0_40px_80px_-50px_rgb(23_21_22/0.6)] sm:p-8"
         >
           <h1 className="text-[44px] leading-none text-ink">Mi turno</h1>
           <p className="mt-3 text-choco">Buscá tu reserva para ver el estado, pagar la seña o cancelarla.</p>

@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
 import { useCatalog } from '../lib/store'
-import { ColorLab } from './home/ColorLab'
 import { Designs } from './home/Designs'
-import { FeatureStrip, Hero, Navbar } from './home/Hero'
-import { About, Contact, Faq, Footer, HowTo, Policies, Works } from './home/Sections'
+import { Hero, Navbar } from './home/Hero'
+import { QuickBook } from './home/QuickBook'
+import { About, Contact, Faq, Footer, Policies } from './home/Sections'
 import { Services } from './home/Services'
 
 export default function Home() {
@@ -14,15 +14,12 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <main className="grain">
+      <main>
         <Hero />
-        <FeatureStrip />
+        <QuickBook />
         <Services />
         <Designs />
-        <ColorLab />
-        <HowTo />
         <About />
-        <Works />
         <Policies />
         <Faq />
         <Contact />

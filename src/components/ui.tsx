@@ -15,14 +15,14 @@ import { CircleNotch, X } from '@phosphor-icons/react'
 
 /*
   Regla de formas del sitio:
-  - Botones, chips y toggles: pill (rounded-full)
-  - Inputs: 16px (rounded-2xl)
-  - Tarjetas: 28px (rounded-[28px]) / Paneles grandes: 36px
+  - Botones: 8px · Chips, horarios y toggles: pill
+  - Inputs: 10px
+  - Tarjetas: 12px / Paneles grandes: 14-16px · Fotos: 10px
 */
 
 type Variant = 'primary' | 'dark' | 'light' | 'ghost' | 'outline' | 'danger'
 const variants: Record<Variant, string> = {
-  primary: 'bg-ink text-white hover:bg-ink/85 shadow-[0_10px_30px_-12px_rgb(23_21_22/0.6)]',
+  primary: 'bg-ink text-white hover:bg-ink/85',
   dark: 'bg-ink text-white hover:bg-ink/85',
   light: 'bg-white text-ink hover:bg-gris-50',
   ghost: 'bg-transparent text-ink hover:bg-ink/5',
@@ -51,7 +51,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
     <button
       ref={ref}
       disabled={disabled || loading}
-      className={`inline-flex select-none items-center justify-center gap-2 whitespace-nowrap rounded-full font-semibold transition duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 ${variants[variant]} ${sizes[size]} ${className}`}
+      className={`inline-flex select-none items-center justify-center gap-2 whitespace-nowrap rounded-[8px] font-semibold transition duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 ${variants[variant]} ${sizes[size]} ${className}`}
       {...rest}
     >
       {loading ? <CircleNotch className="animate-spin" size={18} weight="bold" /> : icon}
@@ -119,7 +119,7 @@ function FieldShell({ id, label, hint, error, children }: { id: string; label: s
 }
 
 const inputCls =
-  'w-full rounded-2xl bg-white px-4 text-[16px] text-ink ring-1 ring-inset ring-gris placeholder:text-ink/45 transition focus:outline-none focus:ring-2 focus:ring-ink aria-[invalid=true]:ring-ink'
+  'w-full rounded-[10px] bg-white px-4 text-[16px] text-ink ring-1 ring-inset ring-gris placeholder:text-ink/45 transition focus:outline-none focus:ring-2 focus:ring-ink aria-[invalid=true]:ring-ink'
 
 export const Field = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputElement> & { label: string; hint?: string; error?: string }>(
   function Field({ label, hint, error, className = '', id, ...rest }, ref) {
@@ -178,7 +178,7 @@ export function Toggle({ checked, onChange, label }: { checked: boolean; onChang
 }
 
 export function Skeleton({ className = '' }: { className?: string }) {
-  return <div className={`animate-pulse rounded-2xl bg-gris-100 ${className}`} />
+  return <div className={`animate-pulse rounded-[10px] bg-gris-100 ${className}`} />
 }
 
 export function Sheet({
@@ -213,7 +213,7 @@ export function Sheet({
         initial={{ y: 40, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ type: 'spring', stiffness: 260, damping: 28 }}
-        className={`relative max-h-[92dvh] w-full overflow-y-auto rounded-t-[28px] bg-white p-6 shadow-2xl sm:rounded-[28px] ${wide ? 'sm:max-w-3xl' : 'sm:max-w-lg'}`}
+        className={`relative max-h-[92dvh] w-full overflow-y-auto rounded-t-[14px] bg-white p-6 shadow-2xl sm:rounded-[12px] ${wide ? 'sm:max-w-3xl' : 'sm:max-w-lg'}`}
       >
         <div className="mb-4 flex items-start justify-between gap-4">
           <h2 className="text-3xl leading-tight text-ink">{title}</h2>
@@ -251,7 +251,7 @@ export function Toaster() {
           key={t.id}
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className={`pointer-events-auto rounded-full px-5 py-3 text-[14px] font-medium shadow-lg ${t.tone === 'ok' ? 'bg-ink text-white' : 'bg-ink text-white'}`}
+          className={`pointer-events-auto rounded-[8px] px-5 py-3 text-[14px] font-medium shadow-lg ${t.tone === 'ok' ? 'bg-ink text-white' : 'bg-ink text-white'}`}
         >
           {t.text}
         </motion.div>

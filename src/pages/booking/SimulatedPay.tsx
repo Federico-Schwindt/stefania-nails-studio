@@ -52,11 +52,11 @@ export default function SimulatedPay() {
           </Link>
         </div>
         {loading ? (
-          <Skeleton className="h-[460px] rounded-[32px]" />
+          <Skeleton className="h-[460px] rounded-[14px]" />
         ) : !b ? (
-          <p className="rounded-[28px] glass-light p-8 text-center">No encontramos la reserva.</p>
+          <p className="rounded-[12px] glass-light p-8 text-center">No encontramos la reserva.</p>
         ) : (
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="overflow-hidden rounded-[32px] glass-light shadow-[0_40px_80px_-50px_rgb(23_21_22/0.6)]">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="overflow-hidden rounded-[14px] glass-light shadow-[0_40px_80px_-50px_rgb(23_21_22/0.6)]">
             <div className="bg-accent bg-[radial-gradient(80%_120%_at_100%_0%,rgb(239_233_223/0.14),transparent_60%)] px-6 py-5 text-bone">
               <p className="inline-flex items-center gap-2 rounded-full bg-bone/15 px-3 py-1 text-[12px] font-semibold uppercase tracking-wider">Pago de prueba</p>
               <p className="mt-3 text-bone/80">Seña para {b.serviceName}</p>
@@ -66,7 +66,7 @@ export default function SimulatedPay() {
               </p>
             </div>
             <div className="space-y-4 p-6">
-              <div className="rounded-[20px] bg-gris-50 p-4 ring-1 ring-gris-100">
+              <div className="rounded-[10px] bg-gris-50 p-4 ring-1 ring-gris-100">
                 <p className="inline-flex items-center gap-2 text-[14px] font-semibold">
                   <CreditCard size={18} className="text-ink" /> Tarjeta de prueba
                 </p>

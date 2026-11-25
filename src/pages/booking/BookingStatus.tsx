@@ -129,9 +129,9 @@ export default function BookingStatus() {
         </div>
 
         {loading ? (
-          <Skeleton className="h-[480px] rounded-[32px]" />
+          <Skeleton className="h-[480px] rounded-[14px]" />
         ) : !booking || !st ? (
-          <div className="rounded-[32px] glass-light p-8 text-center">
+          <div className="rounded-[14px] glass-light p-8 text-center">
             <WarningCircle size={36} className="mx-auto text-ink" />
             <h1 className="mt-3 text-4xl text-ink">No encontramos tu reserva</h1>
             <p className="mt-2 text-choco">Revisá el enlace o buscala en "Mi turno".</p>
@@ -144,7 +144,7 @@ export default function BookingStatus() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="overflow-hidden rounded-[32px] glass-light shadow-[0_40px_80px_-50px_rgb(23_21_22/0.6)]"
+            className="overflow-hidden rounded-[14px] glass-light shadow-[0_40px_80px_-50px_rgb(23_21_22/0.6)]"
           >
             <div className={`flex items-center gap-3 px-6 py-4 ${st.tone}`}>
               <st.Icon size={22} weight="fill" />
@@ -215,7 +215,7 @@ export default function BookingStatus() {
                   Agendar en el calendario
                 </Button>
               ) : (
-                <Link to="/reservar" className="inline-flex h-11 items-center justify-center rounded-full bg-ink px-5 text-[15px] font-semibold text-white">
+                <Link to="/reservar" className="inline-flex h-11 items-center justify-center rounded-[8px] bg-ink px-5 text-[15px] font-semibold text-white">
                   Reservar otro turno
                 </Link>
               )}
@@ -224,7 +224,7 @@ export default function BookingStatus() {
                   href={`https://wa.me/${wa}?text=${encodeURIComponent(waText)}`}
                   target="_blank"
                   rel="noreferrer"
-                  className={`inline-flex h-11 items-center justify-center gap-2 rounded-full bg-ink px-5 text-[15px] font-semibold text-white transition hover:bg-ink/85 ${booking.status === 'pending_payment' ? 'sm:col-span-2' : ''}`}
+                  className={`inline-flex h-11 items-center justify-center gap-2 rounded-[8px] bg-ink px-5 text-[15px] font-semibold text-white transition hover:bg-ink/85 ${booking.status === 'pending_payment' ? 'sm:col-span-2' : ''}`}
                 >
                   <WhatsappLogo size={18} weight="fill" /> Escribir a Stefania
                 </a>
