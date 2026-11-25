@@ -30,13 +30,13 @@ export function About() {
           />
         </motion.div>
         <motion.div {...reveal(1)} className="md:col-span-6 md:col-start-7">
-          <h2 className="text-[clamp(44px,6vw,80px)] leading-[0.95] text-bordo">Conocé a Stefania</h2>
+          <h2 className="text-[clamp(44px,6vw,80px)] leading-[0.95] text-ink">Conocé a Stefania</h2>
           <p className="mt-6 max-w-[52ch] text-[18px] leading-relaxed text-ink/85">
             Cada turno es uno a uno, en su estudio. Trabaja semipermanente, soft gel y polygel, y dibuja cada diseño a mano, desde una francesita fina hasta un animal print.
           </p>
           <p className="mt-4 max-w-[52ch] text-choco">Traé tu idea o elegila de su galería: la charlan al empezar y se adapta a tu uña.</p>
           <div className="mt-8 flex items-center gap-4">
-            <Logo className="h-12 text-bordo" />
+            <Logo className="h-12 text-accent" />
           </div>
         </motion.div>
       </div>
@@ -79,7 +79,7 @@ export function Works() {
   return (
     <section id="trabajos" className="scroll-mt-24 bg-white py-20 md:py-28">
       <div className="mx-auto max-w-[1400px] px-4 sm:px-8">
-        <h2 className="max-w-3xl text-[clamp(44px,6vw,80px)] leading-[0.95] text-bordo">Trabajos reales del estudio</h2>
+        <h2 className="max-w-3xl text-[clamp(44px,6vw,80px)] leading-[0.95] text-ink">Trabajos reales del estudio</h2>
         <p className="mt-4 max-w-[48ch] text-choco">Fotos sin filtros de clientas reales. Tocá una para verla grande.</p>
         <div className="mt-10 columns-2 gap-3 sm:gap-4 md:columns-3 lg:columns-4">
           {shown.map((w, i) => (
@@ -96,7 +96,7 @@ export function Works() {
         </div>
         {!all && WORKS.length > 12 && (
           <div className="mt-6 flex justify-center">
-            <button onClick={() => setAll(true)} className="inline-flex h-12 items-center rounded-full px-6 text-[15px] font-semibold text-ink ring-1 ring-gris transition hover:ring-bordo">
+            <button onClick={() => setAll(true)} className="inline-flex h-12 items-center rounded-full px-6 text-[15px] font-semibold text-ink ring-1 ring-gris transition hover:ring-ink">
               Ver más trabajos ({WORKS.length - 12})
             </button>
           </div>
@@ -134,24 +134,24 @@ export function Works() {
 /* ---------------- Cómo reservar (pila fija al hacer scroll) ---------------- */
 const STEPS = [
   { icon: Sparkle, title: 'Elegí tu servicio', text: 'Semipermanente, capping, soft gel o sistema dual. Ves el precio y la duración antes de seguir.', img: 'img/trabajos/baby-boomer.webp', tone: 'bg-white' },
-  { icon: ImageSquare, title: 'Mostrá tu idea', text: 'Elegí un diseño de la galería, probá un color en 3D o subí tus fotos de inspiración.', img: 'img/disenos/florcitas.webp', tone: 'bg-bordo-50' },
+  { icon: ImageSquare, title: 'Mostrá tu idea', text: 'Elegí un diseño de la galería, probá un color en 3D o subí tus fotos de inspiración.', img: 'img/disenos/florcitas.webp', tone: 'bg-gris-50' },
   { icon: CalendarCheck, title: 'Reservá día y hora', text: 'Ves sólo los horarios libres reales. Stefania confirma tu turno desde su agenda.', img: 'img/marca/tarjeta.webp', tone: 'bg-gris-50' },
-  { icon: CreditCard, title: 'Dejá la seña', text: 'Por transferencia o Mercado Pago, en un minuto. Se descuenta del total el día del turno.', img: 'img/estudio/estudio.webp', tone: 'bg-bordo text-white' },
+  { icon: CreditCard, title: 'Dejá la seña', text: 'Por transferencia o Mercado Pago, en un minuto. Se descuenta del total el día del turno.', img: 'img/estudio/estudio.webp', tone: 'bg-ink text-white' },
 ]
 
 export function HowTo() {
   return (
-    <section className="bg-[#f3efee] py-20 md:py-28">
+    <section className="bg-studio py-20 md:py-28">
       <div className="mx-auto max-w-[1200px] px-4 sm:px-8">
-        <h2 className="mb-10 text-[clamp(44px,6vw,80px)] leading-[0.95] text-bordo md:mb-14">Reservá en cuatro pasos</h2>
+        <h2 className="mb-10 text-[clamp(44px,6vw,80px)] leading-[0.95] text-ink md:mb-14">Reservá en cuatro pasos</h2>
         <div className="relative">
           {STEPS.map((s, i) => {
-            const dark = s.tone.startsWith('bg-bordo text')
+            const dark = s.tone.startsWith('bg-ink text')
             return (
             <div key={s.title} className="sticky mb-6" style={{ top: `${24 + i * 22}px` }}>
-              <article className={`grid min-h-[340px] overflow-hidden rounded-[32px] shadow-[0_30px_60px_-40px_rgb(73_45_35/0.5)] md:grid-cols-2 ${s.tone}`}>
+              <article className={`grid min-h-[340px] overflow-hidden rounded-[32px] shadow-[0_30px_60px_-40px_rgb(23_21_22/0.5)] md:grid-cols-2 ${s.tone}`}>
                 <div className="flex flex-col justify-between p-8 md:p-12">
-                  <span className={`inline-flex h-12 w-12 items-center justify-center rounded-full ${dark ? 'bg-white/15' : 'bg-bordo text-white'}`}>
+                  <span className={`inline-flex h-12 w-12 items-center justify-center rounded-full ${dark ? 'bg-white/15' : 'bg-ink text-white'}`}>
                     <s.icon size={22} />
                   </span>
                   <div className="mt-10">
@@ -168,9 +168,9 @@ export function HowTo() {
           })}
         </div>
         <div className="mt-6 flex justify-center">
-          <Link to="/reservar" className="group inline-flex h-14 items-center gap-6 rounded-full bg-bordo pl-7 pr-2 text-[16px] font-semibold text-white transition hover:bg-bordo-700">
+          <Link to="/reservar" className="group inline-flex h-14 items-center gap-6 rounded-full bg-ink pl-7 pr-2 text-[16px] font-semibold text-white transition hover:bg-black">
             Reservar turno
-            <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white text-bordo transition group-hover:rotate-45">
+            <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white text-ink transition group-hover:rotate-45">
               <ArrowUpRight size={18} weight="bold" />
             </span>
           </Link>
@@ -192,7 +192,7 @@ export function Policies() {
     <section id="politicas" className="mx-auto max-w-[1400px] scroll-mt-24 px-4 py-20 sm:px-8 md:py-28">
       <div className="grid gap-10 lg:grid-cols-[minmax(0,4fr)_minmax(0,7fr)]">
         <motion.div {...reveal()}>
-          <h2 className="text-[clamp(44px,6vw,80px)] leading-[0.95] text-bordo">Antes de tu turno</h2>
+          <h2 className="text-[clamp(44px,6vw,80px)] leading-[0.95] text-ink">Antes de tu turno</h2>
           <p className="mt-4 max-w-[36ch] text-choco">Al reservar aceptás estas políticas de trabajo. Están para cuidar tu tiempo y el de las demás clientas.</p>
           <img src={assetUrl('img/estudio/herramientas.webp')} alt="Herramientas de manicura esterilizadas" className="mt-8 hidden aspect-[4/3] w-full rounded-[28px] object-cover grayscale lg:block" loading="lazy" />
         </motion.div>
@@ -201,9 +201,9 @@ export function Policies() {
             <motion.li
               key={i}
               {...reveal(i % 2)}
-              className={`rounded-[24px] p-6 ${i === 0 ? 'bg-bordo text-white sm:col-span-2' : 'bg-gris-50 ring-1 ring-gris-100'} ${i === items.length - 1 && items.length % 2 === 0 ? 'sm:col-span-2' : ''}`}
+              className={`rounded-[24px] p-6 ${i === 0 ? 'bg-ink text-white sm:col-span-2' : 'bg-gris-50 ring-1 ring-gris-100'} ${i === items.length - 1 && items.length % 2 === 0 ? 'sm:col-span-2' : ''}`}
             >
-              <span className={`font-serif text-[40px] leading-none ${i === 0 ? 'text-white/40' : 'text-bordo/30'}`}>{String(i + 1).padStart(2, '0')}</span>
+              <span className={`font-serif text-[40px] leading-none ${i === 0 ? 'text-white/40' : 'text-ink/30'}`}>{String(i + 1).padStart(2, '0')}</span>
               <p className={`mt-3 leading-relaxed ${i === 0 ? 'text-[20px] font-medium' : 'text-[16px] text-ink/85'}`}>{p}</p>
             </motion.li>
           ))}
@@ -236,7 +236,7 @@ export function Contact() {
                   href={`https://wa.me/${wa}?text=${encodeURIComponent('Hola Stefania! Quería consultar por un turno.')}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex h-14 items-center gap-2 rounded-full bg-white px-6 text-[16px] font-semibold text-bordo transition hover:bg-bordo-50"
+                  className="inline-flex h-14 items-center gap-2 rounded-full bg-white px-6 text-[16px] font-semibold text-ink transition hover:bg-gris-50"
                 >
                   <WhatsappLogo size={20} weight="fill" /> Escribinos por WhatsApp
                 </a>
@@ -271,14 +271,14 @@ export function Footer() {
   return (
     <footer className="mx-auto max-w-[1400px] px-4 pb-10 pt-16 sm:px-8">
       <div className="flex flex-col items-start justify-between gap-8 md:flex-row md:items-end">
-        <Logo className="h-20 text-bordo md:h-28" />
+        <Logo className="h-20 text-accent md:h-28" />
         <nav aria-label="Pie" className="flex flex-wrap gap-x-6 gap-y-2 text-[15px] text-ink/70">
-          <a href="#servicios" className="hover:text-bordo">Servicios</a>
-          <a href="#disenos" className="hover:text-bordo">Diseños</a>
-          <a href="#politicas" className="hover:text-bordo">Políticas</a>
-          <Link to="/reservar" className="hover:text-bordo">Reservar</Link>
-          <Link to="/mi-turno" className="hover:text-bordo">Mi turno</Link>
-          <Link to="/admin" className="hover:text-bordo">Acceso estudio</Link>
+          <a href="#servicios" className="hover:text-ink">Servicios</a>
+          <a href="#disenos" className="hover:text-ink">Diseños</a>
+          <a href="#politicas" className="hover:text-ink">Políticas</a>
+          <Link to="/reservar" className="hover:text-ink">Reservar</Link>
+          <Link to="/mi-turno" className="hover:text-ink">Mi turno</Link>
+          <Link to="/admin" className="hover:text-ink">Acceso estudio</Link>
         </nav>
       </div>
       <p className="mt-10 border-t border-gris-100 pt-6 text-[13px] text-choco/80">© {new Date().getFullYear()} Stefania Nails Studio</p>
@@ -303,7 +303,7 @@ export function Faq() {
     <section id="preguntas" className="scroll-mt-24 bg-gris-50 py-20 md:py-28">
       <div className="mx-auto grid max-w-[1200px] gap-10 px-4 sm:px-8 lg:grid-cols-[minmax(0,4fr)_minmax(0,7fr)]">
         <div>
-          <h2 className="text-[clamp(44px,6vw,80px)] leading-[0.95] text-bordo">Preguntas frecuentes</h2>
+          <h2 className="text-[clamp(44px,6vw,80px)] leading-[0.95] text-ink">Preguntas frecuentes</h2>
           <p className="mt-4 max-w-[34ch] text-choco">¿Te queda alguna duda? Escribile a Stefania por WhatsApp.</p>
         </div>
         <ul className="space-y-3">
@@ -313,7 +313,7 @@ export function Faq() {
               <li key={it.q} className="overflow-hidden rounded-[22px] bg-white ring-1 ring-gris-100">
                 <button onClick={() => setOpen(on ? null : i)} aria-expanded={on} className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left text-[17px] font-semibold text-ink">
                   {it.q}
-                  <CaretDown size={18} className={`shrink-0 text-bordo transition ${on ? 'rotate-180' : ''}`} />
+                  <CaretDown size={18} className={`shrink-0 text-ink transition ${on ? 'rotate-180' : ''}`} />
                 </button>
                 <AnimatePresence initial={false}>
                   {on && (

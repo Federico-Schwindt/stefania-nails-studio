@@ -36,17 +36,17 @@ export default function Agenda() {
   function shift(days: number) { setFrom(date => isoDate(addDays(parseIso(date), days))) }
   return <div className="space-y-6">
     <div className="flex flex-wrap items-center justify-between gap-3">
-      <h2 className="text-3xl text-bordo">Resumen semanal</h2>
+      <h2 className="text-3xl text-ink">Resumen semanal</h2>
       <Button icon={<Plus size={18} />} onClick={() => setCreating(true)}>Nuevo turno</Button>
     </div>
     {stats && <dl className="grid grid-cols-2 gap-3 xl:grid-cols-4">{stats.map(({ label, value, icon: Icon }) =>
       <div key={label} className="min-w-0 rounded-[28px] p-4 ring-1 ring-inset ring-gris sm:p-5">
-        <dt className="flex flex-wrap items-center gap-2 text-sm text-choco"><Icon size={18} className="text-bordo" />{label}</dt>
-        <dd className="mt-2 break-words font-serif text-3xl leading-tight text-bordo sm:text-4xl">{value}</dd>
+        <dt className="flex flex-wrap items-center gap-2 text-sm text-choco"><Icon size={18} className="text-ink" />{label}</dt>
+        <dd className="mt-2 break-words font-serif text-3xl leading-tight text-ink sm:text-4xl">{value}</dd>
       </div>)}</dl>}
     <section aria-label="Calendario semanal" className="space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h2 className="text-2xl text-bordo sm:text-3xl">{dateLabel(from, { day: 'numeric', month: 'short', ...(from.slice(0,4) !== to.slice(0,4) ? { year: 'numeric' } : {}) })} al {dateLabel(to, { day: 'numeric', month: 'short', year: 'numeric' })}</h2>
+        <h2 className="text-2xl text-ink sm:text-3xl">{dateLabel(from, { day: 'numeric', month: 'short', ...(from.slice(0,4) !== to.slice(0,4) ? { year: 'numeric' } : {}) })} al {dateLabel(to, { day: 'numeric', month: 'short', year: 'numeric' })}</h2>
         <div className="flex items-center gap-1"><IconButton label="Semana anterior" onClick={() => shift(-7)}><CaretLeft /></IconButton>
           <Button size="sm" variant="outline" onClick={() => setFrom(monday(parseIso(today)))}>Hoy</Button>
           <IconButton label="Semana siguiente" onClick={() => shift(7)}><CaretRight /></IconButton></div>

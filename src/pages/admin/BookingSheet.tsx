@@ -38,22 +38,22 @@ export default function BookingSheet({ booking: b, onClose, onChange }: { bookin
   if (paying) return <PaymentDialog booking={b} onClose={() => setPaying(false)} onPaid={onChange} />
   return <AdminSheet wide title={'Turno ' + b.code} onClose={() => { if (!action.busy) onClose() }}>
     <div className="space-y-5">
-      <div className="rounded-[28px] bg-bordo-50 p-5">
-        <p className="text-sm font-semibold text-bordo">{statusNames[b.status]}</p>
-        <h3 className="mt-1 break-words text-3xl text-bordo">{b.clientName}</h3>
+      <div className="rounded-[28px] bg-gris-50 p-5">
+        <p className="text-sm font-semibold text-ink">{statusNames[b.status]}</p>
+        <h3 className="mt-1 break-words text-3xl text-ink">{b.clientName}</h3>
         <p className="mt-1 text-choco">{dateLabel(b.date)} · {b.time} · {b.durationMin} min</p>
       </div>
       <dl className="grid gap-5 sm:grid-cols-2">
-        <Detail label="Teléfono">{b.phone}<Link to={'/admin/clientas?telefono=' + encodeURIComponent(b.phone)} className="mt-1 block text-sm text-bordo underline">Ver ficha de la clienta</Link></Detail>
-        <Detail label="Instagram">{instagram ? <a className="inline-flex items-center gap-1 text-bordo underline" href={'https://www.instagram.com/' + encodeURIComponent(instagram) + '/'} target="_blank" rel="noreferrer"><InstagramLogo size={17} />@{instagram}</a> : 'Sin indicar'}</Detail>
+        <Detail label="Teléfono">{b.phone}<Link to={'/admin/clientas?telefono=' + encodeURIComponent(b.phone)} className="mt-1 block text-sm text-ink underline">Ver ficha de la clienta</Link></Detail>
+        <Detail label="Instagram">{instagram ? <a className="inline-flex items-center gap-1 text-ink underline" href={'https://www.instagram.com/' + encodeURIComponent(instagram) + '/'} target="_blank" rel="noreferrer"><InstagramLogo size={17} />@{instagram}</a> : 'Sin indicar'}</Detail>
         <Detail label="Servicio">{b.serviceName}</Detail><Detail label="Diseño">{b.designName || b.color ? <BookingStyle booking={b} /> : 'Sin diseño elegido'}</Detail>
         <Detail label="Extras">{b.extras.length ? <ul>{b.extras.map(e => <li key={e.extraId}>{e.name} × {e.qty} · {money(e.price * e.qty)}</li>)}</ul> : 'Sin extras'}</Detail>
         <Detail label="Notas de la clienta">{b.notes || 'Sin notas'}</Detail>
       </dl>
-      <section><h3 className="mb-2 text-2xl text-bordo">Inspiración</h3>
+      <section><h3 className="mb-2 text-2xl text-ink">Inspiración</h3>
         {b.inspoUrls.length ? <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">{b.inspoUrls.map((url, i) => <Photo key={i} src={url} label={'foto de inspiración ' + (i + 1)} />)}</div> : <p className="text-sm text-choco">Sin fotos adjuntas.</p>}
       </section>
-      <section className="space-y-3"><h3 className="text-2xl text-bordo">Pago</h3>
+      <section className="space-y-3"><h3 className="text-2xl text-ink">Pago</h3>
         <Totals booking={b} />
         <p className="text-sm">Seña de {money(b.deposit)}{b.depositMethod && ' · ' + methodNames[b.depositMethod]}</p>
         {b.balanceMethod && <p className="text-sm">Medio del saldo · {methodNames[b.balanceMethod]}</p>}
@@ -61,7 +61,7 @@ export default function BookingSheet({ booking: b, onClose, onChange }: { bookin
         {b.depositProofUrl && <div><p className="mb-2 text-sm">Comprobante de seña</p><Photo src={b.depositProofUrl} label="comprobante de seña" /></div>}
         <Button size="sm" disabled={action.busy} onClick={() => setPaying(true)}>Cobrar</Button>
       </section>
-      <section className="space-y-3"><h3 className="text-2xl text-bordo">WhatsApp</h3>
+      <section className="space-y-3"><h3 className="text-2xl text-ink">WhatsApp</h3>
         {settings.data ? <div className="flex flex-wrap gap-2">{templateKeys.map(key =>
           <WhatsApp key={key} template={key} booking={b} settings={settings.data!} onClick={key === 'reminder' ? () => void action.run(async () => {
             await api.markReminded(b.id); toast.ok('Recordatorio marcado.'); onChange()

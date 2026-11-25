@@ -22,12 +22,12 @@ import { CircleNotch, X } from '@phosphor-icons/react'
 
 type Variant = 'primary' | 'dark' | 'light' | 'ghost' | 'outline' | 'danger'
 const variants: Record<Variant, string> = {
-  primary: 'bg-bordo text-white hover:bg-bordo-700 shadow-[0_10px_30px_-12px_rgb(87_3_20/0.6)]',
+  primary: 'bg-ink text-white hover:bg-black shadow-[0_10px_30px_-12px_rgb(23_21_22/0.6)]',
   dark: 'bg-ink text-white hover:bg-black/85',
-  light: 'bg-white text-bordo hover:bg-bordo-50',
+  light: 'bg-white text-ink hover:bg-gris-50',
   ghost: 'bg-transparent text-ink hover:bg-ink/5',
   outline: 'bg-white text-ink ring-1 ring-inset ring-gris hover:ring-ink/40',
-  danger: 'bg-white text-bordo ring-1 ring-inset ring-bordo/30 hover:bg-bordo-50',
+  danger: 'bg-white text-ink ring-1 ring-inset ring-ink/30 hover:bg-gris-50',
 }
 const sizes = {
   sm: 'h-9 px-4 text-[14px]',
@@ -89,7 +89,7 @@ export function Chip({
     <button
       aria-pressed={active}
       className={`inline-flex h-9 items-center gap-1.5 whitespace-nowrap rounded-full px-4 text-[14px] font-medium transition ${
-        active ? 'bg-bordo text-white' : 'bg-white text-ink ring-1 ring-inset ring-gris hover:ring-ink/40'
+        active ? 'bg-ink text-white' : 'bg-white text-ink ring-1 ring-inset ring-gris hover:ring-ink/40'
       } ${className}`}
       {...rest}
     >
@@ -106,7 +106,7 @@ function FieldShell({ id, label, hint, error, children }: { id: string; label: s
       </label>
       {children}
       {error ? (
-        <p id={`${id}-err`} className="text-[13px] font-medium text-bordo">
+        <p id={`${id}-err`} className="text-[13px] font-medium text-ink">
           {error}
         </p>
       ) : hint ? (
@@ -119,7 +119,7 @@ function FieldShell({ id, label, hint, error, children }: { id: string; label: s
 }
 
 const inputCls =
-  'w-full rounded-2xl bg-white px-4 text-[16px] text-ink ring-1 ring-inset ring-gris placeholder:text-ink/45 transition focus:outline-none focus:ring-2 focus:ring-bordo aria-[invalid=true]:ring-bordo'
+  'w-full rounded-2xl bg-white px-4 text-[16px] text-ink ring-1 ring-inset ring-gris placeholder:text-ink/45 transition focus:outline-none focus:ring-2 focus:ring-ink aria-[invalid=true]:ring-ink'
 
 export const Field = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputElement> & { label: string; hint?: string; error?: string }>(
   function Field({ label, hint, error, className = '', id, ...rest }, ref) {
@@ -170,7 +170,7 @@ export function Toggle({ checked, onChange, label }: { checked: boolean; onChang
       aria-checked={checked}
       aria-label={label}
       onClick={() => onChange(!checked)}
-      className={`relative inline-flex h-7 w-12 shrink-0 items-center rounded-full transition ${checked ? 'bg-bordo' : 'bg-gris'}`}
+      className={`relative inline-flex h-7 w-12 shrink-0 items-center rounded-full transition ${checked ? 'bg-ink' : 'bg-gris'}`}
     >
       <span className={`inline-block h-5 w-5 rounded-full bg-white shadow transition ${checked ? 'translate-x-6' : 'translate-x-1'}`} />
     </button>
@@ -216,7 +216,7 @@ export function Sheet({
         className={`relative max-h-[92dvh] w-full overflow-y-auto rounded-t-[28px] bg-white p-6 shadow-2xl sm:rounded-[28px] ${wide ? 'sm:max-w-3xl' : 'sm:max-w-lg'}`}
       >
         <div className="mb-4 flex items-start justify-between gap-4">
-          <h2 className="text-3xl leading-tight text-bordo">{title}</h2>
+          <h2 className="text-3xl leading-tight text-ink">{title}</h2>
           <IconButton label="Cerrar" onClick={onClose} className="-mr-2 -mt-1">
             <X size={20} />
           </IconButton>
@@ -251,7 +251,7 @@ export function Toaster() {
           key={t.id}
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className={`pointer-events-auto rounded-full px-5 py-3 text-[14px] font-medium shadow-lg ${t.tone === 'ok' ? 'bg-ink text-white' : 'bg-bordo text-white'}`}
+          className={`pointer-events-auto rounded-full px-5 py-3 text-[14px] font-medium shadow-lg ${t.tone === 'ok' ? 'bg-ink text-white' : 'bg-ink text-white'}`}
         >
           {t.text}
         </motion.div>

@@ -107,11 +107,11 @@ export function ColorPicker({ value, onChange, compact }: { value: ColorChoice; 
                   aria-label={c.name}
                   title={c.name}
                   onClick={() => onChange({ ...value, hex: c.hex, name: c.name })}
-                  className={`group relative aspect-square overflow-hidden rounded-2xl transition active:scale-95 ${on ? 'ring-2 ring-bordo ring-offset-2' : 'ring-1 ring-black/10 hover:-translate-y-0.5'}`}
+                  className={`group relative aspect-square overflow-hidden rounded-2xl transition active:scale-95 ${on ? 'ring-2 ring-ink ring-offset-2' : 'ring-1 ring-black/10 hover:-translate-y-0.5'}`}
                   style={{ background: polishBackground(c.hex, value.finish === 'matte' ? 'matte' : 'gloss') }}
                 >
                   {on && (
-                    <span className="absolute right-1.5 top-1.5 inline-flex h-5 w-5 items-center justify-center rounded-full bg-white text-bordo shadow">
+                    <span className="absolute right-1.5 top-1.5 inline-flex h-5 w-5 items-center justify-center rounded-full bg-white text-ink shadow">
                       <Check size={12} weight="bold" />
                     </span>
                   )}
@@ -135,7 +135,7 @@ export function ColorPicker({ value, onChange, compact }: { value: ColorChoice; 
                   type="button"
                   aria-pressed={on}
                   onClick={() => onChange({ ...value, finish: f.id })}
-                  className={`flex flex-col items-start gap-2 rounded-2xl p-3 text-left transition ${on ? 'bg-bordo-50 ring-2 ring-bordo' : 'bg-white ring-1 ring-gris hover:ring-ink/40'}`}
+                  className={`flex flex-col items-start gap-2 rounded-2xl p-3 text-left transition ${on ? 'bg-gris-50 ring-2 ring-ink' : 'bg-white ring-1 ring-gris hover:ring-ink/40'}`}
                 >
                   <span className="block aspect-square w-9 rounded-xl ring-1 ring-black/10" style={{ background: polishBackground(value.hex, f.id) }} />
                   <span>
@@ -159,7 +159,7 @@ export function ColorPicker({ value, onChange, compact }: { value: ColorChoice; 
                   type="button"
                   aria-pressed={on}
                   onClick={() => onChange({ ...value, shape: s.id })}
-                  className={`flex aspect-square flex-col items-center justify-center gap-2 rounded-2xl transition ${on ? 'bg-bordo-50 ring-2 ring-bordo' : 'bg-white ring-1 ring-gris hover:ring-ink/40'}`}
+                  className={`flex aspect-square flex-col items-center justify-center gap-2 rounded-2xl transition ${on ? 'bg-gris-50 ring-2 ring-ink' : 'bg-white ring-1 ring-gris hover:ring-ink/40'}`}
                 >
                   <NailSwatch hex={value.hex} finish="gloss" shape={s.id} className="h-9 w-6" />
                   <span className="text-[12px] font-semibold text-ink">{s.label}</span>
@@ -182,7 +182,7 @@ export function ColorLab() {
     <section id="color" className="mx-auto max-w-[1400px] scroll-mt-24 px-4 py-20 sm:px-8 md:py-28">
       <div className="mb-10 flex flex-col justify-between gap-6 md:flex-row md:items-end">
         <div>
-          <h2 className="text-[clamp(44px,6vw,80px)] leading-[0.95] text-bordo">¿Un color liso?</h2>
+          <h2 className="text-[clamp(44px,6vw,80px)] leading-[0.95] text-ink">¿Un color liso?</h2>
           <p className="mt-4 max-w-[46ch] text-choco">Elegí color, terminación y forma. Te lo guardamos en la reserva para que Stefania lo tenga listo.</p>
         </div>
         <button

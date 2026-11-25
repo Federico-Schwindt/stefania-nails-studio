@@ -37,28 +37,28 @@ export default function MyBooking() {
   }
 
   return (
-    <div className="min-h-[100dvh] bg-[#f3efee] px-4 py-6 sm:py-12">
+    <div className="min-h-[100dvh] bg-studio px-4 py-6 sm:py-12">
       <div className="mx-auto max-w-md">
         <div className="mb-8 flex items-center justify-between">
           <Link to="/" className="inline-flex h-10 items-center gap-2 rounded-full px-3 text-[15px] font-medium hover:bg-ink/5">
             <ArrowLeft size={18} /> Inicio
           </Link>
-          <Logo className="h-9 text-bordo" />
+          <Logo className="h-9 text-accent" />
           <span className="w-[72px]" />
         </div>
         <motion.form
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           onSubmit={search}
-          className="rounded-[32px] bg-white p-6 shadow-[0_40px_80px_-50px_rgb(73_45_35/0.6)] sm:p-8"
+          className="rounded-[32px] glass-light p-6 shadow-[0_40px_80px_-50px_rgb(23_21_22/0.6)] sm:p-8"
         >
-          <h1 className="text-[44px] leading-none text-bordo">Mi turno</h1>
+          <h1 className="text-[44px] leading-none text-ink">Mi turno</h1>
           <p className="mt-3 text-choco">Buscá tu reserva para ver el estado, pagar la seña o cancelarla.</p>
           <div className="mt-6 space-y-4">
             <Field label="Código de reserva" placeholder="Ej. SN-4F7K" value={code} onChange={(e) => setCode(e.target.value)} autoCapitalize="characters" />
             <Field label="WhatsApp con el que reservaste" type="tel" inputMode="tel" placeholder="Ej. 3446 571429" value={phone} onChange={(e) => setPhone(e.target.value)} />
           </div>
-          {error && <p className="mt-4 text-[14px] font-medium text-bordo">{error}</p>}
+          {error && <p className="mt-4 text-[14px] font-medium text-ink">{error}</p>}
           <Button type="submit" size="lg" className="mt-6 w-full" loading={loading} icon={<MagnifyingGlass size={18} />}>
             Buscar mi turno
           </Button>

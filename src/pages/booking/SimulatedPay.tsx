@@ -44,20 +44,20 @@ export default function SimulatedPay() {
   }
 
   return (
-    <div className="min-h-[100dvh] bg-[#f3efee] px-4 py-6 sm:py-12">
+    <div className="min-h-[100dvh] bg-studio px-4 py-6 sm:py-12">
       <div className="mx-auto max-w-md">
         <div className="mb-6 flex justify-center">
           <Link to="/" aria-label="Inicio">
-            <Logo className="h-10 text-bordo" />
+            <Logo className="h-10 text-accent" />
           </Link>
         </div>
         {loading ? (
           <Skeleton className="h-[460px] rounded-[32px]" />
         ) : !b ? (
-          <p className="rounded-[28px] bg-white p-8 text-center">No encontramos la reserva.</p>
+          <p className="rounded-[28px] glass-light p-8 text-center">No encontramos la reserva.</p>
         ) : (
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="overflow-hidden rounded-[32px] bg-white shadow-[0_40px_80px_-50px_rgb(73_45_35/0.6)]">
-            <div className="bg-bordo px-6 py-5 text-white">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="overflow-hidden rounded-[32px] glass-light shadow-[0_40px_80px_-50px_rgb(23_21_22/0.6)]">
+            <div className="bg-ink px-6 py-5 text-white">
               <p className="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-[12px] font-semibold uppercase tracking-wider">Pago de prueba</p>
               <p className="mt-3 text-white/80">Seña para {b.serviceName}</p>
               <p className="font-serif text-[52px] leading-none">{money(b.deposit)}</p>
@@ -68,13 +68,13 @@ export default function SimulatedPay() {
             <div className="space-y-4 p-6">
               <div className="rounded-[20px] bg-gris-50 p-4 ring-1 ring-gris-100">
                 <p className="inline-flex items-center gap-2 text-[14px] font-semibold">
-                  <CreditCard size={18} className="text-bordo" /> Tarjeta de prueba
+                  <CreditCard size={18} className="text-ink" /> Tarjeta de prueba
                 </p>
                 <p className="mt-2 font-mono text-[17px] tracking-[0.18em]">5031 7557 3453 0604</p>
                 <p className="mt-1 text-[13px] text-choco">Titular APRO · Vto 11/30 · CVV 123</p>
               </div>
               <p className="flex items-start gap-2 text-[13px] text-choco">
-                <ShieldCheck size={18} className="mt-0.5 shrink-0 text-bordo" />
+                <ShieldCheck size={18} className="mt-0.5 shrink-0 text-ink" />
                 Este es un pago simulado para probar el circuito de reservas. No se cobra nada. Cuando el estudio active Mercado Pago, este paso abre el checkout real.
               </p>
               <Button size="lg" className="w-full" loading={working === 'ok'} disabled={!!working} onClick={() => pay(true)} icon={<LockSimple size={18} />}>

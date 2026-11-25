@@ -20,15 +20,15 @@ export default function Login({ onLogin }: { onLogin: () => void }) {
   }
   return <main className="grid min-h-dvh place-items-center bg-gris-50 p-4">
     <section className="w-full max-w-md rounded-[28px] bg-white p-7 ring-1 ring-gris sm:p-10">
-      <div className="mb-7 flex justify-center"><Logo className="h-14 text-bordo" /></div>
-      <h1 className="mb-7 text-center font-serif text-4xl text-bordo">Panel del estudio</h1>
+      <div className="mb-7 flex justify-center"><Logo className="h-14 text-accent" /></div>
+      <h1 className="mb-7 text-center font-serif text-4xl text-ink">Panel del estudio</h1>
       <form className="space-y-5" onSubmit={e => { e.preventDefault(); void action.run(login) }}>
         {api.mode === 'demo' && <Field label="Correo electrónico (opcional)" type="email" autoComplete="username" value={email} onChange={e => setEmail(e.target.value)} />}
         <Field label="Contraseña" type="password" autoComplete="current-password" required value={password} onChange={e => setPassword(e.target.value)} />
         <ErrorText message={action.error} />
         <Button className="w-full" loading={action.busy} iconRight={<ArrowRight size={18} />}>Ingresar</Button>
       </form>
-      {api.mode === 'demo' && <p className="mt-5 rounded-2xl bg-bordo-50 p-4 text-sm text-choco">Modo demo: los datos quedan sólo en este navegador. Contraseña inicial: {DEMO_ADMIN_PASSWORD}</p>}
+      {api.mode === 'demo' && <p className="mt-5 rounded-2xl bg-gris-50 p-4 text-sm text-choco">Modo demo: los datos quedan sólo en este navegador. Contraseña inicial: {DEMO_ADMIN_PASSWORD}</p>}
     </section>
   </main>
 }

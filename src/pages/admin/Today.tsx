@@ -43,16 +43,16 @@ export default function Today() {
       ['Turnos de hoy', stats.bookings], ['Por confirmar', bookings.filter(b => b.status === 'paid').length + review.length],
       ['Señas por revisar', review.length], ['Cobrado hoy', money(stats.byMethod.reduce((sum, m) => sum + m.amount, 0))],
     ]} />
-    <section className={panel + ' bg-bordo-50/50'}>
-      <h2 className="text-sm font-semibold text-bordo">{next && start(next) <= now ? 'Ahora' : 'Próxima clienta'}</h2>
-      {next ? <><button className="mt-1 text-left font-serif text-4xl text-bordo underline-offset-4 hover:underline" onClick={() => setSelected(next)}>{next.clientName}</button>
+    <section className={panel + ' bg-gris-50/50'}>
+      <h2 className="text-sm font-semibold text-ink">{next && start(next) <= now ? 'Ahora' : 'Próxima clienta'}</h2>
+      {next ? <><button className="mt-1 text-left font-serif text-4xl text-ink underline-offset-4 hover:underline" onClick={() => setSelected(next)}>{next.clientName}</button>
         <p>{next.date === today ? 'Hoy' : dateLabel(next.date)} · {next.time} · {next.serviceName}</p></> : <p className="mt-2 text-choco">No tenés turnos próximos.</p>}
     </section>
     <ErrorText message={action.error} />
     <section className={panel}><h2 className={heading}>Turnos de hoy</h2>
       {!day.length ? <p className="mt-3 text-choco">Hoy tenés la agenda libre.</p> :
         <ul className="divide-y divide-gris">{day.map(b => <li key={b.id} className="grid gap-3 py-4 sm:grid-cols-[4rem_1fr]">
-          <strong className="text-bordo tabular-nums">{b.time}</strong>
+          <strong className="text-ink tabular-nums">{b.time}</strong>
           <div className="min-w-0 space-y-2"><div className="flex flex-wrap items-center gap-2">
             <button className="break-words text-left text-lg font-semibold hover:underline" onClick={() => setSelected(b)}>{b.clientName}</button><StatusPill status={b.status} />
           </div><p>{b.serviceName}</p><BookingStyle booking={b} />
@@ -74,7 +74,7 @@ export default function Today() {
           <p><strong>{b.time} · {b.clientName}</strong><br />{b.serviceName}</p>
           <div className="flex flex-wrap items-center gap-2"><WhatsApp label="Enviar recordatorio" template="reminder" settings={settings} booking={b} onClick={() => void action.run(async () => {
             await api.markReminded(b.id); toast.ok('Recordatorio marcado.'); load.reload()
-          })} />{b.remindedAt && <span className="rounded-full bg-bordo-50 px-3 py-1 text-xs text-bordo">Recordado</span>}</div>
+          })} />{b.remindedAt && <span className="rounded-full bg-gris-50 px-3 py-1 text-xs text-ink">Recordado</span>}</div>
         </div>)}
       </section>
       <section className={panel}><h2 className={heading}>Señas para revisar</h2>

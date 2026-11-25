@@ -27,10 +27,10 @@ export function QuickBook({ className = '' }: { className?: string }) {
   }, [slots])
 
   return (
-    <div className={`rounded-[28px] bg-white p-5 shadow-[0_30px_70px_-40px_rgb(73_45_35/0.55)] ring-1 ring-gris-100 sm:p-6 ${className}`}>
+    <div className={`glass-light rounded-[28px] p-5 sm:p-6 ${className}`}>
       <div className="flex items-center justify-between gap-3">
         <p className="font-serif text-[26px] leading-none text-ink">Reservá tu turno</p>
-        <span className="inline-flex items-center gap-1.5 rounded-full bg-bordo-50 px-3 py-1 text-[12px] font-semibold text-bordo">
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-gris-50 px-3 py-1 text-[12px] font-semibold text-ink">
           <CalendarBlank size={14} /> Agenda en vivo
         </span>
       </div>
@@ -52,7 +52,7 @@ export function QuickBook({ className = '' }: { className?: string }) {
                 role="radio"
                 aria-checked={on}
                 onClick={() => setServiceId(s.id)}
-                className={`rounded-2xl px-3.5 py-2.5 text-left transition ${on ? 'bg-bordo text-white shadow-[0_10px_24px_-12px_rgb(87_3_20/0.7)]' : 'bg-gris-50 text-ink ring-1 ring-gris-100 hover:ring-bordo/40'}`}
+                className={`rounded-2xl px-3.5 py-2.5 text-left transition ${on ? 'bg-ink text-white shadow-[0_10px_24px_-12px_rgb(23_21_22/0.7)]' : 'bg-white/70 text-ink ring-1 ring-black/[0.06] hover:ring-ink/40'}`}
               >
                 <span className="block truncate text-[14px] font-semibold leading-tight">{s.name}</span>
                 <span className={`mt-1 flex items-center justify-between text-[12px] ${on ? 'text-white/80' : 'text-choco'}`}>
@@ -91,7 +91,7 @@ export function QuickBook({ className = '' }: { className?: string }) {
                     <button
                       key={t}
                       onClick={() => navigate(`/reservar?servicio=${serviceId}&fecha=${date}&hora=${t}`)}
-                      className="h-9 rounded-full bg-white px-3.5 text-[14px] font-semibold tabular-nums text-ink ring-1 ring-gris transition hover:bg-bordo hover:text-white hover:ring-bordo active:scale-95"
+                      className="h-9 rounded-full bg-white px-3.5 text-[14px] font-semibold tabular-nums text-ink ring-1 ring-gris transition hover:bg-ink hover:text-white hover:ring-ink active:scale-95"
                     >
                       {t}
                     </button>

@@ -26,7 +26,7 @@ function CopyRow({ label, value }: { label: string; value: string }) {
           setOk(true)
           setTimeout(() => setOk(false), 1600)
         }}
-        className="inline-flex h-10 shrink-0 items-center gap-1.5 rounded-full bg-bordo-50 px-4 text-[13px] font-semibold text-bordo transition hover:bg-bordo-100"
+        className="inline-flex h-10 shrink-0 items-center gap-1.5 rounded-full bg-gris-50 px-4 text-[13px] font-semibold text-ink transition hover:bg-gris-100"
       >
         {ok ? <Check size={15} weight="bold" /> : <Copy size={15} />} {ok ? 'Copiado' : 'Copiar'}
       </button>
@@ -91,27 +91,27 @@ export default function Deposit() {
   }
 
   return (
-    <div className="min-h-[100dvh] bg-[#f3efee] px-4 py-6 sm:py-10">
+    <div className="min-h-[100dvh] bg-studio px-4 py-6 sm:py-10">
       <div className="mx-auto max-w-lg">
         <div className="mb-6 flex justify-center">
           <Link to="/" aria-label="Inicio">
-            <Logo className="h-10 text-bordo" />
+            <Logo className="h-10 text-accent" />
           </Link>
         </div>
         {loading ? (
           <Skeleton className="h-[520px] rounded-[32px]" />
         ) : !b ? (
-          <p className="rounded-[28px] bg-white p-8 text-center">No encontramos la reserva.</p>
+          <p className="rounded-[28px] glass-light p-8 text-center">No encontramos la reserva.</p>
         ) : b.status !== 'pending_payment' && b.status !== 'payment_review' ? (
-          <div className="rounded-[28px] bg-white p-8 text-center">
-            <p className="font-serif text-3xl text-bordo">Esta reserva no tiene una seña pendiente.</p>
-            <Link to={`/reserva/${id}`} className="mt-4 inline-block font-semibold text-bordo underline">
+          <div className="rounded-[28px] glass-light p-8 text-center">
+            <p className="font-serif text-3xl text-ink">Esta reserva no tiene una seña pendiente.</p>
+            <Link to={`/reserva/${id}`} className="mt-4 inline-block font-semibold text-ink underline">
               Ver mi turno
             </Link>
           </div>
         ) : (
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="overflow-hidden rounded-[32px] bg-white shadow-[0_40px_80px_-50px_rgb(73_45_35/0.6)]">
-            <div className="bg-bordo px-6 py-6 text-white">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="overflow-hidden rounded-[32px] glass-light shadow-[0_40px_80px_-50px_rgb(23_21_22/0.6)]">
+            <div className="bg-ink px-6 py-6 text-white">
               <p className="text-white/80">Seña para confirmar tu turno</p>
               <p className="font-serif text-[56px] leading-none">{money(b.deposit)}</p>
               <p className="mt-2 text-[14px] text-white/75">
@@ -120,7 +120,7 @@ export default function Deposit() {
             </div>
 
             <div className="space-y-5 p-6">
-              <p className="flex items-start gap-2 rounded-2xl bg-bordo-50 p-3 text-[14px] text-bordo">
+              <p className="flex items-start gap-2 rounded-2xl bg-gris-50 p-3 text-[14px] text-ink">
                 <WarningCircle size={18} className="mt-0.5 shrink-0" /> Tu horario queda reservado por 1 hora. Pagá la seña y tocá "Ya pagué la seña".
               </p>
 
@@ -131,9 +131,9 @@ export default function Deposit() {
                       role="radio"
                       aria-checked={method === 'transfer'}
                       onClick={() => setMethod('transfer')}
-                      className={`flex flex-col items-start gap-2 rounded-2xl p-4 text-left transition ${method === 'transfer' ? 'bg-bordo-50 ring-2 ring-bordo' : 'ring-1 ring-gris hover:ring-ink/40'}`}
+                      className={`flex flex-col items-start gap-2 rounded-2xl p-4 text-left transition ${method === 'transfer' ? 'bg-gris-50 ring-2 ring-ink' : 'ring-1 ring-gris hover:ring-ink/40'}`}
                     >
-                      <Bank size={22} className="text-bordo" />
+                      <Bank size={22} className="text-ink" />
                       <span className="text-[15px] font-semibold">Transferencia</span>
                     </button>
                   )}
@@ -142,9 +142,9 @@ export default function Deposit() {
                       role="radio"
                       aria-checked={method === 'mercadopago'}
                       onClick={() => setMethod('mercadopago')}
-                      className={`flex flex-col items-start gap-2 rounded-2xl p-4 text-left transition ${method === 'mercadopago' ? 'bg-bordo-50 ring-2 ring-bordo' : 'ring-1 ring-gris hover:ring-ink/40'}`}
+                      className={`flex flex-col items-start gap-2 rounded-2xl p-4 text-left transition ${method === 'mercadopago' ? 'bg-gris-50 ring-2 ring-ink' : 'ring-1 ring-gris hover:ring-ink/40'}`}
                     >
-                      <CreditCard size={22} className="text-bordo" />
+                      <CreditCard size={22} className="text-ink" />
                       <span className="text-[15px] font-semibold">Mercado Pago</span>
                     </button>
                   )}
@@ -182,13 +182,13 @@ export default function Deposit() {
                 {proof ? (
                   <div className="flex items-center gap-3">
                     <Img src={proof} alt="Comprobante cargado" className="h-20 w-16 rounded-xl object-cover ring-1 ring-gris-100" />
-                    <button onClick={() => setProof(undefined)} className="text-[14px] font-semibold text-bordo underline">
+                    <button onClick={() => setProof(undefined)} className="text-[14px] font-semibold text-ink underline">
                       Quitar
                     </button>
                   </div>
                 ) : (
-                  <label className="flex cursor-pointer items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-gris px-4 py-4 text-[14px] font-semibold text-ink transition hover:border-bordo">
-                    <UploadSimple size={18} className="text-bordo" /> {uploading ? 'Subiendo...' : 'Subir captura del pago'}
+                  <label className="flex cursor-pointer items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-gris px-4 py-4 text-[14px] font-semibold text-ink transition hover:border-ink">
+                    <UploadSimple size={18} className="text-ink" /> {uploading ? 'Subiendo...' : 'Subir captura del pago'}
                     <input ref={fileRef} type="file" accept="image/*" className="sr-only" onChange={(e) => upload(e.target.files?.[0])} disabled={uploading} />
                   </label>
                 )}

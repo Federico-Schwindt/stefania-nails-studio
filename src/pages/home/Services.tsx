@@ -33,7 +33,7 @@ const BookLink = ({ id, tone = 'dark' }: { id: string; tone?: 'dark' | 'light' }
     to={`/reservar?servicio=${id}`}
     aria-label="Reservar este servicio"
     className={`inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition group-hover:rotate-45 ${
-      tone === 'dark' ? 'bg-bordo text-white' : 'bg-white text-bordo'
+      tone === 'dark' ? 'bg-ink text-white' : 'bg-white text-ink'
     }`}
   >
     <ArrowUpRight size={18} weight="bold" />
@@ -54,7 +54,7 @@ export function Services() {
   return (
     <section id="servicios" className="mx-auto max-w-[1400px] scroll-mt-24 px-4 py-20 sm:px-8 md:py-28">
       <div className="mb-10 max-w-3xl md:mb-14">
-        <h2 className="text-[clamp(44px,6vw,80px)] leading-[0.95] text-bordo">Servicios y precios</h2>
+        <h2 className="text-[clamp(44px,6vw,80px)] leading-[0.95] text-ink">Servicios y precios</h2>
         <p className="mt-4 max-w-[52ch] text-choco">Precios por sesión en el estudio. La seña se paga online al reservar y se descuenta del total.</p>
       </div>
 
@@ -100,7 +100,7 @@ export function Services() {
                 <BookLink id={a.id} />
               </div>
               <div className="mt-6 flex items-end justify-between">
-                <Price s={a} className="text-[52px] text-bordo" />
+                <Price s={a} className="text-[52px] text-ink" />
                 <span className="text-choco">
                   <Duration min={a.durationMin} />
                 </span>
@@ -108,13 +108,13 @@ export function Services() {
             </motion.article>
           )}
           {b && (
-            <motion.article {...cell(2)} className="group flex flex-col justify-between rounded-[28px] bg-bordo-50 p-7 md:col-span-3">
+            <motion.article {...cell(2)} className="group flex flex-col justify-between rounded-[28px] bg-gris-50 p-7 md:col-span-3">
               <div className="flex items-start justify-between gap-3">
                 <h3 className="text-[30px] leading-[1.02] text-ink">{b.name}</h3>
                 <BookLink id={b.id} />
               </div>
               <div className="mt-6">
-                <Price s={b} className="text-[44px] text-bordo" />
+                <Price s={b} className="text-[44px] text-ink" />
                 <span className="mt-2 block text-choco">
                   <Duration min={b.durationMin} />
                 </span>
@@ -140,7 +140,7 @@ export function Services() {
             </motion.article>
           )}
           {e && (
-            <motion.article {...cell(4)} className="group flex flex-col justify-between rounded-[28px] bg-bordo p-7 text-white md:col-span-4">
+            <motion.article {...cell(4)} className="group flex flex-col justify-between rounded-[28px] bg-ink p-7 text-white md:col-span-4">
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <h3 className="text-[34px] leading-none">{e.name}</h3>
@@ -162,7 +162,7 @@ export function Services() {
                 <h3 className="text-[30px] leading-none">{s.name}</h3>
                 <BookLink id={s.id} />
               </div>
-              <Price s={s} className="mt-6 text-[44px] text-bordo" />
+              <Price s={s} className="mt-6 text-[44px] text-ink" />
             </motion.article>
           ))}
         </div>
@@ -174,7 +174,7 @@ export function Services() {
           {extras.map((x) => (
             <span key={x.id} className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-[14px] ring-1 ring-gris">
               {x.name}
-              <span className="font-semibold text-bordo">
+              <span className="font-semibold text-ink">
                 {money(x.price)}
                 {x.mode === 'unit' ? ' c/u' : ''}
               </span>

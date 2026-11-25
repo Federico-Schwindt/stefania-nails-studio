@@ -6,9 +6,9 @@ import { dateLabel, studioDate } from './shared'
 import { statusNames } from './labels'
 const muted = 'border border-gris/60 bg-gris-50 text-choco/75'
 const styles: Record<BookingStatus, string> = {
-  paid: 'bg-bordo text-white', confirmed: 'border border-gris border-l-4 border-l-bordo bg-white text-ink',
+  paid: 'bg-ink text-white', confirmed: 'border border-gris border-l-4 border-l-bordo bg-white text-ink',
   pending_payment: 'border border-dashed border-gris bg-gris-100 text-choco',
-  payment_review: 'border border-bordo bg-bordo-50 text-bordo', no_show: 'border border-dashed border-choco bg-gris-50 text-ink',
+  payment_review: 'border border-ink bg-gris-50 text-ink', no_show: 'border border-dashed border-choco bg-gris-50 text-ink',
   completed: muted, rejected: muted + ' line-through', cancelled: muted + ' line-through',
 }
 
@@ -49,7 +49,7 @@ export default function Calendar({ days, bookings, onOpen, filtered, list }: Pro
         <div aria-hidden="true" />
         {days.map(date => <div key={date} className="border-l border-gris/50 py-2">
           <span className="block text-xs font-medium uppercase text-choco">{dateLabel(date, { weekday: 'short' })}</span>
-          <span className={'mx-auto grid size-8 place-items-center rounded-full font-serif text-2xl ' + (date === today ? 'bg-bordo text-white' : 'text-bordo')}>{Number(date.slice(-2))}</span>
+          <span className={'mx-auto grid size-8 place-items-center rounded-full font-serif text-2xl ' + (date === today ? 'bg-ink text-white' : 'text-ink')}>{Number(date.slice(-2))}</span>
         </div>)}
       </div>
       <div className="grid grid-cols-[3.5rem_repeat(7,minmax(0,1fr))] border-t border-gris/70 pb-5">
@@ -70,7 +70,7 @@ export default function Calendar({ days, bookings, onOpen, filtered, list }: Pro
     </div>}
     <div className={list ? "space-y-5" : "space-y-5 lg:hidden"}>{daily.filter(d => d.bookings.length > 0).map(day =>
       <section key={day.date}>
-        <h3 className="mb-2 text-2xl capitalize text-bordo">{dateLabel(day.date, { weekday: 'long', day: 'numeric', month: 'long' })}</h3>
+        <h3 className="mb-2 text-2xl capitalize text-ink">{dateLabel(day.date, { weekday: 'long', day: 'numeric', month: 'long' })}</h3>
         <div className="grid gap-2">{day.bookings.map(b => <button key={b.id} onClick={() => onOpen(b)} className={'grid grid-cols-[auto_1fr] items-start gap-3 rounded-2xl p-3 text-left text-sm ' + styles[b.status]}>
           <strong className="tabular-nums">{b.time}</strong><span className="min-w-0 break-words"><strong>{b.clientName}</strong><br />{b.serviceName}<br /><span className="text-xs">{statusNames[b.status]}</span></span>
         </button>)}</div>

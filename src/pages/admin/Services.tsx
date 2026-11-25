@@ -28,9 +28,9 @@ function ItemRow({ item, fresh, onSave, onRemove }: { item: Item; fresh: boolean
   }
   return <details open={fresh || undefined} className="group rounded-[28px] bg-white ring-1 ring-inset ring-gris">
     <summary className="flex cursor-pointer list-none items-center justify-between gap-3 rounded-[28px] px-5 py-4 [&::-webkit-details-marker]:hidden">
-      <div className="min-w-0"><h3 className="break-words text-2xl text-bordo">{item.name || (service ? 'Nuevo servicio' : 'Nuevo extra')}</h3>
+      <div className="min-w-0"><h3 className="break-words text-2xl text-ink">{item.name || (service ? 'Nuevo servicio' : 'Nuevo extra')}</h3>
         {!fresh && <p className="mt-1 text-sm text-choco">{service && item.priceFrom && 'Desde '}{money(item.price)} · {service ? item.durationMin + ' min' : item.mode === 'unit' ? 'Por unidad' : 'Precio fijo'} · {item.active ? 'Activo' : 'Inactivo'}</p>}
-      </div><CaretDown size={20} className="shrink-0 text-bordo transition group-open:rotate-180" />
+      </div><CaretDown size={20} className="shrink-0 text-ink transition group-open:rotate-180" />
     </summary>
     <form className="px-5 pb-5" onSubmit={e => {
       e.preventDefault()

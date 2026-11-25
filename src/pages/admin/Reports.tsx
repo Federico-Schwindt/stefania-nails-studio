@@ -49,7 +49,7 @@ function DailyChart({ days }: { days: Stats['byDay'] }) {
   return <section className={panel}><h2 className={heading}>Cobrado por día</h2>
     {days.length ? <ul className="mt-4 max-h-96 space-y-3 overflow-y-auto">{days.map(d => <li key={d.date} className="grid grid-cols-[4rem_minmax(0,1fr)_auto] items-center gap-3 text-sm">
       <time dateTime={d.date}>{dateLabel(d.date, { day: 'numeric', month: 'short' })}</time>
-      <div aria-hidden="true"><div className="h-3 rounded-full bg-bordo" style={{ width: (d.revenue / max * 100) + '%' }} /></div>
+      <div aria-hidden="true"><div className="h-3 rounded-full bg-ink" style={{ width: (d.revenue / max * 100) + '%' }} /></div>
       <span className="tabular-nums">{money(d.revenue)}</span>
     </li>)}</ul> : <p className="mt-3 text-sm text-choco">No hay turnos en este período.</p>}
   </section>

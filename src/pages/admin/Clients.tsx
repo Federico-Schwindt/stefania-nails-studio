@@ -15,7 +15,7 @@ function ClientSummary({ client: c }: { client: Client }) {
     <p>{c.visits} {c.visits === 1 ? 'visita' : 'visitas'} · Total gastado {money(c.totalSpent)}</p>
     <p>Última visita · {c.lastVisit ? dateLabel(c.lastVisit) : 'Sin visitas'}</p>
     <p>Próximo turno · {c.nextBooking ? dateLabel(c.nextBooking.date) + ' · ' + c.nextBooking.time + ' · ' + c.nextBooking.serviceName : 'Sin reservar'}</p>
-    {c.noShows > 0 && <span className="inline-block rounded-full bg-bordo-50 px-3 py-1 text-xs font-semibold text-bordo">No vino · {c.noShows}</span>}
+    {c.noShows > 0 && <span className="inline-block rounded-full bg-gris-50 px-3 py-1 text-xs font-semibold text-ink">No vino · {c.noShows}</span>}
   </div>
 }
 
@@ -84,7 +84,7 @@ function Directory() {
       <ul className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">{load.data.map(c => <li key={c.phone} className={panel}>
         <Link className="block space-y-2" to={'/admin/clientas?telefono=' + encodeURIComponent(c.phone)}>
           <h2 className={heading + ' break-words'}>{c.name}</h2><p>{c.phone}{c.instagram && ' · @' + c.instagram}</p>
-          <ClientSummary client={c} /><span className="text-sm font-semibold text-bordo underline">Ver ficha</span>
+          <ClientSummary client={c} /><span className="text-sm font-semibold text-ink underline">Ver ficha</span>
         </Link>
       </li>)}</ul>}
   </div>

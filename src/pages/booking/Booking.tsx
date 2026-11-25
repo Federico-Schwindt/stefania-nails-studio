@@ -223,7 +223,7 @@ export default function Booking() {
   const visual = previewDesign?.renderUrl ?? previewDesign?.photoUrl ?? draft.inspo[0]?.url
 
   return (
-    <div className="min-h-[100dvh] bg-[#f3efee]">
+    <div className="min-h-[100dvh] bg-studio">
       <div ref={topRef} />
       {/* barra superior */}
       <header className="sticky top-0 z-30 border-b border-gris-100 bg-white/85 backdrop-blur">
@@ -235,7 +235,7 @@ export default function Booking() {
             <ArrowLeft size={18} /> <span className="hidden sm:inline">{step === 0 ? 'Volver al inicio' : 'Atrás'}</span>
           </button>
           <Link to="/" aria-label="Inicio">
-            <Logo className="h-9 text-bordo" />
+            <Logo className="h-9 text-accent" />
           </Link>
           <span className="w-[88px] text-right text-[13px] font-medium text-choco sm:w-[140px]">
             {step + 1} de {STEPS.length}
@@ -250,7 +250,7 @@ export default function Booking() {
                   onClick={() => i < step && go(i)}
                   aria-current={i === step ? 'step' : undefined}
                   className={`inline-flex h-8 items-center gap-1.5 whitespace-nowrap rounded-full px-3.5 text-[13px] font-semibold transition ${
-                    i === step ? 'bg-bordo text-white' : i < step ? 'bg-bordo-50 text-bordo hover:bg-bordo-100' : 'bg-gris-50 text-ink/40'
+                    i === step ? 'bg-ink text-white' : i < step ? 'bg-gris-50 text-ink hover:bg-gris-100' : 'bg-gris-50 text-ink/40'
                   }`}
                 >
                   {i < step && <Check size={13} weight="bold" />}
@@ -264,7 +264,7 @@ export default function Booking() {
 
       <div className="mx-auto grid max-w-[1280px] gap-6 px-4 pb-36 pt-6 sm:px-6 lg:grid-cols-[minmax(0,7fr)_minmax(0,4fr)] lg:pb-16">
         {/* contenido del paso */}
-        <main className="min-w-0 rounded-[32px] bg-white p-5 shadow-[0_30px_60px_-50px_rgb(73_45_35/0.5)] sm:p-8">
+        <main className="min-w-0 rounded-[32px] glass-light p-5 shadow-[0_30px_60px_-50px_rgb(23_21_22/0.5)] sm:p-8">
           {!loaded ? (
             <div className="space-y-4">
               <Skeleton className="h-10 w-2/3" />
@@ -277,7 +277,7 @@ export default function Booking() {
               <motion.div key={step} initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -24 }} transition={{ duration: 0.4, ease }}>
                 {step === 0 && (
                   <section aria-labelledby="h-serv">
-                    <h1 id="h-serv" className="text-[clamp(36px,5vw,56px)] leading-none text-bordo">
+                    <h1 id="h-serv" className="text-[clamp(36px,5vw,56px)] leading-none text-ink">
                       ¿Qué te hacemos?
                     </h1>
                     <p className="mt-2 text-choco">Elegí el servicio. Los extras se suman al total.</p>
@@ -290,7 +290,7 @@ export default function Booking() {
                             role="radio"
                             aria-checked={on}
                             onClick={() => set({ serviceId: s.id, time: undefined })}
-                            className={`flex items-center justify-between gap-4 rounded-[22px] p-5 text-left transition ${on ? 'bg-bordo text-white' : 'bg-gris-50 ring-1 ring-gris-100 hover:ring-bordo/40'}`}
+                            className={`flex items-center justify-between gap-4 rounded-[22px] p-5 text-left transition ${on ? 'bg-ink text-white' : 'bg-gris-50 ring-1 ring-gris-100 hover:ring-ink/40'}`}
                           >
                             <div className="min-w-0">
                               <p className="font-serif text-[28px] leading-none">{s.name}</p>
@@ -333,7 +333,7 @@ export default function Booking() {
                                       <Minus size={16} />
                                     </button>
                                     <span className="w-6 text-center font-semibold tabular-nums" aria-live="polite">{q}</span>
-                                    <button aria-label="Sumar uno" onClick={() => setQ(q + 1)} className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-bordo text-white disabled:opacity-40" disabled={q >= x.maxQty}>
+                                    <button aria-label="Sumar uno" onClick={() => setQ(q + 1)} className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-ink text-white disabled:opacity-40" disabled={q >= x.maxQty}>
                                       <Plus size={16} />
                                     </button>
                                   </div>
@@ -349,7 +349,7 @@ export default function Booking() {
 
                 {step === 1 && (
                   <section aria-labelledby="h-dis">
-                    <h1 id="h-dis" className="text-[clamp(36px,5vw,56px)] leading-none text-bordo">
+                    <h1 id="h-dis" className="text-[clamp(36px,5vw,56px)] leading-none text-ink">
                       Tu diseño
                     </h1>
                     <p className="mt-2 text-choco">Elegí de la galería, probá un color liso o subí tus fotos de inspiración. Podés combinar.</p>
@@ -403,11 +403,11 @@ export default function Booking() {
                             e.preventDefault()
                             onFiles(e.dataTransfer.files)
                           }}
-                          className={`flex cursor-pointer flex-col items-center justify-center gap-3 rounded-[24px] border-2 border-dashed border-gris p-8 text-center transition hover:border-bordo hover:bg-bordo-50/50 ${
+                          className={`flex cursor-pointer flex-col items-center justify-center gap-3 rounded-[24px] border-2 border-dashed border-gris p-8 text-center transition hover:border-ink hover:bg-gris-50/50 ${
                             draft.inspo.length >= 5 ? 'pointer-events-none opacity-50' : ''
                           }`}
                         >
-                          <span className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-bordo text-white">
+                          <span className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-ink text-white">
                             <UploadSimple size={24} />
                           </span>
                           <span className="font-semibold">{uploading ? 'Subiendo...' : 'Subí fotos de diseños que te gusten'}</span>
@@ -422,7 +422,7 @@ export default function Booking() {
                                 <button
                                   aria-label="Quitar imagen"
                                   onClick={() => set({ inspo: draft.inspo.filter((x) => x.url !== img.url) })}
-                                  className="absolute right-1.5 top-1.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-bordo shadow"
+                                  className="absolute right-1.5 top-1.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-ink shadow"
                                 >
                                   <Trash size={15} />
                                 </button>
@@ -437,7 +437,7 @@ export default function Booking() {
 
                 {step === 2 && (
                   <section aria-labelledby="h-fecha">
-                    <h1 id="h-fecha" className="text-[clamp(36px,5vw,56px)] leading-none text-bordo">
+                    <h1 id="h-fecha" className="text-[clamp(36px,5vw,56px)] leading-none text-ink">
                       ¿Cuándo venís?
                     </h1>
                     <p className="mt-2 text-choco">Sólo ves los horarios libres para {service ? `${service.name.toLowerCase()} (${service.durationMin} min)` : 'tu servicio'}.</p>
@@ -448,7 +448,7 @@ export default function Booking() {
                       </div>
                     ) : bookableDays.length === 0 ? (
                       <div className="mt-8 rounded-[24px] bg-gris-50 p-8 text-center">
-                        <CalendarBlank size={32} className="mx-auto text-bordo" />
+                        <CalendarBlank size={32} className="mx-auto text-ink" />
                         <p className="mt-3 font-semibold">No hay horarios libres por ahora.</p>
                         <p className="text-choco">Anotate en la lista de espera y Stefania te avisa si se libera un turno.</p>
                         <WaitlistForm serviceId={service?.id} defaultName={draft.clientName} defaultPhone={draft.phone} className="mt-6 text-left" />
@@ -468,7 +468,7 @@ export default function Booking() {
                                 disabled={!ok}
                                 onClick={() => set({ date: d, time: undefined })}
                                 className={`flex w-[68px] shrink-0 snap-start flex-col items-center rounded-[20px] py-3 transition ${
-                                  on ? 'bg-bordo text-white' : ok ? 'bg-gris-50 ring-1 ring-gris-100 hover:ring-bordo/40' : 'bg-transparent text-ink/25 line-through'
+                                  on ? 'bg-ink text-white' : ok ? 'bg-gris-50 ring-1 ring-gris-100 hover:ring-ink/40' : 'bg-transparent text-ink/25 line-through'
                                 }`}
                               >
                                 <span className="text-[12px] font-semibold uppercase">{DOW[dt.getDay()]}</span>
@@ -494,7 +494,7 @@ export default function Booking() {
                                     role="radio"
                                     aria-checked={draft.time === t}
                                     onClick={() => set({ time: t })}
-                                    className={`h-12 rounded-full text-[15px] font-semibold tabular-nums transition ${draft.time === t ? 'bg-bordo text-white' : 'bg-white ring-1 ring-gris hover:ring-bordo'}`}
+                                    className={`h-12 rounded-full text-[15px] font-semibold tabular-nums transition ${draft.time === t ? 'bg-ink text-white' : 'bg-white ring-1 ring-gris hover:ring-ink'}`}
                                   >
                                     {t}
                                   </button>
@@ -510,7 +510,7 @@ export default function Booking() {
 
                 {step === 3 && (
                   <section aria-labelledby="h-datos">
-                    <h1 id="h-datos" className="text-[clamp(36px,5vw,56px)] leading-none text-bordo">
+                    <h1 id="h-datos" className="text-[clamp(36px,5vw,56px)] leading-none text-ink">
                       Tus datos
                     </h1>
                     <p className="mt-2 text-choco">Te escribimos por WhatsApp para confirmar el turno.</p>
@@ -534,33 +534,33 @@ export default function Booking() {
                     </div>
                     <div className="mt-8 rounded-[24px] bg-gris-50 p-5 ring-1 ring-gris-100">
                       <p className="inline-flex items-center gap-2 font-semibold">
-                        <ShieldCheck size={18} className="text-bordo" /> Políticas del estudio
+                        <ShieldCheck size={18} className="text-ink" /> Políticas del estudio
                       </p>
                       <ul className="mt-3 grid gap-1.5 text-[14px] text-ink/80">
                         {settings?.policies.map((p) => (
                           <li key={p} className="flex gap-2">
-                            <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-bordo" aria-hidden />
+                            <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-ink" aria-hidden />
                             {p}
                           </li>
                         ))}
                       </ul>
                       <label className="mt-4 flex cursor-pointer items-start gap-3">
-                        <input type="checkbox" checked={draft.acceptPolicies} onChange={(e) => set({ acceptPolicies: e.target.checked })} className="mt-1 h-5 w-5 accent-[#570314]" />
+                        <input type="checkbox" checked={draft.acceptPolicies} onChange={(e) => set({ acceptPolicies: e.target.checked })} className="mt-1 h-5 w-5 accent-[#171516]" />
                         <span className="text-[15px] font-medium">Leí y acepto las políticas de trabajo.</span>
                       </label>
-                      {errors.policies && <p className="mt-2 text-[13px] font-medium text-bordo">{errors.policies}</p>}
+                      {errors.policies && <p className="mt-2 text-[13px] font-medium text-ink">{errors.policies}</p>}
                     </div>
                   </section>
                 )}
 
                 {step === 4 && service && draft.date && draft.time && (
                   <section aria-labelledby="h-pago">
-                    <h1 id="h-pago" className="text-[clamp(36px,5vw,56px)] leading-none text-bordo">
+                    <h1 id="h-pago" className="text-[clamp(36px,5vw,56px)] leading-none text-ink">
                       Confirmá con la seña
                     </h1>
                     <p className="mt-2 text-choco">Tu horario queda reservado 1 hora mientras dejás la seña.</p>
-                    <div className="mt-6 overflow-hidden rounded-[28px] bg-[#f7f2ef] p-6 ring-1 ring-gris-100">
-                      <p className="font-serif text-[22px] text-bordo">Tu próximo turno</p>
+                    <div className="mt-6 overflow-hidden rounded-[28px] bg-gris-50/80 p-6 ring-1 ring-gris-100">
+                      <p className="font-serif text-[22px] text-ink">Tu próximo turno</p>
                       <dl className="mt-4 grid grid-cols-2 gap-4 text-[15px]">
                         <div>
                           <dt className="text-[12px] font-semibold uppercase tracking-[0.14em] text-choco">Fecha</dt>
@@ -584,7 +584,7 @@ export default function Booking() {
                       </div>
                       <div className="mt-2 flex items-end justify-between">
                         <span className="font-semibold">Seña a pagar ahora</span>
-                        <span className="font-serif text-[40px] leading-none text-bordo">{money(deposit)}</span>
+                        <span className="font-serif text-[40px] leading-none text-ink">{money(deposit)}</span>
                       </div>
                       <p className="mt-2 text-right text-[13px] text-choco">El resto ({money(total - deposit)}) lo abonás en el estudio.</p>
                     </div>
@@ -605,7 +605,7 @@ export default function Booking() {
 
         {/* resumen */}
         <aside className="hidden lg:block">
-          <div className="sticky top-[140px] overflow-hidden rounded-[32px] bg-white shadow-[0_30px_60px_-50px_rgb(73_45_35/0.5)]">
+          <div className="sticky top-[140px] overflow-hidden rounded-[32px] glass-light shadow-[0_30px_60px_-50px_rgb(23_21_22/0.5)]">
             <div className="relative aspect-[4/5] bg-gris-50">
               <AnimatePresence mode="wait">
                 {visual ? (
@@ -623,7 +623,7 @@ export default function Booking() {
               </AnimatePresence>
             </div>
             <div className="p-6">
-              <p className="font-serif text-[26px] leading-none text-bordo">Tu turno</p>
+              <p className="font-serif text-[26px] leading-none text-ink">Tu turno</p>
               <dl className="mt-4 space-y-3 text-[14px]">
                 <Row label="Servicio" value={service?.name} />
                 <Row label="Diseño" value={design?.name ?? (draft.color ? `${draft.color.name}, liso` : draft.inspo.length ? 'Tu inspiración' : 'Lo charlamos en el turno')} />

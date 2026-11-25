@@ -12,7 +12,7 @@ const accents: Record<AccentType, string> = { none: 'Sin aplicación', strass: '
 function Range({ label, value, onChange }: { label: string; value: number; onChange: (value: number) => void }) {
   return <label className="grid gap-2 text-sm font-semibold">
     <span className="flex items-center justify-between">{label}<span className="font-normal tabular-nums text-choco">{Math.round(value * 100)} %</span></span>
-    <input type="range" aria-label={label} min="0" max="1" step="0.01" value={value} onChange={e => onChange(e.target.valueAsNumber)} className="h-8 w-full cursor-pointer accent-bordo" />
+    <input type="range" aria-label={label} min="0" max="1" step="0.01" value={value} onChange={e => onChange(e.target.valueAsNumber)} className="h-8 w-full cursor-pointer accent-ink" />
   </label>
 }
 

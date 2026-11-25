@@ -13,9 +13,9 @@ import { fmtDate } from './Booking'
 
 const STATUS: Record<Status, { label: string; text: string; tone: string; Icon: typeof CheckCircle }> = {
   pending_payment: { label: 'Falta la seña', text: 'Tu horario está reservado por 1 hora. Dejá la seña para asegurarlo.', tone: 'bg-gris-50 text-ink', Icon: ClockCountdown },
-  payment_review: { label: 'Verificando tu seña', text: 'Recibimos tu aviso de pago. Stefania lo revisa y te confirma por WhatsApp.', tone: 'bg-bordo-50 text-bordo', Icon: HourglassMedium },
-  paid: { label: 'Seña recibida', text: 'Recibimos tu seña. Stefania confirma tu turno por WhatsApp en breve.', tone: 'bg-bordo-50 text-bordo', Icon: CheckCircle },
-  confirmed: { label: 'Turno confirmado', text: 'Te esperamos en el estudio. Llegá con las uñas limpias y sin esmalte tradicional.', tone: 'bg-bordo text-white', Icon: CheckCircle },
+  payment_review: { label: 'Verificando tu seña', text: 'Recibimos tu aviso de pago. Stefania lo revisa y te confirma por WhatsApp.', tone: 'bg-gris-50 text-ink', Icon: HourglassMedium },
+  paid: { label: 'Seña recibida', text: 'Recibimos tu seña. Stefania confirma tu turno por WhatsApp en breve.', tone: 'bg-gris-50 text-ink', Icon: CheckCircle },
+  confirmed: { label: 'Turno confirmado', text: 'Te esperamos en el estudio. Llegá con las uñas limpias y sin esmalte tradicional.', tone: 'bg-ink text-white', Icon: CheckCircle },
   completed: { label: 'Turno realizado', text: 'Gracias por venir. Te esperamos para el próximo.', tone: 'bg-gris-50 text-ink', Icon: CheckCircle },
   no_show: { label: 'No asististe', text: 'Este turno figura como ausente. Si fue un error, escribile a Stefania.', tone: 'bg-gris-50 text-ink', Icon: XCircle },
   cancelled: { label: 'Turno cancelado', text: 'Este turno fue cancelado. Si querés, reservá otro horario.', tone: 'bg-gris-50 text-ink', Icon: XCircle },
@@ -118,24 +118,24 @@ export default function BookingStatus() {
   const active = booking && ['pending_payment', 'payment_review', 'paid', 'confirmed'].includes(booking.status)
 
   return (
-    <div className="min-h-[100dvh] bg-[#f3efee] px-4 py-6 sm:py-10">
+    <div className="min-h-[100dvh] bg-studio px-4 py-6 sm:py-10">
       <div className="mx-auto max-w-xl">
         <div className="mb-6 flex items-center justify-between">
           <Link to="/" className="inline-flex h-10 items-center gap-2 rounded-full px-3 text-[15px] font-medium hover:bg-ink/5">
             <ArrowLeft size={18} /> Inicio
           </Link>
-          <Logo className="h-9 text-bordo" />
+          <Logo className="h-9 text-accent" />
           <span className="w-[72px]" />
         </div>
 
         {loading ? (
           <Skeleton className="h-[480px] rounded-[32px]" />
         ) : !booking || !st ? (
-          <div className="rounded-[32px] bg-white p-8 text-center">
-            <WarningCircle size={36} className="mx-auto text-bordo" />
-            <h1 className="mt-3 text-4xl text-bordo">No encontramos tu reserva</h1>
+          <div className="rounded-[32px] glass-light p-8 text-center">
+            <WarningCircle size={36} className="mx-auto text-ink" />
+            <h1 className="mt-3 text-4xl text-ink">No encontramos tu reserva</h1>
             <p className="mt-2 text-choco">Revisá el enlace o buscala en "Mi turno".</p>
-            <Link to="/mi-turno" className="mt-4 inline-block font-semibold text-bordo underline">
+            <Link to="/mi-turno" className="mt-4 inline-block font-semibold text-ink underline">
               Ir a Mi turno
             </Link>
           </div>
@@ -144,30 +144,30 @@ export default function BookingStatus() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="overflow-hidden rounded-[32px] bg-white shadow-[0_40px_80px_-50px_rgb(73_45_35/0.6)]"
+            className="overflow-hidden rounded-[32px] glass-light shadow-[0_40px_80px_-50px_rgb(23_21_22/0.6)]"
           >
             <div className={`flex items-center gap-3 px-6 py-4 ${st.tone}`}>
               <st.Icon size={22} weight="fill" />
               <p className="font-semibold">{st.label}</p>
             </div>
-            <div className="relative bg-[#f7f2ef] p-6 sm:p-8">
+            <div className="relative bg-gris-50/80 p-6 sm:p-8">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <p className="font-serif text-[30px] leading-none text-bordo">Tu próximo turno</p>
+                  <p className="font-serif text-[30px] leading-none text-ink">Tu próximo turno</p>
                   <p className="mt-2 text-[14px] text-choco">{st.text}</p>
                 </div>
-                <Logo className="hidden h-12 shrink-0 text-bordo sm:block" />
+                <Logo className="hidden h-12 shrink-0 text-accent sm:block" />
               </div>
               <dl className="mt-6 grid grid-cols-2 gap-x-6 gap-y-5">
-                <div className="border-b border-bordo/20 pb-2">
+                <div className="border-b border-ink/20 pb-2">
                   <dt className="text-[11px] font-semibold uppercase tracking-[0.18em] text-choco">Fecha</dt>
                   <dd className="mt-1 font-medium">{fmtDate(booking.date)}</dd>
                 </div>
-                <div className="border-b border-bordo/20 pb-2">
+                <div className="border-b border-ink/20 pb-2">
                   <dt className="text-[11px] font-semibold uppercase tracking-[0.18em] text-choco">Hora</dt>
                   <dd className="mt-1 font-medium">{booking.time} h</dd>
                 </div>
-                <div className="col-span-2 border-b border-bordo/20 pb-2">
+                <div className="col-span-2 border-b border-ink/20 pb-2">
                   <dt className="text-[11px] font-semibold uppercase tracking-[0.18em] text-choco">Servicio</dt>
                   <dd className="mt-1 flex items-center gap-2 font-medium">
                     {booking.color && <NailSwatch hex={booking.color.hex} finish={booking.color.finish} shape={booking.color.shape} className="h-6 w-4" />}
@@ -215,7 +215,7 @@ export default function BookingStatus() {
                   Agendar en el calendario
                 </Button>
               ) : (
-                <Link to="/reservar" className="inline-flex h-11 items-center justify-center rounded-full bg-bordo px-5 text-[15px] font-semibold text-white">
+                <Link to="/reservar" className="inline-flex h-11 items-center justify-center rounded-full bg-ink px-5 text-[15px] font-semibold text-white">
                   Reservar otro turno
                 </Link>
               )}
@@ -230,7 +230,7 @@ export default function BookingStatus() {
                 </a>
               )}
               {active && (
-                <button onClick={() => setCancelOpen(true)} className="text-[14px] font-semibold text-choco underline-offset-4 hover:text-bordo hover:underline sm:col-span-2">
+                <button onClick={() => setCancelOpen(true)} className="text-[14px] font-semibold text-choco underline-offset-4 hover:text-ink hover:underline sm:col-span-2">
                   Cancelar turno
                 </button>
               )}

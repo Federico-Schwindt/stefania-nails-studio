@@ -86,7 +86,7 @@ function BlockedDates() {
         } finally { blocks.reload() }
       })
     }}>
-      <h3 className="font-serif text-2xl text-bordo">Vacaciones / días libres</h3>
+      <h3 className="font-serif text-2xl text-ink">Vacaciones / días libres</h3>
       <fieldset disabled={action.busy} className="grid gap-3">
         <div className="grid gap-2 sm:grid-cols-2"><Field label="Fecha inicial" name="from" type="date" min={today} required />
           <Field label="Fecha final" name="to" type="date" min={today} required /></div>
@@ -95,11 +95,11 @@ function BlockedDates() {
       </fieldset>
     </form>
     <div className="mt-4"><ErrorText message={action.error} /></div>
-    <h3 className="mt-6 mb-3 text-2xl text-bordo">Bloqueos programados</h3>
+    <h3 className="mt-6 mb-3 text-2xl text-ink">Bloqueos programados</h3>
     {!sorted ? <LoadState {...blocks} /> : sorted.length === 0 ? <p className="rounded-2xl bg-gris-50 p-4 text-sm text-choco">No tenés bloqueos programados.</p> :
       <ul className="divide-y divide-gris/50">{sorted.map(b => <li key={b.id} className="flex items-center justify-between gap-2 py-3 text-sm">
         <div className="min-w-0 break-words"><strong>{dateLabel(b.date)}</strong><p>{b.start && b.end ? b.start + ' a ' + b.end : 'Día completo'}</p>{b.reason && <p className="text-choco">{b.reason}</p>}</div>
-        <IconButton disabled={action.busy} className="shrink-0 text-bordo" label={'Quitar bloqueo del ' + dateLabel(b.date)} onClick={() => void action.run(async () => {
+        <IconButton disabled={action.busy} className="shrink-0 text-ink" label={'Quitar bloqueo del ' + dateLabel(b.date)} onClick={() => void action.run(async () => {
           await api.removeBlocked(b.id); blocks.reload(); toast.ok('Bloqueo quitado.')
         })}><Trash size={19} /></IconButton>
       </li>)}</ul>}

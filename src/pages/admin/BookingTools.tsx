@@ -9,7 +9,7 @@ import { AdminSheet, ErrorText, useAction } from './shared'
 import { finishes, methodNames, shapes, statusNames } from './labels'
 import { fillTemplate, waLink, templateNames, type TemplateKey } from './whatsapp'
 
-export const linkPill = 'inline-flex items-center justify-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-bordo ring-1 ring-inset ring-gris hover:bg-bordo-50'
+export const linkPill = 'inline-flex items-center justify-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-ink ring-1 ring-inset ring-gris hover:bg-gris-50'
 export function WhatsApp({ booking, settings, template, label, onClick }: {
   booking: Booking; settings: Settings; template: TemplateKey; label?: string; onClick?: () => void
 }) {
@@ -26,7 +26,7 @@ export function BookingStyle({ booking: b }: { booking: Booking }) {
   </div>
 }
 export function StatusPill({ status }: { status: Booking['status'] }) {
-  const style = status === 'paid' ? 'bg-bordo text-white' : ['payment_review', 'confirmed'].includes(status) ? 'bg-bordo-50 text-bordo' : 'bg-gris-100 text-choco'
+  const style = status === 'paid' ? 'bg-ink text-white' : ['payment_review', 'confirmed'].includes(status) ? 'bg-gris-50 text-ink' : 'bg-gris-100 text-choco'
   return <span className={'inline-flex w-fit rounded-full px-3 py-1 text-xs font-semibold ' + style}>{statusNames[status]}</span>
 }
 

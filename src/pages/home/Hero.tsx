@@ -38,11 +38,11 @@ export function Navbar() {
       <header className="sticky top-0 z-40 border-b border-gris-100/80 bg-white/80 backdrop-blur-xl">
         <div className="mx-auto flex h-[68px] max-w-[1400px] items-center justify-between gap-4 px-4 sm:px-8">
           <Link to="/" aria-label="Stefania Nails Studio, inicio" className="shrink-0">
-            <Logo className="h-10 text-bordo" />
+            <Logo className="h-10 text-accent" />
           </Link>
           <nav aria-label="Principal" className="hidden items-center gap-7 lg:flex">
             {NAV.map((n) => (
-              <a key={n.href} href={n.href} onClick={(e) => scrollToId(e, n.href)} className="text-[15px] font-medium text-ink/75 transition hover:text-bordo">
+              <a key={n.href} href={n.href} onClick={(e) => scrollToId(e, n.href)} className="text-[15px] font-medium text-ink/75 transition hover:text-ink">
                 {n.label}
               </a>
             ))}
@@ -54,17 +54,17 @@ export function Navbar() {
                 target="_blank"
                 rel="noreferrer"
                 aria-label="Instagram del estudio"
-                className="hidden h-10 w-10 items-center justify-center rounded-full ring-1 ring-gris transition hover:ring-bordo md:inline-flex"
+                className="hidden h-10 w-10 items-center justify-center rounded-full ring-1 ring-gris transition hover:ring-ink md:inline-flex"
               >
                 <InstagramLogo size={19} />
               </a>
             )}
-            <Link to="/mi-turno" className="hidden h-10 items-center gap-2 rounded-full px-4 text-[14px] font-semibold text-ink ring-1 ring-gris transition hover:ring-bordo sm:inline-flex">
+            <Link to="/mi-turno" className="hidden h-10 items-center gap-2 rounded-full px-4 text-[14px] font-semibold text-ink ring-1 ring-gris transition hover:ring-ink sm:inline-flex">
               <MagnifyingGlass size={16} /> Mi turno
             </Link>
             <Link
               to="/reservar"
-              className="inline-flex h-10 items-center rounded-full bg-bordo px-4 text-[14px] font-semibold text-white transition hover:bg-bordo-700 active:scale-[0.98] md:px-5"
+              className="inline-flex h-10 items-center rounded-full bg-ink px-4 text-[14px] font-semibold text-white transition hover:bg-black active:scale-[0.98] md:px-5"
             >
               Reservar turno
             </Link>
@@ -78,7 +78,7 @@ export function Navbar() {
         {menu && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[70] bg-white p-5" role="dialog" aria-modal="true" aria-label="Menú">
             <div className="flex items-center justify-between">
-              <Logo className="h-10 text-bordo" />
+              <Logo className="h-10 text-accent" />
               <button aria-label="Cerrar menú" onClick={() => setMenu(false)} className="inline-flex h-10 w-10 items-center justify-center rounded-full ring-1 ring-gris">
                 <X size={20} />
               </button>
@@ -100,11 +100,11 @@ export function Navbar() {
                   {n.label}
                 </motion.a>
               ))}
-              <Link to="/mi-turno" className="mt-4 font-serif text-5xl text-bordo">
+              <Link to="/mi-turno" className="mt-4 font-serif text-5xl text-ink">
                 Mi turno
               </Link>
             </nav>
-            <Link to="/reservar" className="absolute inset-x-5 bottom-8 inline-flex h-14 items-center justify-center rounded-full bg-bordo text-[16px] font-semibold text-white">
+            <Link to="/reservar" className="absolute inset-x-5 bottom-8 inline-flex h-14 items-center justify-center rounded-full bg-ink text-[16px] font-semibold text-white">
               Reservar turno
             </Link>
           </motion.div>
@@ -127,7 +127,12 @@ export function Hero() {
 
   return (
     <section aria-label="Portada" className="relative overflow-hidden">
-      <div aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_50%_at_15%_0%,#faf3f4,transparent_70%)]" />
+      {/* manchas suaves detrás del vidrio: grises con un destello bordó mínimo */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute -left-32 top-24 h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle,rgb(23_21_22/0.10),transparent_68%)]" />
+        <div className="absolute left-[30%] top-[55%] h-[360px] w-[360px] rounded-full bg-[radial-gradient(circle,rgb(87_3_20/0.07),transparent_70%)]" />
+        <div className="absolute -top-40 left-[20%] h-[380px] w-[520px] rounded-full bg-[radial-gradient(circle,rgb(255_255_255/0.9),transparent_70%)]" />
+      </div>
       <div className="relative mx-auto grid max-w-[1400px] gap-8 px-4 pb-14 pt-6 sm:px-8 md:pt-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-start lg:gap-12 lg:pb-20">
         {/* columna izquierda: propuesta + reserva rápida */}
         <div className="flex flex-col">
@@ -135,8 +140,8 @@ export function Hero() {
             <span className={`h-2 w-2 rounded-full ${status?.open ? 'bg-emerald-500' : 'bg-gris'}`} aria-hidden />
             {status ? status.text : 'Turnos online'}
           </motion.div>
-          <motion.h1 {...enter(0.08, reduce)} className="mt-4 text-[clamp(40px,4.7vw,70px)] leading-[0.98] tracking-[-0.015em] text-bordo">
-            Tu manicura, reservada en un minuto.
+          <motion.h1 {...enter(0.08, reduce)} className="mt-4 text-[clamp(40px,4.7vw,70px)] leading-[0.98] tracking-[-0.015em] text-ink">
+            Tu manicura, reservada <em className="italic text-accent">en un minuto.</em>
           </motion.h1>
           <motion.p {...enter(0.16, reduce)} className="mt-4 max-w-[52ch] text-[16px] leading-relaxed text-ink/75 md:text-[17px]">
             Elegí servicio y horario libre, mirá diseños reales del estudio y dejá tu seña online. Stefania te confirma por WhatsApp.
@@ -146,12 +151,15 @@ export function Hero() {
           </motion.div>
         </div>
 
-        {/* columna derecha: Stefania sobre el panel bordó */}
+        {/* columna derecha: Stefania en un panel negro de estudio */}
         <motion.div {...enter(0.1, reduce)} className="relative h-[520px] sm:h-[600px] lg:sticky lg:top-24 lg:h-[min(760px,calc(100dvh-130px))]">
-          <div className="absolute inset-0 overflow-hidden rounded-[36px] bg-bordo">
-            <div className="absolute inset-0 bg-[radial-gradient(90%_70%_at_50%_10%,rgb(255_255_255/0.14),transparent_60%)]" />
-            <div className="absolute -bottom-24 -left-20 h-80 w-80 rounded-full bg-bordo-500/60 blur-3xl" />
-            <p aria-hidden className="absolute -right-4 top-6 select-none font-serif text-[clamp(120px,15vw,220px)] leading-none text-white/[0.06]">
+          <div className="absolute inset-0 overflow-hidden rounded-[36px] bg-[#0e0d0d] ring-1 ring-black/40">
+            {/* luz de estudio detrás de ella para separar su ropa negra del fondo */}
+            <div className="absolute inset-0 bg-[radial-gradient(48%_42%_at_50%_46%,rgb(255_255_255/0.20),transparent_72%)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(90%_60%_at_50%_0%,rgb(255_255_255/0.08),transparent_60%)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(55%_35%_at_85%_105%,rgb(87_3_20/0.45),transparent_70%)]" />
+            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+            <p aria-hidden className="absolute -right-4 top-6 select-none font-serif text-[clamp(120px,15vw,220px)] leading-none text-white/[0.07]">
               Stefania
             </p>
             <img
@@ -159,7 +167,7 @@ export function Hero() {
               srcSet={`${OWNER_SM} 640w, ${OWNER} 1000w`}
               sizes="(max-width: 1024px) 80vw, 600px"
               alt="Stefania, dueña de Stefania Nails Studio, con uñas bordó"
-              className="absolute bottom-0 left-1/2 h-[92%] w-auto max-w-none -translate-x-1/2 select-none drop-shadow-[0_24px_30px_rgb(20_0_6/0.35)]"
+              className="absolute bottom-0 left-1/2 h-[92%] w-auto max-w-none -translate-x-1/2 select-none drop-shadow-[0_24px_40px_rgb(0_0_0/0.5)]"
               fetchPriority="high"
               draggable={false}
             />
@@ -173,7 +181,7 @@ export function Hero() {
             className="glass-light absolute left-4 top-5 max-w-[230px] rounded-[22px] p-4 sm:left-6 sm:top-6"
           >
             <p className="flex items-center gap-2 text-[13px] font-semibold text-ink">
-              <CalendarCheck size={18} className="text-bordo" /> Confirmación por WhatsApp
+              <CalendarCheck size={18} className="text-accent" /> Confirmación por WhatsApp
             </p>
             <p className="mt-1 text-[12px] leading-snug text-choco">Recibís el recordatorio un día antes de tu turno.</p>
           </motion.div>
@@ -187,7 +195,7 @@ export function Hero() {
             <div className="px-1.5 pb-1 pt-2.5">
               <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-choco">Diseño destacado</p>
               <p className="font-serif text-[20px] leading-tight text-ink">{featured?.name ?? 'Firma bordó'}</p>
-              <Link to={`/reservar?diseno=${featured?.id ?? ''}`} className="mt-2 inline-flex h-8 items-center rounded-full bg-bordo px-3.5 text-[12px] font-semibold text-white">
+              <Link to={`/reservar?diseno=${featured?.id ?? ''}`} className="mt-2 inline-flex h-8 items-center rounded-full bg-ink px-3.5 text-[12px] font-semibold text-white">
                 Lo quiero
               </Link>
             </div>
@@ -219,7 +227,7 @@ export function FeatureStrip() {
       <ul className="mx-auto grid max-w-[1400px] grid-cols-2 gap-x-6 gap-y-6 px-4 py-8 sm:px-8 lg:grid-cols-4">
         {FEATURES.map((f) => (
           <li key={f.title} className="flex items-start gap-3">
-            <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white text-bordo ring-1 ring-gris-100">
+            <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white text-ink ring-1 ring-gris-100">
               <f.icon size={21} />
             </span>
             <div>

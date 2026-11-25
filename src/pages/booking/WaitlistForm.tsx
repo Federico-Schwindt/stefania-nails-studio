@@ -26,7 +26,7 @@ export function WaitlistForm({
 
   if (done)
     return (
-      <p className={`flex items-center gap-2 rounded-2xl bg-bordo-50 p-4 font-medium text-bordo ${className}`}>
+      <p className={`flex items-center gap-2 rounded-2xl bg-gris-50 p-4 font-medium text-ink ${className}`}>
         <Check size={18} weight="bold" /> ¡Listo! Te avisamos por WhatsApp si se libera un turno.
       </p>
     )

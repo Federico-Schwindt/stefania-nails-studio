@@ -3,7 +3,7 @@ import { Button, Sheet, Skeleton, Toggle, errMsg } from '../../components/ui'
 import { parseIso } from '../../lib/slots'
 
 export const panel = 'min-w-0 rounded-[28px] bg-white p-5 ring-1 ring-inset ring-gris sm:p-6'
-export const heading = 'font-serif text-3xl leading-tight text-bordo'
+export const heading = 'font-serif text-3xl leading-tight text-ink'
 
 export function useLoad<T>(load: () => Promise<T>) {
   const [revision, setRevision] = useState(0)
@@ -38,7 +38,7 @@ export function useAction() {
 }
 
 export function ErrorText({ message }: { message?: string }) {
-  return message ? <p role="alert" className="rounded-2xl bg-bordo-50 px-4 py-3 text-sm text-bordo">{message}</p> : null
+  return message ? <p role="alert" className="rounded-2xl bg-gris-50 px-4 py-3 text-sm text-ink">{message}</p> : null
 }
 
 export function LoadState({ error, reload }: { error?: string; reload: () => void }) {
@@ -87,5 +87,5 @@ export const studioDate = (instant = new Date()) => studioDateFormat.format(inst
 export function Metrics({ items }: { items: [string, string | number][] }) {
   return <dl className="grid grid-cols-2 gap-3 xl:grid-cols-4">{items.map(([label, value]) =>
     <div key={label} className={panel}><dt className="text-sm text-choco">{label}</dt>
-      <dd className="mt-2 break-words font-serif text-3xl leading-tight text-bordo sm:text-4xl">{value}</dd></div>)}</dl>
+      <dd className="mt-2 break-words font-serif text-3xl leading-tight text-ink sm:text-4xl">{value}</dd></div>)}</dl>
 }

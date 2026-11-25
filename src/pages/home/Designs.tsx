@@ -34,14 +34,14 @@ export function DesignCard({
       aria-pressed={active}
       aria-label={`${d.name}. ${d.description ?? ''}`}
       className={`group relative block w-full overflow-hidden rounded-[24px] text-left transition duration-500 ${
-        active ? 'ring-2 ring-bordo ring-offset-2' : 'ring-1 ring-gris-100 hover:-translate-y-1'
+        active ? 'ring-2 ring-ink ring-offset-2' : 'ring-1 ring-gris-100 hover:-translate-y-1'
       }`}
     >
-      <div className={`${compact ? 'aspect-square' : 'aspect-[4/5]'} relative overflow-hidden bg-bordo-50`}>
+      <div className={`${compact ? 'aspect-square' : 'aspect-[4/5]'} relative overflow-hidden bg-gris-50`}>
         {img ? (
           <Img src={img.startsWith('img:') ? img : thumbUrl(img)} alt="" className="h-full w-full object-cover transition duration-[1.1s] group-hover:scale-[1.06]" loading="lazy" />
         ) : (
-          <div className="flex h-full w-full items-center justify-center bg-bordo p-4 text-center">
+          <div className="flex h-full w-full items-center justify-center bg-ink p-4 text-center">
             <span className="font-serif text-3xl text-white">{d.name}</span>
           </div>
         )}
@@ -97,7 +97,7 @@ export function DesignStage({ designs, current, className = '' }: { designs: Des
         my.set(0)
       }}
     >
-      <motion.div style={{ rotateX: rx, rotateY: ry }} className="relative aspect-[4/5] overflow-hidden rounded-[32px] bg-white shadow-[0_40px_80px_-40px_rgb(73_45_35/0.45)] ring-1 ring-gris-100">
+      <motion.div style={{ rotateX: rx, rotateY: ry }} className="relative aspect-[4/5] overflow-hidden rounded-[32px] bg-white shadow-[0_40px_80px_-40px_rgb(23_21_22/0.45)] ring-1 ring-gris-100">
         {designs.map((d) =>
           d.renderUrl && seen ? (
             <img
@@ -138,7 +138,7 @@ export function Designs() {
       <div className="mx-auto max-w-[1400px] px-4 sm:px-8">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:gap-14">
           <div className="lg:sticky lg:top-6 lg:self-start">
-            <h2 className="text-[clamp(44px,6vw,80px)] leading-[0.95] text-bordo">Elegí tu diseño</h2>
+            <h2 className="text-[clamp(44px,6vw,80px)] leading-[0.95] text-ink">Elegí tu diseño</h2>
             <p className="mt-4 max-w-[46ch] text-choco">Cada foto es un trabajo real del estudio. Pasá el mouse para verlo en la mano y elegí el tuyo.</p>
             <div className="relative mt-8">
               {loaded ? <DesignStage designs={designs} current={current} /> : <Skeleton className="aspect-[4/5] w-full rounded-[32px]" />}
@@ -166,10 +166,10 @@ export function Designs() {
             </div>
             <button
               onClick={() => current && navigate(`/reservar?diseno=${current.id}`)}
-              className="group mt-6 inline-flex h-14 w-full items-center justify-between rounded-full bg-bordo pl-7 pr-2 text-[16px] font-semibold text-white transition hover:bg-bordo-700 active:scale-[0.99] sm:w-auto sm:gap-6"
+              className="group mt-6 inline-flex h-14 w-full items-center justify-between rounded-full bg-ink pl-7 pr-2 text-[16px] font-semibold text-white transition hover:bg-black active:scale-[0.99] sm:w-auto sm:gap-6"
             >
               Reservar con este diseño
-              <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white text-bordo transition group-hover:translate-x-0.5">
+              <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white text-ink transition group-hover:translate-x-0.5">
                 <ArrowRight size={18} weight="bold" />
               </span>
             </button>
